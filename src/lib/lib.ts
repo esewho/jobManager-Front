@@ -1,0 +1,268 @@
+import { toast } from "react-toastify"
+import type { TipPoolPayload } from "../types/createTipPool-type"
+import type { DailyTips } from "../types/dailyTips-type"
+import type { SummaryTips } from "../types/summaryTips-type"
+import type { Summary } from "../types/summary-type"
+import type { WorkSession } from "../types/workSession-type"
+import type { ShiftType } from "../types/shift-type"
+import type { TipPoolType } from "../types/tipPool-type"
+import type { WorkingUsers } from "../types/workingUser-type"
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
+
+function getAuthHeaders() {
+	const accessToken = localStorage.getItem("accessToken")
+	return {
+		"Content-Type": "application/json",
+		Authorization: `Bearer ${accessToken}`,
+	}
+}
+
+export async function register(
+	username: string,
+	password: string
+): Promise<{ accessToken: string }> {
+	const response = await fetch(`${API_URL}/auth/register`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ username, password }),
+	})
+
+	if (!response.ok) {
+		toast.error("Registration failed")
+		throw new Error("Registration failed")
+	}
+	if (response.ok) {
+		toast.success("Registered successfully")
+	}
+
+	return response.json()
+}
+
+export async function login(
+	username: string,
+	password: string
+): Promise<{ accessToken: string }> {
+	const response = await fetch(`${API_URL}/auth/login`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ username, password }),
+	})
+
+	if (!response.ok) {
+		toast.error("Login failed")
+		throw new Error("Login failed")
+	}
+	if (response.ok) {
+		toast.success("Logged in successfully")
+	}
+
+	return response.json()
+}
+
+export async function registerAdmin(
+	username: string,
+	password: string
+): Promise<{ accessToken: string }> {
+	const response = await fetch(`${API_URL}/auth/register-admin`, {
+		method: "POST",
+		headers: getAuthHeaders(),
+		body: JSON.stringify({ username, password }),
+	})
+
+	if (!response.ok) {
+		toast.error("Admin Registration failed")
+		throw new Error("Admin Registration failed")
+	}
+	if (response.ok) {
+		toast.success("Admin Registered successfully")
+	}
+
+	return response.json()
+}
+
+export async function createTipPool(payload: TipPoolPayload): Promise<void> {
+	const response = await fetch(`${API_URL}/tip-pool/create`, {
+		method: "POST",
+		headers: getAuthHeaders(),
+		body: JSON.stringify(payload),
+	})
+
+	if (!response.ok) {
+		toast.error("Creating Tip Pool failed")
+		throw new Error("Creating Tip Pool failed")
+	}
+	if (response.ok) {
+		toast.success("Tip Pool created successfully")
+	}
+}
+
+export async function getMyDailyTips(): Promise<DailyTips[]> {
+	const response = await fetch(`${API_URL}/tip-pool/my-daily-tips`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+
+	if (!response.ok) {
+		toast.error("Fetching Daily Tips failed")
+		throw new Error("Fetching Daily Tips failed")
+	}
+	if (response.ok) {
+		toast.success("Daily Tips fetched successfully")
+	}
+
+	return response.json()
+}
+
+export async function getMySummaryTips(): Promise<SummaryTips> {
+	const response = await fetch(`${API_URL}/tip-pool/summary-tips`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+
+	if (!response.ok) {
+		toast.error("Fetching Summary Tips failed")
+		throw new Error("Fetching Summary Tips failed")
+	}
+	if (response.ok) {
+		toast.success("Summary Tips fetched successfully")
+	}
+
+	return response.json()
+}
+
+export async function getMySummary(): Promise<Summary> {
+	const response = await fetch(`${API_URL}/work-sessions/me-summary`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		toast.error("Fetching Summary failed")
+		throw new Error("Fetching Summary failed")
+	}
+	if (response.ok) {
+		toast.success("Summary fetched successfully")
+	}
+
+	return response.json()
+}
+
+export async function checkIn(): Promise<WorkSession> {
+	const response = await fetch(`${API_URL}/work-sessions/check-in`, {
+		method: "POST",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		toast.error("Check-in failed")
+		throw new Error("Check-in failed")
+	}
+	if (response.ok) {
+		toast.success("Checked in successfully")
+	}
+
+	return response.json()
+}
+export async function checkOut(): Promise<WorkSession> {
+	const response = await fetch(`${API_URL}/work-sessions/check-out`, {
+		method: "POST",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		toast.error("Check-out failed")
+		throw new Error("Check-out failed")
+	}
+	if (response.ok) {
+		toast.success("Checked out successfully")
+	}
+
+	return response.json()
+}
+
+export async function getMyWorkSessions(): Promise<WorkSession[]> {
+	const response = await fetch(`${API_URL}/work-sessions/me`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		toast.error("Fetching Work Sessions failed")
+		throw new Error("Fetching Work Sessions failed")
+	}
+	if (response.ok) {
+		toast.success("Work Sessions fetched successfully")
+	}
+
+	return response.json()
+}
+
+export async function getAllWorkSessions(): Promise<WorkSession[]> {
+	const response = await fetch(`${API_URL}/admin/all-work-sessions`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		toast.error("Fetching All Work Sessions failed")
+		throw new Error("Fetching All Work Sessions failed")
+	}
+	if (response.ok) {
+		toast.success("All Work Sessions fetched successfully")
+	}
+
+	return response.json()
+}
+
+export async function assignWorkSessionShift(
+	sessionId: string,
+	shift: ShiftType
+): Promise<void> {
+	const response = await fetch(
+		`${API_URL}/admin/work-sessions/${sessionId}/shift`,
+		{
+			method: "PATCH",
+			headers: getAuthHeaders(),
+			body: JSON.stringify({ shift }),
+		}
+	)
+	if (!response.ok) {
+		toast.error("Assigning Shift failed")
+		throw new Error("Assigning Shift failed")
+	}
+	if (response.ok) {
+		toast.success("Shift assigned successfully")
+	}
+}
+
+export async function getAllTipPools(): Promise<TipPoolType[]> {
+	const response = await fetch(`${API_URL}/admin/all-tipPools`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		toast.error("Fetching All Tip Pools failed")
+		throw new Error("Fetching All Tip Pools failed")
+	}
+	if (response.ok) {
+		toast.success("All Tip Pools fetched successfully")
+	}
+
+	return response.json()
+}
+
+export async function getAllWorkingUsers(): Promise<WorkingUsers[]> {
+	const response = await fetch(`${API_URL}/admin/working-users`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		toast.error("Fetching Working Users failed")
+		throw new Error("Fetching Working Users failed")
+	}
+	if (response.ok) {
+		toast.success("Working Users fetched successfully")
+	}
+
+	return response.json()
+}
