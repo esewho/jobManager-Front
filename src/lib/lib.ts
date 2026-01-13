@@ -7,6 +7,7 @@ import type { WorkSession } from "../types/workSession-type"
 import type { ShiftType } from "../types/shift-type"
 import type { TipPoolType } from "../types/tipPool-type"
 import type { WorkingUsers } from "../types/workingUser-type"
+import type { UserType } from "../types/user-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -80,6 +81,28 @@ export async function registerAdmin(
 	}
 	if (response.ok) {
 		toast.success("Admin Registered successfully")
+	}
+
+	return response.json()
+}
+
+export async function getMe(): Promise<UserType> {
+	const accessToken = localStorage.getItem("accessToken")
+	if (!accessToken) {
+		toast.error("No access token found")
+		throw new Error("No access token found")
+	}
+	const response = await fetch(`${API_URL}/user-data/me`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+
+	if (!response.ok) {
+		toast.error("Fetching user info failed")
+		throw new Error("Fetching user info failed")
+	}
+	if (response.ok) {
+		toast.success("User info fetched successfully")
 	}
 
 	return response.json()
@@ -166,6 +189,7 @@ export async function checkIn(): Promise<WorkSession> {
 
 	return response.json()
 }
+
 export async function checkOut(): Promise<WorkSession> {
 	const response = await fetch(`${API_URL}/work-sessions/check-out`, {
 		method: "POST",
