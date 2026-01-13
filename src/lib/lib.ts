@@ -87,11 +87,6 @@ export async function registerAdmin(
 }
 
 export async function getMe(): Promise<UserType> {
-	const accessToken = localStorage.getItem("accessToken")
-	if (!accessToken) {
-		toast.error("No access token found")
-		throw new Error("No access token found")
-	}
 	const response = await fetch(`${API_URL}/user-data/me`, {
 		method: "GET",
 		headers: getAuthHeaders(),

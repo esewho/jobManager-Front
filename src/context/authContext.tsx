@@ -17,30 +17,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const navigate = useNavigate()
 
-	const fetchUser = () => {
-		getMe()
-			.then((userData) => {
-				setUser(userData)
-			})
-			.catch((error) => {
-				console.error("Failed to fetch user data:", error)
-				localStorage.removeItem("accessToken")
-				setUser(null)
-			})
-			.finally(() => {
-				setIsLoading(false)
-			})
+	const fetchUser = async () => {
+		try {
+			const userData = await getMe()
+			setUser(userData)
+		} catch (error) {
+			console.error("Failed to fetch user data:", error)
+			localStorage.removeItem("accessToken")
+			setUser(null)
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	useEffect(() => {
+		const token = localStorage.getItem("accessToken")
+		if (!token) {
+			setIsLoading(false)
+			return
+		}
 		fetchUser()
 	}, [])
 
 	const loginAction = async (username: string, password: string) => {
 		const { accessToken } = await login(username, password)
 		localStorage.setItem("accessToken", accessToken)
-		const user = await getMe()
-		setUser(user)
+		await fetchUser()
+		navigate("/")
 	}
 
 	const logOutAction = () => {
