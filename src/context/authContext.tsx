@@ -1,12 +1,13 @@
 import { useContext, createContext, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { login, getMe } from "../lib/lib"
+import { login, getMe, register } from "../lib/lib"
 import type { UserType } from "../types/user-type"
 
 export interface AuthContextType {
 	user: UserType | null
-	login: (username: string, password: string) => Promise<void>
+	login: (username: string, password: string) => Promise<boolean>
 	logout: () => void
+	register: (username: string, password: string) => Promise<boolean>
 	isAuthenticated: boolean
 }
 
@@ -39,11 +40,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		fetchUser()
 	}, [])
 
-	const loginAction = async (username: string, password: string) => {
+	const loginAction = async (
+		username: string,
+		password: string
+	): Promise<boolean> => {
 		const { accessToken } = await login(username, password)
 		localStorage.setItem("accessToken", accessToken)
 		await fetchUser()
 		navigate("/")
+		return true
+	}
+
+	const registerAction = async (
+		username: string,
+		password: string
+	): Promise<boolean> => {
+		const { accessToken } = await register(username, password)
+		localStorage.setItem("accessToken", accessToken)
+		await fetchUser()
+		navigate("/")
+		return true
 	}
 
 	const logOutAction = () => {
@@ -57,6 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			value={{
 				user,
 				login: loginAction,
+				register: registerAction,
 				logout: logOutAction,
 				isAuthenticated: !!user,
 			}}

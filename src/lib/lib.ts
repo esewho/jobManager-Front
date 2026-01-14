@@ -25,9 +25,7 @@ export async function register(
 ): Promise<{ accessToken: string }> {
 	const response = await fetch(`${API_URL}/auth/register`, {
 		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
+		headers: getAuthHeaders(),
 		body: JSON.stringify({ username, password }),
 	})
 
@@ -55,7 +53,6 @@ export async function login(
 	})
 
 	if (!response.ok) {
-		toast.error("Login failed")
 		throw new Error("Login failed")
 	}
 	if (response.ok) {
@@ -93,11 +90,10 @@ export async function getMe(): Promise<UserType> {
 	})
 
 	if (!response.ok) {
-		toast.error("Fetching user info failed")
 		throw new Error("Fetching user info failed")
 	}
 	if (response.ok) {
-		toast.success("User info fetched successfully")
+		console.log("User info fetched successfully")
 	}
 
 	return response.json()
