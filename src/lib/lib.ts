@@ -155,11 +155,10 @@ export async function getMySummary(): Promise<Summary> {
 		headers: getAuthHeaders(),
 	})
 	if (!response.ok) {
-		toast.error("Fetching Summary failed")
 		throw new Error("Fetching Summary failed")
 	}
 	if (response.ok) {
-		toast.success("Summary fetched successfully")
+		console.log("Summary fetched successfully")
 	}
 
 	return response.json()

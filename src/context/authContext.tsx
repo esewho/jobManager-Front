@@ -2,6 +2,7 @@ import { useContext, createContext, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { login, getMe, register, registerAdmin } from "../lib/lib"
 import type { UserType } from "../types/user-type"
+import { toast } from "react-toastify"
 
 export interface AuthContextType {
 	user: UserType | null
@@ -22,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const fetchUser = async () => {
 		try {
 			const userData = await getMe()
+			toast.info(`Bienvenid@, ${userData.username}!`)
 			setUser(userData)
 		} catch (error) {
 			console.error("Failed to fetch user data:", error)
