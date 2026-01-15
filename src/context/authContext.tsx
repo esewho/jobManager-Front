@@ -1,13 +1,14 @@
 import { useContext, createContext, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { login, getMe, register } from "../lib/lib"
+import { login, getMe, register, registerAdmin } from "../lib/lib"
 import type { UserType } from "../types/user-type"
 
 export interface AuthContextType {
 	user: UserType | null
-	login: (username: string, password: string) => Promise<boolean>
+	login: (username: string, password: string) => Promise<void>
 	logout: () => void
-	register: (username: string, password: string) => Promise<boolean>
+	register: (username: string, password: string) => Promise<void>
+	registerAdmin: (username: string, password: string) => Promise<void>
 	isAuthenticated: boolean
 }
 
@@ -62,6 +63,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		return true
 	}
 
+	const registerAdminAction = async (
+		username: string,
+		password: string
+	): Promise<boolean> => {
+		const { accessToken } = await registerAdmin(username, password)
+		localStorage.setItem("accessToken", accessToken)
+		await fetchUser()
+		navigate("/")
+		return true
+	}
+
 	const logOutAction = () => {
 		localStorage.removeItem("accessToken")
 		setUser(null)
@@ -74,6 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				user,
 				login: loginAction,
 				register: registerAction,
+				registerAdmin: registerAdminAction,
 				logout: logOutAction,
 				isAuthenticated: !!user,
 			}}

@@ -1,21 +1,14 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { useNavigate } from "react-router"
 import { useAuth } from "../context/authContext"
 import { toast } from "react-toastify"
 
-export default function LoginForm() {
+export default function RegisterAdminForm() {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
-	const [error, setError] = useState("")
 	const navigate = useNavigate()
 
-	const { login, isAuthenticated } = useAuth()
-
-	useEffect(() => {
-		if (isAuthenticated) {
-			navigate("/", { replace: true })
-		}
-	}, [isAuthenticated, navigate])
+	const { registerAdmin } = useAuth()
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
@@ -24,21 +17,21 @@ export default function LoginForm() {
 				toast.error("Please fill in all fields")
 				return
 			}
-			await login(username, password)
+			await registerAdmin(username, password)
 			navigate("/")
-			toast.success("Login successful")
 		} catch (error) {
-			console.error("Login error:", error)
-			toast.error("Login failed")
+			console.error("Registration error:", error)
+			toast.error("Admin registration failed")
 		}
 	}
+
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-50 to-gray-100">
 			<form
 				className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md space-y-6"
 				onSubmit={handleSubmit}
 			>
-				<h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+				<h2 className="text-2xl font-bold text-center mb-6">Register Admin</h2>
 				<div>
 					<label
 						htmlFor="username"
@@ -71,19 +64,10 @@ export default function LoginForm() {
 				</div>
 				<button
 					type="submit"
-					className="w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-300 cursor-pointer"
+					className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
 				>
-					Login
+					Register as Admin
 				</button>
-				<p className="text-sm text-center text-zinc-500">
-					Dont have an account?{" "}
-					<a
-						className="text-blue-600 font medium hover:underline"
-						href="/auth/register"
-					>
-						Click here
-					</a>
-				</p>
 			</form>
 		</div>
 	)

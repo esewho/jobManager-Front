@@ -81,6 +81,15 @@ export default function RegisterForm() {
 						Click here
 					</a>
 				</p>
+				<p className="text-sm text-center text-zinc-500">
+					Register Admin{" "}
+					<a
+						className="text-blue-600 font medium hover:underline "
+						href="/auth/register-admin"
+					>
+						Click here
+					</a>
+				</p>
 			</form>
 		</div>
 	)

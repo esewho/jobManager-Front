@@ -8,6 +8,7 @@ import type { ShiftType } from "../types/shift-type"
 import type { TipPoolType } from "../types/tipPool-type"
 import type { WorkingUsers } from "../types/workingUser-type"
 import type { UserType } from "../types/user-type"
+import type { TodaySession } from "../types/todaySession-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -56,7 +57,7 @@ export async function login(
 		throw new Error("Login failed")
 	}
 	if (response.ok) {
-		toast.success("Logged in successfully")
+		console.log("Logged in successfully")
 	}
 
 	return response.json()
@@ -73,11 +74,10 @@ export async function registerAdmin(
 	})
 
 	if (!response.ok) {
-		toast.error("Admin Registration failed")
 		throw new Error("Admin Registration failed")
 	}
 	if (response.ok) {
-		toast.success("Admin Registered successfully")
+		console.log("Admin registered successfully")
 	}
 
 	return response.json()
@@ -208,6 +208,21 @@ export async function getMyWorkSessions(): Promise<WorkSession[]> {
 	}
 	if (response.ok) {
 		toast.success("Work Sessions fetched successfully")
+	}
+
+	return response.json()
+}
+
+export async function getTodaySession(): Promise<TodaySession | null> {
+	const response = await fetch(`${API_URL}/work-sessions/me/today`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		throw new Error("Fetching Today's Session failed")
+	}
+	if (response.ok) {
+		console.log("Today's Session fetched successfully")
 	}
 
 	return response.json()
