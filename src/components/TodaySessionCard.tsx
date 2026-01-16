@@ -20,7 +20,7 @@ export default function TodaySessionCard() {
 			<div className="space-y-3">
 				<div className="flex justify-between">
 					<span className="text-gray-600">Horas trabajadas</span>
-					<span className="font-semibold">{hours}</span>
+					<span className="font-semibold">{hours}h</span>
 				</div>
 				<div className="flex justify-between">
 					<span>Horas extras</span>
