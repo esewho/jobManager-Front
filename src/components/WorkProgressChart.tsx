@@ -8,6 +8,7 @@ type Props = {
 		extraMinutes: number
 	}
 	baseMinutes: number
+	onClick?: () => void
 }
 
 function formatMinutes(minutes: number) {
@@ -16,7 +17,12 @@ function formatMinutes(minutes: number) {
 	return `${h}h ${m}m`
 }
 
-export default function WorkProgressChart({ title, data, baseMinutes }: Props) {
+export default function WorkProgressChart({
+	title,
+	data,
+	baseMinutes,
+	onClick,
+}: Props) {
 	const baseWorked = Math.min(data.workedMinutes, baseMinutes)
 	const extraWorked = Math.max(data.extraMinutes, 0)
 	const remaining = Math.max(baseMinutes - baseWorked, 0)
@@ -28,7 +34,10 @@ export default function WorkProgressChart({ title, data, baseMinutes }: Props) {
 	]
 
 	return (
-		<button className="bg-white rounded-xl shadow p-6 border border-white hover:border hover:border-stone-950 transition ease-in-out duration-300 cursor-pointer">
+		<button
+			onClick={onClick}
+			className="bg-white rounded-xl shadow p-6 border border-white hover:border hover:border-stone-950 transition ease-in-out duration-300 cursor-pointer"
+		>
 			<h2 className="text-lg font-semibold mb-4">{title}</h2>
 
 			<div className="flex gap-6 items-center">

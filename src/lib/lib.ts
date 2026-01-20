@@ -9,6 +9,7 @@ import type { TipPoolType } from "../types/tipPool-type"
 import type { WorkingUsers } from "../types/workingUser-type"
 import type { UserType } from "../types/user-type"
 import type { TodaySession } from "../types/todaySession-type"
+import type { HistoryCardData } from "../types/HistoryCardData-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -22,7 +23,7 @@ function getAuthHeaders() {
 
 export async function register(
 	username: string,
-	password: string
+	password: string,
 ): Promise<{ accessToken: string }> {
 	const response = await fetch(`${API_URL}/auth/register`, {
 		method: "POST",
@@ -43,7 +44,7 @@ export async function register(
 
 export async function login(
 	username: string,
-	password: string
+	password: string,
 ): Promise<{ accessToken: string }> {
 	const response = await fetch(`${API_URL}/auth/login`, {
 		method: "POST",
@@ -65,7 +66,7 @@ export async function login(
 
 export async function registerAdmin(
 	username: string,
-	password: string
+	password: string,
 ): Promise<{ accessToken: string }> {
 	const response = await fetch(`${API_URL}/auth/register-admin`, {
 		method: "POST",
@@ -164,6 +165,21 @@ export async function getMySummary(): Promise<Summary> {
 	return response.json()
 }
 
+export async function getWeeklyHistory(): Promise<HistoryCardData[]> {
+	const response = await fetch(`${API_URL}/weekly-history/me`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		throw new Error("Fetching Weekly History failed")
+	}
+	if (response.ok) {
+		console.log("Weekly History fetched successfully")
+	}
+
+	return response.json()
+}
+
 export async function checkIn(): Promise<WorkSession> {
 	const response = await fetch(`${API_URL}/work-sessions/check-in`, {
 		method: "POST",
@@ -245,7 +261,7 @@ export async function getAllWorkSessions(): Promise<WorkSession[]> {
 
 export async function assignWorkSessionShift(
 	sessionId: string,
-	shift: ShiftType
+	shift: ShiftType,
 ): Promise<void> {
 	const response = await fetch(
 		`${API_URL}/admin/work-sessions/${sessionId}/shift`,
@@ -253,7 +269,7 @@ export async function assignWorkSessionShift(
 			method: "PATCH",
 			headers: getAuthHeaders(),
 			body: JSON.stringify({ shift }),
-		}
+		},
 	)
 	if (!response.ok) {
 		toast.error("Assigning Shift failed")

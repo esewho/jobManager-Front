@@ -7,14 +7,13 @@ import TodaySessionCard from "./TodaySessionCard"
 import ActionCards from "./ActionCards"
 import type { Summary } from "../types/summary-type"
 import WorkProgressChart from "./WorkProgressChart"
+import HistoryModal from "./HistoryModal"
+import WeeklyHistoryList from "./WeeklyHistoryList"
 
 export default function Dashboard() {
 	const [today, setToday] = useState<TodaySession | null>(null)
 	const [summary, setSummary] = useState<Summary | null>(null)
-	const [isHistoryOpen, setIsHistoryOpen] = useState(false)
-	const [historyPeriod, setHistoryPeriod] = useState<
-		"today" | "thisWeek" | "thisMonth" | null
-	>(null)
+	const [isOpen, setIsOpen] = useState(false)
 
 	useEffect(() => {
 		getMySummary().then((data) => {
@@ -42,6 +41,7 @@ export default function Dashboard() {
 						title="Semana actual"
 						data={summary.thisWeek}
 						baseMinutes={40 * 60}
+						onClick={() => setIsOpen(true)}
 					/>
 					<WorkProgressChart
 						title="Mes actual"
@@ -50,6 +50,9 @@ export default function Dashboard() {
 					/>
 				</div>
 			</div>
+			<HistoryModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+				<WeeklyHistoryList />
+			</HistoryModal>
 		</AppLayout>
 	)
 }

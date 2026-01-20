@@ -1,8 +1,12 @@
 export type HistoryCardData = {
-	id: string
 	date: string
+	weekDay: number
 	workedMinutes: number
 	extraMinutes: number
 	tips: number
-	shift?: "MIDDAY" | "NIGHT"
+	sessions: {
+		checkIn: string
+		checkOut: string | null
+		shift: string | null
+	}[]
 }
