@@ -5,6 +5,7 @@ export type HistoryCardData = {
 	extraMinutes: number
 	tips: number
 	sessions: {
+		sessionId: string
 		checkIn: string
 		checkOut: string | null
 		shift: string | null
