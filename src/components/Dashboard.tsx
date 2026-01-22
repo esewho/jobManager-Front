@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import AppLayout from "../layouts/AppLayout"
-import type { TodaySession } from "../types/todaySession-type"
 import DashboardHeader from "./DashboardHeader"
 import { getMySummary } from "../lib/lib"
 import TodaySessionCard from "./TodaySessionCard"
@@ -11,7 +10,6 @@ import HistoryModal from "./HistoryModal"
 import WeeklyHistoryList from "./WeeklyHistoryList"
 
 export default function Dashboard() {
-	const [today, setToday] = useState<TodaySession | null>(null)
 	const [summary, setSummary] = useState<Summary | null>(null)
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -55,12 +53,6 @@ export default function Dashboard() {
 			</HistoryModal>
 		</AppLayout>
 	)
-}
-
-function formatMinutes(minutes: number) {
-	const h = Math.floor(minutes / 60)
-	const m = minutes % 60
-	return `${h}h ${m}m`
 }
 
 // function TodayProgressChart() {

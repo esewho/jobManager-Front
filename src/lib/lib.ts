@@ -190,7 +190,7 @@ export async function checkIn(): Promise<WorkSession> {
 		throw new Error(error.message || "Check-in failed")
 	}
 	if (response.ok) {
-		toast.success("Checked in successfully")
+		console.log("Checked in successfully")
 	}
 
 	return response.json()

@@ -10,7 +10,6 @@ type Props = {
 export default function ActionCards({ onChangeSession }: Props) {
 	const [loading, setLoading] = useState(false)
 	const [session, setSession] = useState<TodaySession | null>(null)
-	const [error, setError] = useState<string | null>(null)
 
 	const handleCheckIn = async () => {
 		try {
@@ -18,7 +17,7 @@ export default function ActionCards({ onChangeSession }: Props) {
 			await checkIn()
 			await fetchSession()
 			onChangeSession()
-			toast.success("Check-in successful")
+			toast.success("Checked in successfully")
 		} catch (error: undefined | any) {
 			toast.error(error.message)
 		} finally {
