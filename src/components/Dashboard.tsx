@@ -30,7 +30,7 @@ export default function Dashboard() {
 			<div className="space-y-6">
 				<DashboardHeader />
 				<TodaySessionCard />
-				<ActionCards />
+				<ActionCards onChangeSession={() => getMySummary().then(setSummary)} />
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 					<WorkProgressChart
 						title="Jornada de hoy"

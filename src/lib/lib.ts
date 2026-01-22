@@ -186,8 +186,8 @@ export async function checkIn(): Promise<WorkSession> {
 		headers: getAuthHeaders(),
 	})
 	if (!response.ok) {
-		toast.error("Check-in failed")
-		throw new Error("Check-in failed")
+		const error = await response.json()
+		throw new Error(error.message || "Check-in failed")
 	}
 	if (response.ok) {
 		toast.success("Checked in successfully")
