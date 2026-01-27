@@ -10,6 +10,9 @@ import type { WorkingUsers } from "../types/workingUser-type"
 import type { UserType } from "../types/user-type"
 import type { TodaySession } from "../types/todaySession-type"
 import type { HistoryCardData } from "../types/HistoryCardData-type"
+import type { CreateWorkspacePayload } from "../types/createWorkspace-type"
+import type { UpdateWorkspace } from "../types/updateWorkspace-type"
+import type { WorkspaceType } from "../types/workspace-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -307,6 +310,94 @@ export async function getAllWorkingUsers(): Promise<WorkingUsers[]> {
 	}
 	if (response.ok) {
 		toast.success("Working Users fetched successfully")
+	}
+
+	return response.json()
+}
+
+export async function createWorkspace(
+	payload: CreateWorkspacePayload,
+): Promise<void> {
+	const response = await fetch(`${API_URL}/workspace/create`, {
+		method: "POST",
+		headers: getAuthHeaders(),
+		body: JSON.stringify(payload),
+	})
+
+	if (!response.ok) {
+		toast.error("Creating Workspace failed")
+		throw new Error("Creating Workspace failed")
+	}
+	if (response.ok) {
+		toast.success("Workspace created successfully")
+	}
+}
+
+export async function updateWorkspace(payload: UpdateWorkspace): Promise<void> {
+	const response = await fetch(`${API_URL}/workspace/update`, {
+		method: "PATCH",
+		headers: getAuthHeaders(),
+		body: JSON.stringify(payload),
+	})
+
+	if (!response.ok) {
+		const error = await response.json()
+
+		throw new Error(error.message || "Updating Workspace failed")
+	}
+	if (response.ok) {
+		console.log("Workspace updated successfully")
+	}
+}
+
+export async function getWorkspaceById(
+	workspaceId: string,
+): Promise<WorkspaceType> {
+	const response = await fetch(`${API_URL}/workspace/${workspaceId}`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+
+	if (!response.ok) {
+		const error = await response.json()
+
+		throw new Error(error.message || "Fetching Workspace failed")
+	}
+	if (response.ok) {
+		console.log("Workspace fetched successfully")
+	}
+	return response.json()
+}
+
+export async function deleteWorkspace(workspaceId: string): Promise<void> {
+	const response = await fetch(`${API_URL}/workspace/${workspaceId}`, {
+		method: "DELETE",
+		headers: getAuthHeaders(),
+	})
+
+	if (!response.ok) {
+		const error = await response.json()
+
+		throw new Error(error.message || "Deleting Workspace failed")
+	}
+	if (response.ok) {
+		console.log("Workspace deleted successfully")
+	}
+}
+
+export async function getAllWorkspaces(): Promise<WorkspaceType[]> {
+	const response = await fetch(`${API_URL}/workspace/all`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+
+	if (!response.ok) {
+		const error = await response.json()
+
+		throw new Error(error.message || "Fetching Workspaces failed")
+	}
+	if (response.ok) {
+		console.log("Workspaces fetched successfully")
 	}
 
 	return response.json()
