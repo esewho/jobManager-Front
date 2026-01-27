@@ -17,7 +17,7 @@ export function WorkspaceInput({
           {label}
         </p>
         <input
-          className="flex w-full min-w-0 resize-none overflow-hidden rounded-lg text-gray-900  border border-gray-300 bg-white  focus:outline-none focus:ring-2 focus:ring-[#137fec]/50 focus:border-[#137fec] h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal transition-all"
+          className="flex w-full min-w-0 resize-none overflow-hidden rounded-lg text-gray-900  border border-gray-300 bg-white  focus:outline-none focus:ring-2 focus:ring-[#137fec]/50 focus:border-[#137fec] h-14 placeholder:text-gray-400  p-[15px] text-base font-normal leading-normal transition-all"
           {...props}
         />
       </label>
