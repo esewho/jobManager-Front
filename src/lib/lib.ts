@@ -20,6 +20,7 @@ function getAuthHeaders() {
 	const accessToken = localStorage.getItem("accessToken")
 	return {
 		"Content-Type": "application/json",
+
 		Authorization: `Bearer ${accessToken}`,
 	}
 }
@@ -318,18 +319,25 @@ export async function getAllWorkingUsers(): Promise<WorkingUsers[]> {
 export async function createWorkspace(
 	payload: CreateWorkspacePayload,
 ): Promise<void> {
+	const formData = new FormData()
+	formData.append("name", payload.name)
+
+	if (payload.image) {
+		formData.append("image", payload.image)
+	}
 	const response = await fetch(`${API_URL}/workspace/create`, {
 		method: "POST",
-		headers: getAuthHeaders(),
-		body: JSON.stringify(payload),
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+		},
+		body: formData,
 	})
 
 	if (!response.ok) {
-		toast.error("Creating Workspace failed")
 		throw new Error("Creating Workspace failed")
 	}
 	if (response.ok) {
-		toast.success("Workspace created successfully")
+		console.log("Workspace created!")
 	}
 }
 

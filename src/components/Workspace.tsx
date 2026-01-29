@@ -1,150 +1,98 @@
-
-import { useState } from "react";
-import type { WorkspaceData } from "./workspace/WorkspaceDirectoryCard";
-import { WorkspaceTabs, type WorkspaceTab } from "./workspace/WorkspaceTabs";
-import { WorkspaceDirectoryHeader } from "./workspace/WorkspaceDirectoryHeader";
-import { WorkspacePageHeading } from "./workspace/WorkspacePageHeading";
-import { WorkspaceDirectoryGrid } from "./workspace/WorkspaceDirectoryGrid";
-import { WorkspaceFooter } from "./workspace/WorkspaceFooter";
-import { WorkspaceBackground } from "./workspace/WorkspaceBackground";
-import { WorkspaceHeading } from "./workspace/WorkspaceHeading";
-import { IconLayers } from "./workspace/icons";
-import { WorkspaceCard } from "./workspace/WorkspaceCard";
-import { WorkspaceInput } from "./workspace/WorkspaceInput";
-import { WorkspaceLogoUpload } from "./workspace/WorkspaceLogoUpload";
-import { WorkspaceButton } from "./workspace/WorkspaceButton";
-import { WorkspaceTrustBadges } from "./workspace/WorkspaceTrustBadges";
-
-
-// Mock data
-const mockWorkspaces: WorkspaceData[] = [
-  {
-    id: "1",
-    name: "Downtown Office",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDXoJDZDfzOAD6hFcBRJnPqPvIH-TXLQNHl5Y7hGEUmBn3T5cBDqRCyHIlIJOmLQfGcHk8kz7A3xLHqIJmVBwVnQQD8lKxJig0g8fJzA_g0qVlKXw7Xk9LrCQ7fQ8GQXQKr",
-    workersCount: 45,
-    status: "active",
-    lastActive: "2 hours ago",
-  },
-  {
-    id: "2",
-    name: "Westside Branch",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCZRkSvM9_xjTCsJu0vFJXcXiZP_g7qT2bZh9mJhFJEPXGkKJHPVBdJBYFPJgPLQW8VJdVFqF3JHLV5JNPJ5JNPJgPL",
-    workersCount: 28,
-    status: "active",
-    lastActive: "30 mins ago",
-  },
-  {
-    id: "3",
-    name: "North Campus",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD_sample3",
-    workersCount: 12,
-    status: "warning",
-    lastActive: "1 day ago",
-  },
-  {
-    id: "4",
-    name: "South Terminal",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD_sample4",
-    workersCount: 67,
-    status: "inactive",
-    lastActive: "3 days ago",
-  },
-];
-
-const tabs: WorkspaceTab[] = [
-  { id: "all", label: "All", count: mockWorkspaces.length },
-  {
-    id: "active",
-    label: "Active",
-    count: mockWorkspaces.filter((w) => w.status === "active").length,
-  },
-  {
-    id: "archived",
-    label: "Archived",
-    count: mockWorkspaces.filter((w) => w.status === "inactive").length,
-  },
-];
-
+import { useEffect, useState } from "react"
+import WorkspaceCard from "./workspace/WorkspaceCard"
+import CreateWorkspaceForm from "./workspace/CreateWorkspaceForm"
+import { getAllWorkspaces } from "../lib/lib"
+import type { WorkspaceType } from "../types/workspace-type"
+import { CircleQuestionMark, LucideCirclePlus } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+import AppLayout from "../layouts/AppLayout"
 export default function WorkspacesPage() {
-  const [hasWorkspaces, setHasWorkspaces] = useState(true);
-  const [activeTab, setActiveTab] = useState("all");
-  const [isLoading, setIsLoading] = useState(false);
+	const [data, setData] = useState<WorkspaceType[]>([])
+	const [isLoading, setIsLoading] = useState(true)
 
-  const filteredWorkspaces = mockWorkspaces.filter((w) => {
-    if (activeTab === "all") return true;
-    if (activeTab === "active") return w.status === "active";
-    if (activeTab === "archived") return w.status === "inactive";
-    return true;
-  });
+	const navigate = useNavigate()
 
-  const handleCreateWorkspace = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setHasWorkspaces(true);
-    }, 1500);
-  };
+	useEffect(() => {
+		const fetchWorkspaces = async () => {
+			try {
+				const workspaces = await getAllWorkspaces()
+				setData(workspaces)
+			} finally {
+				setIsLoading(false)
+			}
+		}
 
-  // Vista de lista de workspaces
-  if (hasWorkspaces) {
-    return (
-      <div className="min-h-screen bg-[#f8fafd] flex flex-col">
-        <WorkspaceDirectoryHeader />
-        <main className="flex-1 px-6 md:px-10 py-8">
-          <WorkspacePageHeading
-            title="Workspaces"
-            description="Manage and monitor your workforce locations."
-            actionLabel="Create New Workspace"
-            onAction={() => setHasWorkspaces(false)}
-          />
-          <WorkspaceTabs
-            tabs={tabs}
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-          />
-          <WorkspaceDirectoryGrid
-            workspaces={filteredWorkspaces}
-            onCreateNew={() => setHasWorkspaces(false)}
-            onManage={(ws) => alert(`Manage: ${ws.name}`)}
-            onSelect={(ws) => alert(`Selected: ${ws.name}`)}
-          />
-        </main>
-        <WorkspaceFooter />
-      </div>
-    );
-  }
+		fetchWorkspaces()
+	}, [])
 
-  // Vista de crear workspace
-  return (
-    <div className="relative min-h-screen flex flex-col bg-gray-50">
-      <WorkspaceBackground />
-      <WorkspaceDirectoryHeader />
-      <main className="flex flex-1 justify-center py-8 px-4 md:px-10">
-        <div className="w-full max-w-lg flex flex-col gap-8">
-          <WorkspaceHeading
-            icon={<IconLayers className="size-8" />}
-            title="Create Your Workspace"
-            description="Set up a central hub for your team's projects, communication, and collaboration."
-          />
-          <WorkspaceCard>
-            <WorkspaceInput
-              label="Workspace Name"
-              placeholder="e.g., Marketing Team"
-              hint="This will be visible to all members."
-            />
-            <WorkspaceLogoUpload />
-            <WorkspaceButton isLoading={isLoading} onClick={handleCreateWorkspace}>
-              Create Workspace
-            </WorkspaceButton>
-          </WorkspaceCard>
-          <WorkspaceTrustBadges />
-        </div>
-      </main>
-    </div>
-  );
+	if (isLoading) {
+		return <p className="p-10">Loading...</p>
+	}
+
+	return (
+		<AppLayout>
+			<main className="flex flex-1 justify-center py-8">
+				<div className="flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
+					<div className="flex flex-wrap justify-between items-end gap-3 mb-8">
+						<div className="flex min-w-72 flex-col gap-2">
+							<h1 className="text-4xl font-black tracking-tight">
+								Bienvenido, Administrador
+							</h1>
+							<p className="text-slate-500">
+								Selecciona una organización para gestionar tus operaciones.
+							</p>
+						</div>
+					</div>
+					{/* Grid */}
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+						{data.map((workspace) => (
+							<WorkspaceCard
+								key={workspace.id}
+								workspace={workspace}
+								onEnter={() => console.log("Entrar a workspace", workspace.id)}
+							/>
+						))}
+
+						<div
+							onClick={() => navigate("/workspace-create")}
+							className="flex flex-col items-center justify-center gap-4 p-5  rounded-xl border-2 border-dashed border-blue-500 transition-colors cursor-pointer min-h-[300px]"
+						>
+							<div className="flex items-center justify-center size-12 rounded-full text-primary">
+								<span className="material-symbols-outlined text-3xl">
+									<LucideCirclePlus />
+								</span>
+							</div>
+							<div className="text-center">
+								<p className="text-base font-bold">Añadir Workspace</p>
+								<p className="text-slate-500 text-sm">Crea un nuevo negocio</p>
+							</div>
+						</div>
+					</div>
+					{data.length === 0 && <CreateWorkspaceForm />}
+
+					<div className=" w-full mt-20 bg-blue-200  rounded-2xl p-4 border border-blue-800">
+						<div className="flex flex-col md:flex-row md:items-center md:justify-between">
+							<div className="flex items-start gap-4">
+								<div className="w-6 h-6">
+									<CircleQuestionMark />
+								</div>
+								<div className="flex flex-col gap-1">
+									<p className="text-slate-900 text-lg font-bold leading-tight">
+										¿Necesitas ayuda configurando una nueva organización?
+									</p>
+									<p className="text-slate-800  text-base font-normal">
+										Nuestro equipo de soporte está disponible para ayudarte a
+										importar tus datos de empleados masivamente.
+									</p>
+								</div>
+							</div>
+							<button className="flex min-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-primary text-white text-sm bg-blue-600 hover:bg-blue-800 font-bold  transition-all shadow-lg shadow-primary/20">
+								<span className="truncate">Contactar Soporte</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</main>
+		</AppLayout>
+	)
 }
