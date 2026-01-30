@@ -2,19 +2,29 @@ import { useEffect, useState } from "react"
 import { checkIn, checkOut, getTodaySession } from "../lib/lib"
 import type { TodaySession } from "../types/todaySession-type"
 import { toast } from "react-toastify"
+import { useActiveUsersStore } from "../store/store"
 
 type Props = {
 	onChangeSession: () => void
+	workspaceId?: string
+	userId: string
 }
 
-export default function ActionCards({ onChangeSession }: Props) {
+export default function ActionCards({
+	onChangeSession,
+	workspaceId,
+	userId,
+}: Props) {
 	const [loading, setLoading] = useState(false)
 	const [session, setSession] = useState<TodaySession | null>(null)
+
+	const { checkInUser, checkOutUser } = useActiveUsersStore()
 
 	const handleCheckIn = async () => {
 		try {
 			setLoading(true)
-			await checkIn()
+			await checkIn(workspaceId)
+			checkInUser(userId)
 			await fetchSession()
 			onChangeSession()
 			toast.success("Checked in successfully")
@@ -27,14 +37,15 @@ export default function ActionCards({ onChangeSession }: Props) {
 
 	const handleCheckOut = async () => {
 		setLoading(true)
-		await checkOut()
+		await checkOut(workspaceId)
+		checkOutUser(userId)
 		await fetchSession()
 		onChangeSession()
 		setLoading(false)
 	}
 
 	const fetchSession = async () => {
-		const data = await getTodaySession()
+		const data = await getTodaySession(workspaceId)
 		setSession(data)
 	}
 

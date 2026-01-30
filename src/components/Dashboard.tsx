@@ -1,59 +1,24 @@
-import { useEffect, useState } from "react"
-import AppLayout from "../layouts/AppLayout"
-import DashboardHeader from "./DashboardHeader"
-import { getMySummary } from "../lib/lib"
-import TodaySessionCard from "./TodaySessionCard"
-import ActionCards from "./ActionCards"
-import type { Summary } from "../types/summary-type"
-import WorkProgressChart from "./WorkProgressChart"
-import HistoryModal from "./HistoryModal"
-import WeeklyHistoryList from "./WeeklyHistoryList"
+// import { useEffect, useState } from "react"
+// import AppLayout from "../layouts/AppLayout"
+// import DashboardHeader from "./DashboardHeader"
+// import { getMySummary } from "../lib/lib"
+// import TodaySessionCard from "./TodaySessionCard"
+// import ActionCards from "./ActionCards"
+// import type { Summary } from "../types/summary-type"
+// import WorkProgressChart from "./WorkProgressChart"
+// import HistoryModal from "./HistoryModal"
+// import WeeklyHistoryList from "./WeeklyHistoryList"
 
-export default function Dashboard() {
-	const [summary, setSummary] = useState<Summary | null>(null)
-	const [isOpen, setIsOpen] = useState(false)
+// export default function Dashboard() {
 
-	useEffect(() => {
-		getMySummary().then((data) => {
-			setSummary(data)
-		})
-	}, [])
-
-	if (!summary) {
-		return null
-	}
-
-	return (
-		<AppLayout>
-			<div className="space-y-6">
-				<DashboardHeader />
-				<TodaySessionCard />
-				<ActionCards onChangeSession={() => getMySummary().then(setSummary)} />
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-					<WorkProgressChart
-						title="Jornada de hoy"
-						data={summary.today}
-						baseMinutes={8 * 60}
-					/>
-					<WorkProgressChart
-						title="Semana actual"
-						data={summary.thisWeek}
-						baseMinutes={40 * 60}
-						onClick={() => setIsOpen(true)}
-					/>
-					<WorkProgressChart
-						title="Mes actual"
-						data={summary.thisMonth}
-						baseMinutes={160 * 60}
-					/>
-				</div>
-			</div>
-			<HistoryModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-				<WeeklyHistoryList />
-			</HistoryModal>
-		</AppLayout>
-	)
-}
+// 	return (
+// 		<AppLayout>
+// 			<HistoryModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+// 				<WeeklyHistoryList />
+// 			</HistoryModal>
+// 		</AppLayout>
+// 	)
+// }
 
 // function TodayProgressChart() {
 // 	const [workedMinutes, setWorkedMinutes] = useState(0)

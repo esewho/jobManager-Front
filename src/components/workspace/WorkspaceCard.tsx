@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import type { WorkspaceType } from "../../types/workspace-type"
 
 type Props = {
@@ -5,10 +6,18 @@ type Props = {
 	onEnter?: () => void
 }
 const BACKEND_URL = "http://localhost:3000"
+const FRONTEND_URL = "http://localhost:5173"
 
 export default function WorkspaceCard({ workspace, onEnter }: Props) {
+	const navigate = useNavigate()
+	const handleClick = () => {
+		navigate(`${FRONTEND_URL}/workspace-dashboard/${workspace.id}/admin`)
+	}
 	return (
-		<div className="flex flex-col gap-4 p-5 bg-gray-500/10 rounded-xl border border-slate-200  shadow-sm hover:shadow-lg hover:border-blue-400 cursor-pointer  transition-shadow">
+		<button
+			onClick={handleClick}
+			className="flex flex-col gap-4 p-5 bg-gray-500/10 rounded-xl border border-slate-200  shadow-sm hover:shadow-lg hover:border-blue-400 cursor-pointer  transition-shadow"
+		>
 			{/* Image */}
 			<div
 				className="w-full aspect-video bg-center bg-cover rounded-lg overflow-hidden"
@@ -48,6 +57,6 @@ export default function WorkspaceCard({ workspace, onEnter }: Props) {
 					<span className="material-symbols-outlined text-sm"></span>
 				</button>
 			</div>
-		</div>
+		</button>
 	)
 }

@@ -25,7 +25,7 @@ export default function LoginForm() {
 				return
 			}
 			await login(username, password)
-			navigate("/workspace")
+			navigate("/")
 			toast.success("Login successful")
 		} catch (error) {
 			console.error("Login error:", error)

@@ -5,9 +5,11 @@ type props = {
 }
 export default function AppLayout({ children }: props) {
 	return (
-		<div className="min-h-screen bg-gray-1000">
+		<div className="min-h-screen flex flex-col bg-gray-1000">
 			<Navbar />
-			<main className="p-6">{children}</main>
+			<main className="flex-1 flex items-center justify-center p-6">
+				{children}
+			</main>
 		</div>
 	)
 }

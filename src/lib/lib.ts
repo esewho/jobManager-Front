@@ -13,6 +13,7 @@ import type { HistoryCardData } from "../types/HistoryCardData-type"
 import type { CreateWorkspacePayload } from "../types/createWorkspace-type"
 import type { UpdateWorkspace } from "../types/updateWorkspace-type"
 import type { WorkspaceType } from "../types/workspace-type"
+import type { workspaceUserAdmin } from "../types/workspaceUserAdmin"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -154,11 +155,14 @@ export async function getMySummaryTips(): Promise<SummaryTips> {
 	return response.json()
 }
 
-export async function getMySummary(): Promise<Summary> {
-	const response = await fetch(`${API_URL}/work-sessions/me-summary`, {
-		method: "GET",
-		headers: getAuthHeaders(),
-	})
+export async function getMySummary(workspaceId?: string): Promise<Summary> {
+	const response = await fetch(
+		`${API_URL}/work-sessions/me-summary?workspaceId=${workspaceId}`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
 	if (!response.ok) {
 		throw new Error("Fetching Summary failed")
 	}
@@ -184,10 +188,11 @@ export async function getWeeklyHistory(): Promise<HistoryCardData[]> {
 	return response.json()
 }
 
-export async function checkIn(): Promise<WorkSession> {
+export async function checkIn(workspaceId?: string): Promise<WorkSession> {
 	const response = await fetch(`${API_URL}/work-sessions/check-in`, {
 		method: "POST",
 		headers: getAuthHeaders(),
+		body: JSON.stringify({ workspaceId }),
 	})
 	if (!response.ok) {
 		const error = await response.json()
@@ -200,10 +205,11 @@ export async function checkIn(): Promise<WorkSession> {
 	return response.json()
 }
 
-export async function checkOut(): Promise<WorkSession> {
+export async function checkOut(workspaceId?: string): Promise<WorkSession> {
 	const response = await fetch(`${API_URL}/work-sessions/check-out`, {
 		method: "POST",
 		headers: getAuthHeaders(),
+		body: JSON.stringify({ workspaceId }),
 	})
 	if (!response.ok) {
 		toast.error("Check-out failed")
@@ -232,11 +238,16 @@ export async function getMyWorkSessions(): Promise<WorkSession[]> {
 	return response.json()
 }
 
-export async function getTodaySession(): Promise<TodaySession | null> {
-	const response = await fetch(`${API_URL}/work-sessions/me/today`, {
-		method: "GET",
-		headers: getAuthHeaders(),
-	})
+export async function getTodaySession(
+	workspaceId?: string,
+): Promise<TodaySession | null> {
+	const response = await fetch(
+		`${API_URL}/work-sessions/me/today/${workspaceId}`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
 	if (!response.ok) {
 		throw new Error("Fetching Today's Session failed")
 	}
@@ -300,19 +311,17 @@ export async function getAllTipPools(): Promise<TipPoolType[]> {
 	return response.json()
 }
 
-export async function getAllWorkingUsers(): Promise<WorkingUsers[]> {
-	const response = await fetch(`${API_URL}/admin/working-users`, {
+export async function getAllWorkspaceUsers(
+	workspaceId: string,
+): Promise<workspaceUserAdmin> {
+	const response = await fetch(`${API_URL}/admin/${workspaceId}/users`, {
 		method: "GET",
 		headers: getAuthHeaders(),
 	})
 	if (!response.ok) {
-		toast.error("Fetching Working Users failed")
 		throw new Error("Fetching Working Users failed")
 	}
-	if (response.ok) {
-		toast.success("Working Users fetched successfully")
-	}
-
+	console.log(getAuthHeaders())
 	return response.json()
 }
 

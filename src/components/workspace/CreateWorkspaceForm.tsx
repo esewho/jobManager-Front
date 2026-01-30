@@ -4,6 +4,7 @@ import { createWorkspace } from "../../lib/lib"
 import type { CreateWorkspacePayload } from "../../types/createWorkspace-type"
 import { useNavigate } from "react-router-dom"
 import AppLayout from "../../layouts/AppLayout"
+import { LucideUpload } from "lucide-react"
 
 export default function CreateWorkspaceForm() {
 	const [payload, setPayload] = useState<CreateWorkspacePayload>({
@@ -20,6 +21,7 @@ export default function CreateWorkspaceForm() {
 			await createWorkspace(payload)
 			console.log(payload.image)
 			toast.success("Workspace created succesfully!")
+			navigate("/")
 		} catch (error: any) {
 			toast.error(error.message)
 			console.error("Error to create")
@@ -28,58 +30,88 @@ export default function CreateWorkspaceForm() {
 
 	return (
 		<AppLayout>
-			<div className="flex flex-col h-screen bg-light justify-center items-center">
+			<div className="flex justify-center">
 				<form
 					onSubmit={handleSubmit}
-					className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-lg space-y-6 "
+					className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-xl space-y-6"
 				>
-					<h2 className="text-xl font-semibold text-center mb-6 ">
-						Create your Workspace!
-					</h2>
+					{/* Header */}
+					<div className="text-center">
+						<h2 className="text-2xl font-bold text-slate-900">
+							Create your Workspace
+						</h2>
+						<p className="mt-1 text-sm text-slate-500">
+							Set up your organization in seconds
+						</p>
+					</div>
 
-					<div>
-						<label
-							htmlFor="payload"
-							className="block text-sm font-medium text-gray-500 mb-4"
-						>
-							Workspace Name
+					{/* Workspace name */}
+					<div className="space-y-2">
+						<label className="text-sm font-medium text-slate-600">
+							Workspace name
 						</label>
 						<input
 							type="text"
-							id="payload"
-							className="w-full px-2 py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-							value={payload?.name}
+							className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
 							placeholder="My Company"
+							value={payload.name}
 							onChange={(e) =>
 								setPayload((prev) => ({ ...prev, name: e.target.value }))
 							}
 						/>
 					</div>
 
-					<div>
-						<label
-							htmlFor="payload"
-							className="block text-sm font-medium text-gray-500 mb-4"
-						>
-							Workspace Image
+					{/* Image upload */}
+					<div className="space-y-2">
+						<label className="text-sm font-medium text-slate-600">
+							Workspace image
 						</label>
-						<input
-							type="file"
-							name="image"
-							onChange={(e) =>
-								setPayload((prev) => ({
-									...prev,
-									image: e.target.files?.[0] ?? null,
-								}))
-							}
-						/>
+
+						<label
+							htmlFor="image-upload"
+							className="group flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-6 text-center transition hover:border-blue-500 hover:bg-blue-50"
+						>
+							{payload.image ? (
+								<img
+									src={URL.createObjectURL(payload.image)}
+									alt="Workspace preview"
+									className="h-32 w-full rounded-lg object-cover"
+								/>
+							) : (
+								<>
+									<div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600 mb-3">
+										<span className="material-symbols-outlined">
+											<LucideUpload />
+										</span>
+									</div>
+									<p className="text-sm font-medium text-slate-700">
+										Click to upload image
+									</p>
+									<p className="text-xs text-slate-500">PNG, JPG up to 5MB</p>
+								</>
+							)}
+
+							<input
+								id="image-upload"
+								type="file"
+								accept="image/*"
+								className="hidden"
+								onChange={(e) =>
+									setPayload((prev) => ({
+										...prev,
+										image: e.target.files?.[0] ?? null,
+									}))
+								}
+							/>
+						</label>
 					</div>
+
+					{/* Submit */}
 					<button
 						type="submit"
-						className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-900 transition duration-300 cursor-pointer "
-						onClick={() => navigate("/workspace")}
+						className="w-full rounded-lg bg-blue-600 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.98]"
 					>
-						Create
+						Create workspace
 					</button>
 				</form>
 			</div>

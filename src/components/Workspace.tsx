@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
 import WorkspaceCard from "./workspace/WorkspaceCard"
-import CreateWorkspaceForm from "./workspace/CreateWorkspaceForm"
 import { getAllWorkspaces } from "../lib/lib"
 import type { WorkspaceType } from "../types/workspace-type"
 import { CircleQuestionMark, LucideCirclePlus } from "lucide-react"
-import { useNavigate } from "react-router-dom"
 import AppLayout from "../layouts/AppLayout"
+import { useAuth } from "../context/authContext"
+import { useNavigate } from "react-router-dom"
+import CreateWorkspaceForm from "./workspace/CreateWorkspaceForm"
 export default function WorkspacesPage() {
 	const [data, setData] = useState<WorkspaceType[]>([])
 	const [isLoading, setIsLoading] = useState(true)
+	const { user } = useAuth()
 
 	const navigate = useNavigate()
 
@@ -28,6 +30,7 @@ export default function WorkspacesPage() {
 	if (isLoading) {
 		return <p className="p-10">Loading...</p>
 	}
+	if (data.length === 0) return <CreateWorkspaceForm />
 
 	return (
 		<AppLayout>
@@ -44,6 +47,7 @@ export default function WorkspacesPage() {
 						</div>
 					</div>
 					{/* Grid */}
+					{/* Grid */}
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
 						{data.map((workspace) => (
 							<WorkspaceCard
@@ -53,22 +57,24 @@ export default function WorkspacesPage() {
 							/>
 						))}
 
-						<div
-							onClick={() => navigate("/workspace-create")}
-							className="flex flex-col items-center justify-center gap-4 p-5  rounded-xl border-2 border-dashed border-blue-500 transition-colors cursor-pointer min-h-[300px]"
-						>
-							<div className="flex items-center justify-center size-12 rounded-full text-primary">
-								<span className="material-symbols-outlined text-3xl">
-									<LucideCirclePlus />
-								</span>
+						{user?.role === "ADMIN" && (
+							<div
+								onClick={() => navigate("/workspace-create")}
+								className="flex flex-col items-center justify-center gap-4 p-5 rounded-xl border-2 border-dashed border-blue-500 hover:border-blue-600 transition-colors cursor-pointer min-h-[300px]"
+							>
+								<div className="flex items-center justify-center size-12 rounded-full text-primary">
+									<LucideCirclePlus className="w-8 h-8" />
+								</div>
+
+								<div className="text-center">
+									<p className="text-base font-bold">Añadir Workspace</p>
+									<p className="text-slate-500 text-sm">
+										Crea un nuevo negocio
+									</p>
+								</div>
 							</div>
-							<div className="text-center">
-								<p className="text-base font-bold">Añadir Workspace</p>
-								<p className="text-slate-500 text-sm">Crea un nuevo negocio</p>
-							</div>
-						</div>
+						)}
 					</div>
-					{data.length === 0 && <CreateWorkspaceForm />}
 
 					<div className=" w-full mt-20 bg-blue-200  rounded-2xl p-4 border border-blue-800">
 						<div className="flex flex-col md:flex-row md:items-center md:justify-between">
