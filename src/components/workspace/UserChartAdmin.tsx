@@ -34,7 +34,7 @@ export default function UserChartAdmin({ users }: Props) {
 
 				<tbody className="divide-y divide-slate-200">
 					{users.map((u) => {
-						const session = u.user.session.
+						const session = u.user.session[0]
 
 						const status = !session
 							? { label: "No ha fichado", color: "bg-slate-100 text-slate-600" }
