@@ -1,40 +1,20 @@
 import { create } from "zustand"
 import type { workspaceUserAdmin } from "../types/workspaceUserAdmin"
-import type { userChartType } from "../types/userChart.dto"
+
+import type { UserSession } from "../types/userSession-type"
 
 type ActiveUsersStore = {
 	users: workspaceUserAdmin
 	setUsers: (users: workspaceUserAdmin) => void
-	checkInUser: (userId: string) => void
-	checkOutUser: (userId: string) => void
+	updateUserSession: (userId: string, session: UserSession) => void
 }
+
 export const useActiveUsersStore = create<ActiveUsersStore>((set) => ({
 	users: [],
 
-	setUsers: (users) =>
-		set(() => ({
-			users,
-		})),
+	setUsers: (users) => set({ users }),
 
-	checkInUser: (userId) =>
-		set((state) => ({
-			users: state.users.map(
-				(u): userChartType =>
-					u.user.id === userId
-						? {
-								...u,
-								user: {
-									...u.user,
-									session: {
-										...u.user.session,
-									},
-								},
-							}
-						: u,
-			),
-		})),
-
-	checkOutUser: (userId) =>
+	updateUserSession: (userId, session) =>
 		set((state) => ({
 			users: state.users.map((u) =>
 				u.user.id === userId
@@ -42,7 +22,7 @@ export const useActiveUsersStore = create<ActiveUsersStore>((set) => ({
 							...u,
 							user: {
 								...u.user,
-								isWorking: false,
+								session: [session], // SIEMPRE array
 							},
 						}
 					: u,

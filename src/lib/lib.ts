@@ -312,7 +312,7 @@ export async function getAllTipPools(): Promise<TipPoolType[]> {
 }
 
 export async function getAllWorkspaceUsers(
-	workspaceId: string,
+	workspaceId?: string,
 ): Promise<workspaceUserAdmin> {
 	const response = await fetch(`${API_URL}/admin/${workspaceId}/users`, {
 		method: "GET",

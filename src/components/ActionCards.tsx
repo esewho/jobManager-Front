@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react"
-import { checkIn, checkOut, getTodaySession } from "../lib/lib"
+import {
+	checkIn,
+	checkOut,
+	getAllWorkspaceUsers,
+	getTodaySession,
+} from "../lib/lib"
 import type { TodaySession } from "../types/todaySession-type"
 import { toast } from "react-toastify"
 import { useActiveUsersStore } from "../store/store"
@@ -16,19 +21,27 @@ export default function ActionCards({
 	userId,
 }: Props) {
 	const [loading, setLoading] = useState(false)
-	const [session, setSession] = useState<TodaySession | null>(null)
+	// const [session, setSession] = useState<TodaySession | null>(null)
 
-	const { checkInUser, checkOutUser } = useActiveUsersStore()
+	const users = useActiveUsersStore((state) => state.users)
+
+	const { updateUserSession, setUsers } = useActiveUsersStore()
+
+	const mySession = users.find((u) => u.user.id === userId)?.user.session?.[0]
+
+	const hasOpenSession = mySession?.status === "OPEN"
 
 	const handleCheckIn = async () => {
 		try {
 			setLoading(true)
-			await checkIn(workspaceId)
-			checkInUser(userId)
-			await fetchSession()
+
+			const session = await checkIn(workspaceId)
+
+			updateUserSession(userId, session)
+
 			onChangeSession()
 			toast.success("Checked in successfully")
-		} catch (error: undefined | any) {
+		} catch (error: any) {
 			toast.error(error.message)
 		} finally {
 			setLoading(false)
@@ -36,24 +49,19 @@ export default function ActionCards({
 	}
 
 	const handleCheckOut = async () => {
-		setLoading(true)
-		await checkOut(workspaceId)
-		checkOutUser(userId)
-		await fetchSession()
-		onChangeSession()
-		setLoading(false)
+		try {
+			setLoading(true)
+
+			const session = await checkOut(workspaceId)
+
+			updateUserSession(userId, session)
+
+			onChangeSession()
+			toast.success("Checked out successfully")
+		} finally {
+			setLoading(false)
+		}
 	}
-
-	const fetchSession = async () => {
-		const data = await getTodaySession(workspaceId)
-		setSession(data)
-	}
-
-	useEffect(() => {
-		fetchSession()
-	}, [])
-
-	const hasOpenSession = session?.status === "OPEN"
 
 	return (
 		<div className="bg-white rounded-xl shadow p-6 flex flex-col gap-4">

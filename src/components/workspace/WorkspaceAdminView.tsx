@@ -32,7 +32,7 @@ export default function WorkspaceAdminView() {
 		const fetchUsers = async () => {
 			try {
 				setLoading(true)
-				await getAllWorkspaceUsers(workspaceId).then(setUsers)
+				await getAllWorkspaceUsers(workspaceId).then((data) => setUsers(data))
 			} finally {
 				setLoading(false)
 			}
@@ -42,6 +42,9 @@ export default function WorkspaceAdminView() {
 	}, [workspaceId])
 
 	useEffect(() => {
+		if (!workspaceId) {
+			return
+		}
 		getMySummary(workspaceId).then((data) => {
 			setSummary(data)
 		})
@@ -60,11 +63,11 @@ export default function WorkspaceAdminView() {
 				{/* <AdminStats /> */}
 				<div className="space-y-6">
 					<DashboardHeader />
-					<TodaySessionCard />
+					{summary && <TodaySessionCard summary={summary} />}
 					<ActionCards
 						userId={user.id}
 						workspaceId={workspaceId}
-						onChangeSession={() => getMySummary().then(setSummary)}
+						onChangeSession={() => getMySummary(workspaceId).then(setSummary)}
 					/>
 					<header className="flex flex-col gap-2">
 						<h2 className="text-2xl font-bold">Tu Progreso</h2>
@@ -100,7 +103,9 @@ export default function WorkspaceAdminView() {
 				</header>
 
 				<section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-					<h2 className="mb-4 text-lg font-semibold">Usuarios activos</h2>
+					<h2 className="mb-4 text-lg font-semibold">
+						Usuarios de este Workspace
+					</h2>
 
 					{loading && <div className="py-6 text-sm">Cargando usuarios…</div>}
 
@@ -108,7 +113,7 @@ export default function WorkspaceAdminView() {
 						<div className="py-6 text-sm text-red-500">{error}</div>
 					)}
 
-					{!loading && !error && <UserChartAdmin users={users} />}
+					{!loading && !error && <UserChartAdmin />}
 				</section>
 			</div>
 		</AppLayout>

@@ -1,10 +1,12 @@
+import { useActiveUsersStore } from "../../store/store"
 import type { workspaceUserAdmin } from "../../types/workspaceUserAdmin"
 
-type Props = {
-	users: workspaceUserAdmin
-}
+// type Props = {
+// 	users: workspaceUserAdmin
+// }
 
-export default function UserChartAdmin({ users }: Props) {
+export default function UserChartAdmin() {
+	const users = useActiveUsersStore((state) => state.users)
 	return (
 		<div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
 			<table className="w-full border-collapse">
@@ -34,8 +36,7 @@ export default function UserChartAdmin({ users }: Props) {
 
 				<tbody className="divide-y divide-slate-200">
 					{users.map((u) => {
-						const session = u.user.session[0]
-
+						const session = u.user.session?.[0] ?? null
 						const status = !session
 							? { label: "No ha fichado", color: "bg-slate-100 text-slate-600" }
 							: session.status === "OPEN"
@@ -73,7 +74,7 @@ export default function UserChartAdmin({ users }: Props) {
 								</td>
 
 								<td className="px-6 py-4 text-sm text-slate-700">
-									{session
+									{session?.checkIn
 										? new Date(session.checkIn).toLocaleTimeString([], {
 												hour: "2-digit",
 												minute: "2-digit",
@@ -81,8 +82,8 @@ export default function UserChartAdmin({ users }: Props) {
 										: "—"}
 								</td>
 								<td className="px-6 py-4 text-sm text-slate-700">
-									{session
-										? new Date(session?.checkOut).toLocaleTimeString([], {
+									{session?.checkOut
+										? new Date(session.checkOut).toLocaleTimeString([], {
 												hour: "2-digit",
 												minute: "2-digit",
 											})

@@ -30,7 +30,7 @@ export default function WorkspacesPage() {
 	if (isLoading) {
 		return <p className="p-10">Loading...</p>
 	}
-	if (data.length === 0) return <CreateWorkspaceForm />
+	if (data.length === 0) return navigate("/workspace-create")
 
 	return (
 		<AppLayout>
