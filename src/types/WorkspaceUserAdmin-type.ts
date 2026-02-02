@@ -1,3 +1,3 @@
 import type { userChartType } from "./userChart.dto"
 
-export type workspaceUserAdmin = userChartType[]
+export type WorkspaceUserAdmin = userChartType[]

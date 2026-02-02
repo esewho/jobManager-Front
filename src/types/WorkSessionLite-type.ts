@@ -1,4 +1,4 @@
-export type UserSession = {
+export type WorkSessionLite = {
 	status: "OPEN" | "CLOSED"
 	checkIn: string
 	checkOut: string | null

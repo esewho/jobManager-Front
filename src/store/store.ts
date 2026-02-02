@@ -1,31 +1,13 @@
+// store/store.ts
 import { create } from "zustand"
-import type { workspaceUserAdmin } from "../types/workspaceUserAdmin"
-
-import type { UserSession } from "../types/userSession-type"
+import type { WorkspaceUserAdmin } from "../types/WorkspaceUserAdmin-type"
 
 type ActiveUsersStore = {
-	users: workspaceUserAdmin
-	setUsers: (users: workspaceUserAdmin) => void
-	updateUserSession: (userId: string, session: UserSession) => void
+	users: WorkspaceUserAdmin
+	setUsers: (users: WorkspaceUserAdmin) => void
 }
 
 export const useActiveUsersStore = create<ActiveUsersStore>((set) => ({
 	users: [],
-
 	setUsers: (users) => set({ users }),
-
-	updateUserSession: (userId, session) =>
-		set((state) => ({
-			users: state.users.map((u) =>
-				u.user.id === userId
-					? {
-							...u,
-							user: {
-								...u.user,
-								session: [session], // SIEMPRE array
-							},
-						}
-					: u,
-			),
-		})),
 }))

@@ -32,7 +32,7 @@ export default function WorkspaceAdminView() {
 		const fetchUsers = async () => {
 			try {
 				setLoading(true)
-				await getAllWorkspaceUsers(workspaceId).then((data) => setUsers(data))
+				await getAllWorkspaceUsers(workspaceId).then(setUsers)
 			} finally {
 				setLoading(false)
 			}
