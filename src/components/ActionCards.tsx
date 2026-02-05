@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { checkIn, checkOut, getMySummary, getTodaySession } from "../lib/lib"
+import { checkIn, checkOut, getTodaySession } from "../lib/lib"
 import type { TodaySession } from "../types/todaySession-type"
-import type { Summary } from "../types/summary-type"
 
 type Props = {
 	userId: string
@@ -42,9 +41,9 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 		try {
 			setLoading(true)
 			await checkOut(workspaceId)
+			onSessionChange()
 			const updated = await getTodaySession(workspaceId)
 			setSession(updated)
-			onSessionChange()
 			toast.success("Check-out realizado")
 		} catch (e: any) {
 			toast.error(e.message)
