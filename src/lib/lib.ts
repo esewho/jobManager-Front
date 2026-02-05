@@ -198,9 +198,6 @@ export async function checkIn(workspaceId?: string): Promise<WorkSession> {
 		const error = await response.json()
 		throw new Error(error.message || "Check-in failed")
 	}
-	if (response.ok) {
-		console.log("Checked in successfully")
-	}
 
 	return response.json()
 }
@@ -212,11 +209,8 @@ export async function checkOut(workspaceId?: string): Promise<WorkSession> {
 		body: JSON.stringify({ workspaceId }),
 	})
 	if (!response.ok) {
-		toast.error("Check-out failed")
-		throw new Error("Check-out failed")
-	}
-	if (response.ok) {
-		toast.success("Checked out successfully")
+		const error = await response.json()
+		throw new Error(error.message || "Check-out failed")
 	}
 
 	return response.json()

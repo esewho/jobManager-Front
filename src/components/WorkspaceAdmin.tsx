@@ -6,8 +6,8 @@ import { CircleQuestionMark, LucideCirclePlus } from "lucide-react"
 import AppLayout from "../layouts/AppLayout"
 import { useAuth } from "../context/authContext"
 import { useNavigate } from "react-router-dom"
-import CreateWorkspaceForm from "./workspace/CreateWorkspaceForm"
-export default function WorkspacesPage() {
+
+export default function WorkspaceAdmin() {
 	const [data, setData] = useState<WorkspaceType[]>([])
 	const [isLoading, setIsLoading] = useState(true)
 	const { user } = useAuth()
@@ -27,25 +27,38 @@ export default function WorkspacesPage() {
 		fetchWorkspaces()
 	}, [])
 
-	if (isLoading) {
-		return <p className="p-10">Loading...</p>
-	}
-	if (data.length === 0) return navigate("/workspace-create")
+	useEffect(() => {
+		if (!isLoading && data.length === 0) {
+			navigate("/workspace-create", { replace: true })
+		}
+	}, [isLoading, data, navigate])
 
 	return (
 		<AppLayout>
 			<main className="flex flex-1 justify-center py-8">
 				<div className="flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
 					<div className="flex flex-wrap justify-between items-end gap-3 mb-8">
+						{user?.role === "ADMIN" && (
+							<div className="flex min-w-72 flex-col gap-2">
+								<h1 className="text-4xl font-black tracking-tight">
+									Bienvenido, {user.username.toUpperCase()}
+								</h1>
+								<p className="text-slate-500">
+									Selecciona una organización para gestionar tus operaciones.
+								</p>
+							</div>
+						)}
+					</div>
+					{user?.role === "EMPLOYEE" && (
 						<div className="flex min-w-72 flex-col gap-2">
 							<h1 className="text-4xl font-black tracking-tight">
-								Bienvenido, Administrador
+								Bienvenido, {user.username.toUpperCase()}
 							</h1>
 							<p className="text-slate-500">
 								Selecciona una organización para gestionar tus operaciones.
 							</p>
 						</div>
-					</div>
+					)}
 					{/* Grid */}
 					{/* Grid */}
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

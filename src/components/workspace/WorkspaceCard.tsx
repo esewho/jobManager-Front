@@ -1,18 +1,32 @@
 import { useNavigate } from "react-router-dom"
 import type { WorkspaceType } from "../../types/workspace-type"
+import { useAuth } from "../../context/authContext"
 
 type Props = {
 	workspace: WorkspaceType
 	onEnter?: () => void
 }
 const BACKEND_URL = "http://localhost:3000"
-const FRONTEND_URL = "http://localhost:5173"
 
 export default function WorkspaceCard({ workspace, onEnter }: Props) {
 	const navigate = useNavigate()
+	const { user } = useAuth()
 	const handleClick = () => {
-		navigate(`${FRONTEND_URL}/workspace-dashboard/${workspace.id}/admin`)
+		if (user?.role === "ADMIN") {
+			navigate(`/workspace/${workspace.id}/admin`)
+			console.log(workspace.id, user.role)
+		} else {
+			navigate(`/workspace/${workspace.id}`)
+		}
 	}
+
+	// const handleEnter = () => {
+	// 	if (user?.role === "ADMIN") {
+	// 		navigate(`workspace/${workspace.id}/admin`)
+	// 	} else {
+	// 		navigate(`workspace/${workspace.id}`)
+	// 	}
+	// }
 	return (
 		<button
 			onClick={handleClick}

@@ -1,9 +1,4 @@
 import { useActiveUsersStore } from "../../store/store"
-import type { workspaceUserAdmin } from "../../types/workspaceUserAdmin"
-
-// type Props = {
-// 	users: workspaceUserAdmin
-// }
 
 function getStatusWorkSession(status: string) {
 	switch (status) {

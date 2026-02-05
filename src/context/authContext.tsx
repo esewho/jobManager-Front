@@ -54,10 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		return true
 	}
 
-	const registerAction = async (
-		username: string,
-		password: string,
-	): Promise<boolean> => {
+	const registerAction = async (username: string, password: string) => {
 		const { accessToken } = await register(username, password)
 		localStorage.setItem("accessToken", accessToken)
 		await fetchUser()
@@ -65,10 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		return true
 	}
 
-	const registerAdminAction = async (
-		username: string,
-		password: string,
-	): Promise<boolean> => {
+	const registerAdminAction = async (username: string, password: string) => {
 		const { accessToken } = await registerAdmin(username, password)
 		localStorage.setItem("accessToken", accessToken)
 		await fetchUser()

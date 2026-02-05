@@ -1,40 +1,35 @@
+import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { checkIn, checkOut, getAllWorkspaceUsers } from "../lib/lib"
-import { useActiveUsersStore } from "../store/store"
-import { useState } from "react"
+import { checkIn, checkOut, getMySummary, getTodaySession } from "../lib/lib"
+import type { TodaySession } from "../types/todaySession-type"
+import type { Summary } from "../types/summary-type"
 
 type Props = {
 	userId: string
-	workspaceId: string
-	onChangeSession: () => void
+	workspaceId: string | undefined
+	hasOpenSession: boolean
+	onSessionChange: () => void
 }
 
-export default function ActionCards({
-	userId,
-	workspaceId,
-	onChangeSession,
-}: Props) {
+export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 	const [loading, setLoading] = useState(false)
+	const [session, setSession] = useState<TodaySession | null>(null)
 
-	const { users, setUsers } = useActiveUsersStore()
+	useEffect(() => {
+		getTodaySession(workspaceId).then(setSession)
+	}, [workspaceId])
 
-	const user = users.find((u) => u.user.id === userId)
-
-	const hasOpenSession =
-		user?.user.session?.some((s) => s.status === "OPEN") ?? false
-
-	const refreshUsers = async () => {
-		const data = await getAllWorkspaceUsers(workspaceId)
-		setUsers(data)
-	}
+	const hasOpenSession = session?.status === "OPEN"
 
 	const handleCheckIn = async () => {
+		if (loading) return
 		try {
 			setLoading(true)
 			await checkIn(workspaceId)
-
-			await refreshUsers()
-			toast.success("Checked in successfully")
+			const updated = await getTodaySession(workspaceId)
+			setSession(updated)
+			onSessionChange()
+			toast.success("Check-in realizado")
 		} catch (e: any) {
 			toast.error(e.message)
 		} finally {
@@ -43,11 +38,16 @@ export default function ActionCards({
 	}
 
 	const handleCheckOut = async () => {
+		if (loading) return
 		try {
 			setLoading(true)
 			await checkOut(workspaceId)
-			await refreshUsers()
-			toast.success("Checked out successfully")
+			const updated = await getTodaySession(workspaceId)
+			setSession(updated)
+			onSessionChange()
+			toast.success("Check-out realizado")
+		} catch (e: any) {
+			toast.error(e.message)
 		} finally {
 			setLoading(false)
 		}
@@ -57,21 +57,19 @@ export default function ActionCards({
 		<div className="bg-white rounded-xl shadow p-6 flex flex-col gap-4">
 			<h2 className="text-lg font-semibold">Acciones</h2>
 
-			{!hasOpenSession && (
+			{!hasOpenSession ? (
 				<button
 					onClick={handleCheckIn}
 					disabled={loading}
-					className="bg-stone-900 text-white py-2 rounded"
+					className="bg-stone-900 text-white py-2 rounded disabled:opacity-50"
 				>
 					Check-in
 				</button>
-			)}
-
-			{hasOpenSession && (
+			) : (
 				<button
 					onClick={handleCheckOut}
 					disabled={loading}
-					className="bg-gray-300 text-stone-900 py-2 rounded"
+					className="bg-gray-300 text-stone-900 py-2 rounded disabled:opacity-50"
 				>
 					Check-out
 				</button>
