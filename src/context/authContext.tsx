@@ -46,12 +46,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const loginAction = async (
 		username: string,
 		password: string,
-	): Promise<boolean> => {
+	): Promise<void> => {
 		const { accessToken } = await login(username, password)
 		localStorage.setItem("accessToken", accessToken)
 		await fetchUser()
 		navigate("/")
-		return true
 	}
 
 	const registerAction = async (username: string, password: string) => {
@@ -59,7 +58,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		localStorage.setItem("accessToken", accessToken)
 		await fetchUser()
 		navigate("/")
-		return true
 	}
 
 	const registerAdminAction = async (username: string, password: string) => {
@@ -67,7 +65,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		localStorage.setItem("accessToken", accessToken)
 		await fetchUser()
 		navigate("/")
-		return true
 	}
 
 	const logOutAction = () => {

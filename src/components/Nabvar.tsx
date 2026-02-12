@@ -3,9 +3,8 @@ import { useAuth } from "../context/authContext"
 export default function Navbar() {
 	const { user, logout } = useAuth()
 	return (
-		<nav className="h-14 bg-white shadow px-6 flex items-center justify-between">
-			<h1 className="font-semibold">JobManager</h1>
-			<div className="flex items-center gap-4">
+		<nav className="h-14 bg-neutral-200 shadow px-6 flex items-center justify-center">
+			<div className="flex items-center justify-center gap-10">
 				{user?.role === "ADMIN" && (
 					<span className="text-sm text-gray-600 font-bold">ADMIN</span>
 				)}

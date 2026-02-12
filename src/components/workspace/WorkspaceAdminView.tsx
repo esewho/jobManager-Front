@@ -1,47 +1,53 @@
 import { useParams } from "react-router-dom"
-import AppLayout from "../../layouts/AppLayout"
+
 import WorkspaceDashboard from "./WorkspaceDashboard"
 
 import { useAuth } from "../../context/authContext"
 import { useEffect, useState } from "react"
-import { getAllWorkspaceUsers, getMySummary } from "../../lib/lib"
+import {
+	getAllWorkspaceUsers,
+	getMySummary,
+	getTodaySession,
+} from "../../lib/lib"
 import type { Summary } from "../../types/summary-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
 import { useActiveUsersStore } from "../../store/store"
+import DashboardLayout from "../../layouts/DashboardLayout"
+import AppLayout from "../../layouts/AppLayout"
 
 export default function WorkspaceAdminView() {
 	const { workspaceId } = useParams()
 	const { user } = useAuth()
-	const { users, setUsers } = useActiveUsersStore()
 
+	const [usersData, setUsersData] = useState<WorkspaceUserAdmin | null>(null)
 	const [summary, setSummary] = useState<Summary | null>(null)
-	const [localUsers, setLocalUsers] = useState<WorkspaceUserAdmin>([])
 
 	const refreshUsers = async () => {
-		if (!workspaceId && user?.role !== "ADMIN") return
+		if (!workspaceId) return
+
 		const data = await getAllWorkspaceUsers(workspaceId)
-		setUsers(data)
-		setLocalUsers(data)
+		setUsersData(data)
+
+		const summaryData = await getMySummary(workspaceId)
+		setSummary(summaryData)
 	}
 
 	useEffect(() => {
-		if (!workspaceId && user?.role !== "ADMIN") return
-		getMySummary(workspaceId).then(setSummary)
 		refreshUsers()
 	}, [workspaceId])
 
-	if (!summary || !user) return null
+	if (!summary || !user || !usersData) return null
 
 	return (
-		<AppLayout>
+		<DashboardLayout>
 			<WorkspaceDashboard
 				summary={summary}
-				users={users}
+				users={usersData}
 				userId={user.id}
 				workspaceId={workspaceId}
 				onSessionChange={refreshUsers}
 				showAdminPanel
 			/>
-		</AppLayout>
+		</DashboardLayout>
 	)
 }

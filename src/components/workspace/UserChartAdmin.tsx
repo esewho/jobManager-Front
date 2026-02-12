@@ -1,4 +1,9 @@
 import { useActiveUsersStore } from "../../store/store"
+import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
+
+type Props = {
+	users: WorkspaceUserAdmin
+}
 
 function getStatusWorkSession(status: string) {
 	switch (status) {
@@ -22,8 +27,8 @@ function getStatusWorkSession(status: string) {
 	}
 }
 
-export default function UserChartAdmin() {
-	const users = useActiveUsersStore((state) => state.users)
+export default function UserChartAdmin({ users }: Props) {
+	// const users = useActiveUsersStore((state) => state.users)
 
 	return (
 		<div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">

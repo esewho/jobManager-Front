@@ -24,7 +24,7 @@ export default function WorkspaceDashboard({
 	onSessionChange,
 }: Props) {
 	return (
-		<div className="flex flex-col gap-8 px-6 pb-10">
+		<div className="flex flex-col gap-8 px-6 pb-10 ">
 			<div className="space-y-6">
 				<DashboardHeader />
 
@@ -75,7 +75,7 @@ export default function WorkspaceDashboard({
 							Usuarios de este Workspace
 						</h2>
 
-						<UserChartAdmin />
+						<UserChartAdmin users={users} />
 					</section>
 				</>
 			)}

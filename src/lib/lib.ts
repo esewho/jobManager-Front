@@ -234,7 +234,7 @@ export async function getMyWorkSessions(): Promise<WorkSession[]> {
 
 export async function getTodaySession(
 	workspaceId?: string,
-): Promise<TodaySession | null> {
+): Promise<TodaySession> {
 	const response = await fetch(
 		`${API_URL}/work-sessions/me/today/${workspaceId}`,
 		{
