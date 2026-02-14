@@ -28,6 +28,7 @@ export default function WorkspaceAdmin() {
 	}, [])
 
 	useEffect(() => {
+		if (!user) navigate("/auth/login")
 		if (!isLoading && data.length === 0) {
 			navigate("/workspace-create", { replace: true })
 		}

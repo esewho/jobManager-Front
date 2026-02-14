@@ -21,7 +21,7 @@ export default function WorkspaceSidebar() {
 			</div>
 
 			{/* MENU PRINCIPAL */}
-			<nav className="flex flex-col gap-2">
+			<nav className="flex flex-col h-full gap-2 ">
 				<NavLink
 					to="."
 					className={({ isActive }) =>
@@ -73,7 +73,7 @@ export default function WorkspaceSidebar() {
 				</NavLink>
 				{user && (
 					<NavLink
-						className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 mt-6"
+						className=" flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 mt-auto"
 						onClick={logout}
 						to="/auth/login"
 					>

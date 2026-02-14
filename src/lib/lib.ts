@@ -3,7 +3,7 @@ import type { TipPoolPayload } from "../types/createTipPool-type"
 import type { DailyTips } from "../types/dailyTips-type"
 import type { SummaryTips } from "../types/summaryTips-type"
 import type { Summary } from "../types/summary-type"
-import type { WorkSession } from "../types/workSession-type"
+import type { WorkSessionType } from "../types/workSession-type"
 import type { ShiftType } from "../types/shift-type"
 import type { TipPoolType } from "../types/tipPool-type"
 import type { WorkingUsers } from "../types/workingUser-type"
@@ -188,7 +188,7 @@ export async function getWeeklyHistory(): Promise<HistoryCardData[]> {
 	return response.json()
 }
 
-export async function checkIn(workspaceId?: string): Promise<WorkSession> {
+export async function checkIn(workspaceId?: string): Promise<WorkSessionType> {
 	const response = await fetch(`${API_URL}/work-sessions/check-in`, {
 		method: "POST",
 		headers: getAuthHeaders(),
@@ -202,7 +202,7 @@ export async function checkIn(workspaceId?: string): Promise<WorkSession> {
 	return response.json()
 }
 
-export async function checkOut(workspaceId?: string): Promise<WorkSession> {
+export async function checkOut(workspaceId?: string): Promise<WorkSessionType> {
 	const response = await fetch(`${API_URL}/work-sessions/check-out`, {
 		method: "POST",
 		headers: getAuthHeaders(),
@@ -216,7 +216,7 @@ export async function checkOut(workspaceId?: string): Promise<WorkSession> {
 	return response.json()
 }
 
-export async function getMyWorkSessions(): Promise<WorkSession[]> {
+export async function getMyWorkSessions(): Promise<WorkSessionType[]> {
 	const response = await fetch(`${API_URL}/work-sessions/me`, {
 		method: "GET",
 		headers: getAuthHeaders(),
@@ -252,7 +252,7 @@ export async function getTodaySession(
 	return response.json()
 }
 
-export async function getAllWorkSessions(): Promise<WorkSession[]> {
+export async function getAllWorkSessions(): Promise<WorkSessionType[]> {
 	const response = await fetch(`${API_URL}/admin/all-work-sessions`, {
 		method: "GET",
 		headers: getAuthHeaders(),
@@ -411,5 +411,22 @@ export async function getAllWorkspaces(): Promise<WorkspaceType[]> {
 		console.log("Workspaces fetched successfully")
 	}
 
+	return response.json()
+}
+
+export async function getMySessions(
+	workspaceId?: string,
+): Promise<WorkSessionType[]> {
+	const response = await fetch(
+		`${API_URL}/work-sessions/me/mySessions/${workspaceId}`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Fetching sessions failed")
+	}
 	return response.json()
 }
