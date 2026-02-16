@@ -9,12 +9,15 @@ import WorkspaceAdminView from "../components/workspace/WorkspaceAdminView"
 import { useAuth } from "../context/authContext"
 import type { JSX } from "react"
 import WorkspaceDashboard from "../components/workspace/WorkspaceDashboard"
+import { ClipLoader } from "react-spinners"
 import { getWorkspaceById } from "../lib/lib"
 import WorkspaceUserView from "../components/workspace/WorkspaceUserView"
 import ManageUsersWorkspace from "../components/workspace/ManageUsersWorkspace"
 
 function AdminRoute({ children }: { children: JSX.Element }) {
-	const { user } = useAuth()
+	const { user, isLoading } = useAuth()
+
+	if (isLoading) return <div>cargando...</div>
 
 	if (user?.role !== "ADMIN") {
 		return <Navigate to="/" replace />

@@ -11,6 +11,7 @@ export interface AuthContextType {
 	register: (username: string, password: string) => Promise<void>
 	registerAdmin: (username: string, password: string) => Promise<void>
 	isAuthenticated: boolean
+	isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -82,6 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				registerAdmin: registerAdminAction,
 				logout: logOutAction,
 				isAuthenticated: !!user,
+				isLoading,
 			}}
 		>
 			{!isLoading && children}

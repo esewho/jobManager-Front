@@ -18,6 +18,11 @@ export default function WorkspaceSidebar() {
 		`flex items-center gap-3 px-3 py-2 rounded-lg transition
 	 ${isActive ? "bg-blue-600 text-white" : "hover:bg-slate-800 text-slate-300"}`
 
+	const basePath =
+		user?.role === "ADMIN"
+			? `/workspace/${workspaceId}/admin`
+			: `/workspace/${workspaceId}`
+
 	return (
 		<aside className="bg-slate-900 text-slate-200 flex flex-col p-6">
 			{/* LOGO / WORKSPACE */}
@@ -28,7 +33,7 @@ export default function WorkspaceSidebar() {
 
 			{/* MENU PRINCIPAL */}
 			<nav className="flex flex-col h-full gap-2 ">
-				<NavLink to={`/workspace/${workspaceId}`} className={linkClasses}>
+				<NavLink to={basePath} end className={linkClasses}>
 					<Home size={18} />
 					Inicio
 				</NavLink>
