@@ -1,4 +1,3 @@
-import { useActiveUsersStore } from "../../store/store"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
 
 type Props = {

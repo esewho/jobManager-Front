@@ -14,6 +14,7 @@ import type { CreateWorkspacePayload } from "../types/createWorkspace-type"
 import type { UpdateWorkspace } from "../types/updateWorkspace-type"
 import type { WorkspaceType } from "../types/workspace-type"
 import type { workspaceUserAdmin } from "../types/workspaceUserAdmin"
+import type { UsersToManage } from "../types/usersToManage-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -427,6 +428,23 @@ export async function getMySessions(
 	if (!response.ok) {
 		const error = await response.json()
 		throw new Error(error.message || "Fetching sessions failed")
+	}
+	return response.json()
+}
+
+export async function getUsersToManage(
+	workspaceId: string,
+): Promise<UsersToManage[]> {
+	const response = await fetch(
+		`${API_URL}/admin/get-all-users-to-manage/${workspaceId}`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Fetching users failed")
 	}
 	return response.json()
 }

@@ -6,11 +6,17 @@ import {
 	LucideBuilding,
 	LucideLogOut,
 } from "lucide-react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
 import { useAuth } from "../../context/authContext"
 
 export default function WorkspaceSidebar() {
 	const { user, logout } = useAuth()
+
+	const { workspaceId } = useParams()
+
+	const linkClasses = ({ isActive }: { isActive: boolean }) =>
+		`flex items-center gap-3 px-3 py-2 rounded-lg transition
+	 ${isActive ? "bg-blue-600 text-white" : "hover:bg-slate-800 text-slate-300"}`
 
 	return (
 		<aside className="bg-slate-900 text-slate-200 flex flex-col p-6">
@@ -22,20 +28,14 @@ export default function WorkspaceSidebar() {
 
 			{/* MENU PRINCIPAL */}
 			<nav className="flex flex-col h-full gap-2 ">
-				<NavLink
-					to="."
-					className={({ isActive }) =>
-						`flex items-center gap-3 px-3 py-2 rounded-lg transition 
-            ${isActive ? "bg-blue-600 text-white" : "hover:bg-slate-800"}`
-					}
-				>
+				<NavLink to={`/workspace/${workspaceId}`} className={linkClasses}>
 					<Home size={18} />
 					Inicio
 				</NavLink>
 
 				<NavLink
-					to="history"
-					className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800"
+					to={`/workspace/${workspaceId}/history`}
+					className={linkClasses}
 				>
 					<Clock size={18} />
 					Historial
@@ -48,15 +48,15 @@ export default function WorkspaceSidebar() {
 						</div>
 
 						<NavLink
-							to="manage-users"
-							className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800"
+							to={`/manage-users/${workspaceId}`}
+							className={linkClasses}
 						>
 							<Users size={18} />
 							Gestionar empleados
 						</NavLink>
 						<NavLink
-							to="manage-workspace"
-							className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800"
+							to={`/manage-workspace/${workspaceId}`}
+							className={linkClasses}
 						>
 							<LucideBuilding size={18} />
 							Gestionar workspace
@@ -64,19 +64,12 @@ export default function WorkspaceSidebar() {
 					</>
 				)}
 
-				<NavLink
-					to="settings"
-					className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 mt-6"
-				>
+				<NavLink to="settings" className={linkClasses}>
 					<Settings size={18} />
 					Ajustes
 				</NavLink>
 				{user && (
-					<NavLink
-						className=" flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 mt-auto"
-						onClick={logout}
-						to="/auth/login"
-					>
+					<NavLink className={linkClasses} onClick={logout} to="/auth/login">
 						<LucideLogOut size={18} />
 						Cerrar sesión
 					</NavLink>
