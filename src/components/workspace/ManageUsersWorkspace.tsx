@@ -4,15 +4,22 @@ import { getUsersToManage } from "../../lib/lib"
 import type { UsersToManage } from "../../types/usersToManage-type"
 import DashboardLayout from "../../layouts/DashboardLayout"
 import UserTableToManage from "./UserTableToManage"
+import { UserType } from "../../types/user-type"
 
 export default function ManageUsersView() {
 	const { workspaceId } = useParams()
 	const [users, setUsers] = useState<UsersToManage[]>([])
+	const [selectedUser, setSelectedUser] = useState<UserType | null>(null)
 
 	useEffect(() => {
 		if (!workspaceId) return
 		getUsersToManage(workspaceId).then(setUsers)
 	}, [workspaceId])
+
+	const refreshUsers = async () => {
+		const data = await getUsersToManage(workspaceId)
+		setUsers(data)
+	}
 
 	return (
 		<DashboardLayout>

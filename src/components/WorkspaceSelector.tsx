@@ -7,7 +7,7 @@ import AppLayout from "../layouts/AppLayout"
 import { useAuth } from "../context/authContext"
 import { useNavigate } from "react-router-dom"
 
-export default function WorkspaceAdmin() {
+export default function WorkspaceSelector() {
 	const [data, setData] = useState<WorkspaceType[]>([])
 	const [isLoading, setIsLoading] = useState(true)
 	const { user } = useAuth()

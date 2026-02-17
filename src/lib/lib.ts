@@ -433,7 +433,7 @@ export async function getMySessions(
 }
 
 export async function getUsersToManage(
-	workspaceId: string,
+	workspaceId?: string,
 ): Promise<UsersToManage[]> {
 	const response = await fetch(
 		`${API_URL}/admin/get-all-users-to-manage/${workspaceId}`,
@@ -445,6 +445,21 @@ export async function getUsersToManage(
 	if (!response.ok) {
 		const error = await response.json()
 		throw new Error(error.message || "Fetching users failed")
+	}
+	return response.json()
+}
+
+export async function setActiveOrDeactivateUser(
+	userId: string,
+	active: boolean,
+) {
+	const response = await fetch(`${API_URL}/admin/users/${userId}/status`, {
+		headers: getAuthHeaders(),
+		body: JSON.stringify({ active }),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to update user")
 	}
 	return response.json()
 }

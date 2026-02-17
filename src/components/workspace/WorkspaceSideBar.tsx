@@ -5,6 +5,7 @@ import {
 	Users,
 	LucideBuilding,
 	LucideLogOut,
+	ArrowLeft,
 } from "lucide-react"
 import { NavLink, useParams } from "react-router-dom"
 import { useAuth } from "../../context/authContext"
@@ -72,6 +73,11 @@ export default function WorkspaceSidebar() {
 				<NavLink to="settings" className={linkClasses}>
 					<Settings size={18} />
 					Ajustes
+				</NavLink>
+
+				<NavLink to={`/`} className={linkClasses}>
+					<ArrowLeft size={18} />
+					Volver
 				</NavLink>
 				{user && (
 					<NavLink className={linkClasses} onClick={logout} to="/auth/login">
