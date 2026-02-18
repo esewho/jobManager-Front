@@ -4,12 +4,12 @@ import { getUsersToManage } from "../../lib/lib"
 import type { UsersToManage } from "../../types/usersToManage-type"
 import DashboardLayout from "../../layouts/DashboardLayout"
 import UserTableToManage from "./UserTableToManage"
-import { UserType } from "../../types/user-type"
+import ManageUsersModal from "./ManageUsersModal"
 
 export default function ManageUsersView() {
 	const { workspaceId } = useParams()
 	const [users, setUsers] = useState<UsersToManage[]>([])
-	const [selectedUser, setSelectedUser] = useState<UserType | null>(null)
+	const [selectedUser, setSelectedUser] = useState<UsersToManage | null>(null)
 
 	useEffect(() => {
 		if (!workspaceId) return
@@ -31,7 +31,19 @@ export default function ManageUsersView() {
 					</p>
 				</header>
 
-				<UserTableToManage users={users} />
+				<UserTableToManage
+					onEditUser={(user) => setSelectedUser(user)}
+					users={users}
+				/>
+				{selectedUser && (
+					<ManageUsersModal
+						userId={selectedUser.id}
+						username={selectedUser.username}
+						isActive={selectedUser.active}
+						onClose={() => setSelectedUser(null)}
+						onStatusChanged={refreshUsers}
+					/>
+				)}
 			</div>
 		</DashboardLayout>
 	)

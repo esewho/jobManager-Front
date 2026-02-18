@@ -2,9 +2,10 @@ import type { UsersToManage } from "../../types/usersToManage-type"
 
 type Props = {
 	users: UsersToManage[]
+	onEditUser: (user: UsersToManage) => void
 }
 
-export default function UserTableToManage({ users }: Props) {
+export default function UserTableToManage({ users, onEditUser }: Props) {
 	return (
 		<div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
 			<table className="w-full">
@@ -49,7 +50,10 @@ export default function UserTableToManage({ users }: Props) {
 							</td>
 
 							<td className="px-6 py-4 text-right">
-								<button className="text-sm text-blue-600 hover:underline">
+								<button
+									onClick={() => onEditUser(u)}
+									className="text-sm text-blue-600 hover:underline"
+								>
 									Editar
 								</button>
 							</td>

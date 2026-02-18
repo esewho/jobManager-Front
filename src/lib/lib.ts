@@ -454,6 +454,7 @@ export async function setActiveOrDeactivateUser(
 	active: boolean,
 ) {
 	const response = await fetch(`${API_URL}/admin/users/${userId}/status`, {
+		method: "PATCH",
 		headers: getAuthHeaders(),
 		body: JSON.stringify({ active }),
 	})
