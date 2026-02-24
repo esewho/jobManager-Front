@@ -464,3 +464,19 @@ export async function setActiveOrDeactivateUser(
 	}
 	return response.json()
 }
+
+export async function createSchedule(
+	workspaceId: string,
+	data: { userId: string; date: string; startTime: string; endTime: string },
+) {
+	const response = await fetch(`${API_URL}/work-schedules/${workspaceId}`, {
+		method: "POST",
+		headers: getAuthHeaders(),
+		body: JSON.stringify(data),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to create a schedule")
+	}
+	return response.json()
+}

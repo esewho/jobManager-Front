@@ -3,9 +3,14 @@ import type { UsersToManage } from "../../types/usersToManage-type"
 type Props = {
 	users: UsersToManage[]
 	onEditUser: (user: UsersToManage) => void
+	onAssignSchedule: (user: UsersToManage) => void
 }
 
-export default function UserTableToManage({ users, onEditUser }: Props) {
+export default function UserTableToManage({
+	users,
+	onEditUser,
+	onAssignSchedule,
+}: Props) {
 	return (
 		<div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
 			<table className="w-full">
@@ -49,12 +54,19 @@ export default function UserTableToManage({ users, onEditUser }: Props) {
 								</span>
 							</td>
 
-							<td className="px-6 py-4 text-right">
+							<td className="px-6 py-4 text-right space-x-4">
 								<button
 									onClick={() => onEditUser(u)}
 									className="text-sm text-blue-600 hover:underline"
 								>
 									Editar
+								</button>
+
+								<button
+									onClick={() => onAssignSchedule(u)}
+									className="text-sm text-indigo-600 hover:underline"
+								>
+									Horario
 								</button>
 							</td>
 						</tr>

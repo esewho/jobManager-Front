@@ -8,8 +8,8 @@ import WorkspaceAdminView from "../components/workspace/WorkspaceAdminView"
 import { useAuth } from "../context/authContext"
 import type { JSX } from "react"
 import WorkspaceUserView from "../components/workspace/WorkspaceUserView"
-import ManageUsersWorkspace from "../components/workspace/ManageUsersWorkspace"
 import WorkspaceSelector from "../components/WorkspaceSelector"
+import ManageUsersView from "../components/workspace/ManageUsersView"
 
 function AdminRoute({ children }: { children: JSX.Element }) {
 	const { user, isLoading } = useAuth()
@@ -45,10 +45,7 @@ export default function IndexRoutes() {
 				}
 			/>
 
-			<Route
-				path="/manage-users/:workspaceId"
-				element={<ManageUsersWorkspace />}
-			/>
+			<Route path="/manage-users/:workspaceId" element={<ManageUsersView />} />
 
 			{/* CREATE */}
 			<Route path="/workspace-create" element={<CreateWorkspaceForm />} />

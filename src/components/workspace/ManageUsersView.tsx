@@ -5,11 +5,15 @@ import type { UsersToManage } from "../../types/usersToManage-type"
 import DashboardLayout from "../../layouts/DashboardLayout"
 import UserTableToManage from "./UserTableToManage"
 import ManageUsersModal from "./ManageUsersModal"
+import AssignSchedulePanel from "./AssignSchedulePanel"
 
 export default function ManageUsersView() {
 	const { workspaceId } = useParams()
+
 	const [users, setUsers] = useState<UsersToManage[]>([])
-	const [selectedUser, setSelectedUser] = useState<UsersToManage | null>(null)
+	const [userToEdit, setUserToEdit] = useState<UsersToManage | null>(null)
+	const [userToAssignSchedule, setUserToAssignSchedule] =
+		useState<UsersToManage | null>(null)
 
 	useEffect(() => {
 		if (!workspaceId) return
@@ -17,6 +21,7 @@ export default function ManageUsersView() {
 	}, [workspaceId])
 
 	const refreshUsers = async () => {
+		if (!workspaceId) return
 		const data = await getUsersToManage(workspaceId)
 		setUsers(data)
 	}
@@ -32,16 +37,26 @@ export default function ManageUsersView() {
 				</header>
 
 				<UserTableToManage
-					onEditUser={(user) => setSelectedUser(user)}
 					users={users}
+					onEditUser={setUserToEdit}
+					onAssignSchedule={setUserToAssignSchedule}
 				/>
-				{selectedUser && (
+
+				{userToEdit && (
 					<ManageUsersModal
-						userId={selectedUser.id}
-						username={selectedUser.username}
-						isActive={selectedUser.active}
-						onClose={() => setSelectedUser(null)}
+						userId={userToEdit.id}
+						username={userToEdit.username}
+						isActive={userToEdit.active}
+						onClose={() => setUserToEdit(null)}
 						onStatusChanged={refreshUsers}
+					/>
+				)}
+
+				{userToAssignSchedule && (
+					<AssignSchedulePanel
+						user={userToAssignSchedule}
+						workspaceId={workspaceId}
+						onClose={() => setUserToAssignSchedule(null)}
 					/>
 				)}
 			</div>
