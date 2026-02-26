@@ -6,15 +6,14 @@ import type { Summary } from "../types/summary-type"
 import type { WorkSessionType } from "../types/workSession-type"
 import type { ShiftType } from "../types/shift-type"
 import type { TipPoolType } from "../types/tipPool-type"
-import type { WorkingUsers } from "../types/workingUser-type"
 import type { UserType } from "../types/user-type"
 import type { TodaySession } from "../types/todaySession-type"
 import type { HistoryCardData } from "../types/HistoryCardData-type"
 import type { CreateWorkspacePayload } from "../types/createWorkspace-type"
 import type { UpdateWorkspace } from "../types/updateWorkspace-type"
 import type { WorkspaceType } from "../types/workspace-type"
-import type { workspaceUserAdmin } from "../types/workspaceUserAdmin"
 import type { UsersToManage } from "../types/usersToManage-type"
+import type { UserSchedule } from "../types/userSchedule-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -477,6 +476,90 @@ export async function createSchedule(
 	if (!response.ok) {
 		const error = await response.json()
 		throw new Error(error.message || "Failed to create a schedule")
+	}
+	return response.json()
+}
+
+export async function getAllSchedulesOfWorkspace(
+	workspaceId: string,
+): Promise<UserSchedule[]> {
+	const response = await fetch(`${API_URL}/work-schedules/${workspaceId}`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(
+			error.message || "Failed to get all schedules of this workspace",
+		)
+	}
+	return response.json()
+}
+
+export async function updateScheduleStatus(
+	scheduleId: string,
+	workspaceId: string,
+	status: "PENDING" | "ACCEPTED" | "REJECTED",
+) {
+	const response = await fetch(`${API_URL}/me/${workspaceId}/${scheduleId}`, {
+		method: "PATCH",
+		headers: getAuthHeaders(),
+		body: JSON.stringify({ status }),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Error trying to update schedule status")
+	}
+	return response.json()
+}
+
+export async function deleteSchedule(
+	workspaceId?: string,
+	scheduleId?: string,
+) {
+	const response = await fetch(
+		`${API_URL}/work-schedules/${workspaceId}/${scheduleId}`,
+		{
+			method: "DELETE",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to delete a schedule")
+	}
+	return response.json()
+}
+
+export async function getMySchedules(workspaceId: string) {
+	const response = await fetch(`${API_URL}/work-schedules/me/${workspaceId}`, {
+		method: "GET",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to get my schedules")
+	}
+	return response.json()
+}
+
+export async function updateSchedulesData(
+	workspaceId: string,
+	scheduleId: string,
+	data: { date: string; startTime: string; endTime: string },
+) {
+	const { date, startTime, endTime } = data
+	const response = await fetch(
+		`${API_URL}/work-schedules/${workspaceId}/${scheduleId}`,
+		{
+			method: "PATCH",
+			headers: getAuthHeaders(),
+			body: JSON.stringify({ date, startTime, endTime }),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to update schedule data")
 	}
 	return response.json()
 }

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import type { UserSchedule } from "../../types/userSchedule-type"
-import { createSchedule } from "../../lib/lib"
+import { createSchedule, getAllSchedulesOfWorkspace } from "../../lib/lib"
 import { toast } from "react-toastify"
 import type { UsersToManage } from "../../types/usersToManage-type"
 
@@ -8,12 +8,14 @@ type Props = {
 	user: UsersToManage
 	workspaceId?: string
 	onClose: () => void
+	onRefreshSchedules: () => void
 }
 
 export default function AssignSchedulePanel({
 	user,
 	workspaceId,
 	onClose,
+	onRefreshSchedules,
 }: Props) {
 	const [date, setDate] = useState("")
 	const [startTime, setStartTime] = useState("")
@@ -31,6 +33,8 @@ export default function AssignSchedulePanel({
 				startTime,
 				endTime,
 			})
+			toast.success(`Horario enviado a ${user.username}`)
+			onRefreshSchedules()
 			onClose()
 		} catch (error: any) {
 			toast.error(error.message)

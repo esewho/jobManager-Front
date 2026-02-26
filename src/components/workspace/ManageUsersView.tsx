@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getUsersToManage } from "../../lib/lib"
+import {
+	deleteSchedule,
+	getAllSchedulesOfWorkspace,
+	getUsersToManage,
+} from "../../lib/lib"
 import type { UsersToManage } from "../../types/usersToManage-type"
 import DashboardLayout from "../../layouts/DashboardLayout"
 import UserTableToManage from "./UserTableToManage"
 import ManageUsersModal from "./ManageUsersModal"
 import AssignSchedulePanel from "./AssignSchedulePanel"
+import type { UserSchedule } from "../../types/userSchedule-type"
+import UserSchedulesCards from "./UserScheduleCards"
 
 export default function ManageUsersView() {
 	const { workspaceId } = useParams()
@@ -15,6 +21,17 @@ export default function ManageUsersView() {
 	const [userToAssignSchedule, setUserToAssignSchedule] =
 		useState<UsersToManage | null>(null)
 
+	const [schedule, setSchedule] = useState<UserSchedule[] | null>([])
+	const refreshSchedules = async () => {
+		if (!workspaceId) return
+		const data = await getAllSchedulesOfWorkspace(workspaceId)
+		setSchedule(data)
+	}
+
+	useEffect(() => {
+		if (!workspaceId) return
+		refreshSchedules()
+	}, [workspaceId])
 	useEffect(() => {
 		if (!workspaceId) return
 		getUsersToManage(workspaceId).then(setUsers)
@@ -24,6 +41,15 @@ export default function ManageUsersView() {
 		if (!workspaceId) return
 		const data = await getUsersToManage(workspaceId)
 		setUsers(data)
+	}
+
+	const handleDelete = async (scheduleId: string) => {
+		if (!workspaceId) return
+		await deleteSchedule(workspaceId, scheduleId)
+		setSchedule((prev) => {
+			if (!prev) return null
+			return prev.filter((s) => s.id !== scheduleId)
+		})
 	}
 
 	return (
@@ -57,7 +83,12 @@ export default function ManageUsersView() {
 						user={userToAssignSchedule}
 						workspaceId={workspaceId}
 						onClose={() => setUserToAssignSchedule(null)}
+						onRefreshSchedules={refreshSchedules}
 					/>
+				)}
+
+				{schedule && (
+					<UserSchedulesCards onDelete={handleDelete} schedules={schedule} />
 				)}
 			</div>
 		</DashboardLayout>
