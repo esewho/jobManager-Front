@@ -86,6 +86,12 @@ export default function ManageUsersView() {
 						onRefreshSchedules={refreshSchedules}
 					/>
 				)}
+				<header>
+					<h1 className="text-2xl font-bold">Solicitudes</h1>
+					<p className="text-slate-500 text-sm">
+						Comprueba el estado de las solicitudes enviadas
+					</p>
+				</header>
 
 				{schedule && (
 					<UserSchedulesCards onDelete={handleDelete} schedules={schedule} />
