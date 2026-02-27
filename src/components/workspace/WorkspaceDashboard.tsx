@@ -1,9 +1,11 @@
 import type { Summary } from "../../types/summary-type"
+import type { UserSchedule } from "../../types/userSchedule-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
 import ActionCards from "../ActionCards"
 import DashboardHeader from "../DashboardHeader"
 import TodaySessionCard from "../TodaySessionCard"
 import WorkProgressChart from "../WorkProgressChart"
+import PendingSchedulesPanel from "./PendingSchedulePanel"
 import UserChartAdmin from "./UserChartAdmin"
 
 type Props = {
@@ -13,6 +15,8 @@ type Props = {
 	userId: string
 	workspaceId: string | undefined
 	onSessionChange: () => void
+	pendingSchedules?: UserSchedule[]
+	onScheduleStatusChange: (scheduleId: string, status: string) => void
 }
 
 export default function WorkspaceDashboard({
@@ -21,6 +25,8 @@ export default function WorkspaceDashboard({
 	users,
 	userId,
 	workspaceId,
+	pendingSchedules,
+	onScheduleStatusChange,
 	onSessionChange,
 }: Props) {
 	return (
@@ -29,6 +35,14 @@ export default function WorkspaceDashboard({
 				<DashboardHeader />
 
 				<TodaySessionCard summary={summary} />
+
+				{pendingSchedules && pendingSchedules.length > 0 && (
+					<PendingSchedulesPanel
+						schedules={pendingSchedules}
+						workspaceId={workspaceId}
+						onStatusUpdated={onScheduleStatusChange!}
+					/>
+				)}
 
 				<ActionCards
 					userId={userId}

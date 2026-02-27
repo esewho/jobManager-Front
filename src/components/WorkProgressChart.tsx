@@ -24,8 +24,8 @@ export default function WorkProgressChart({
 	onClick,
 }: Props) {
 	const baseWorked = Math.min(data.workedMinutes, baseMinutes)
-	const extraWorked = Math.max(data.extraMinutes, 0)
-	const remaining = Math.max(baseMinutes - baseWorked, 0)
+	const extraWorked = Math.max(data.workedMinutes - baseMinutes, 0)
+	const remaining = Math.max(baseMinutes - data.workedMinutes, 0)
 
 	const chartData = [
 		{ name: "Trabajado", value: baseWorked },

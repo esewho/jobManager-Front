@@ -22,11 +22,11 @@ export default function UserSchedulesCards({ schedules, onDelete }: Props) {
 	}
 
 	return (
-		<div className="mt-6 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+		<div className="mt-6 grid md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
 			{schedules.map((s) => (
 				<div
 					key={s.id}
-					className="group relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-4"
+					className="group relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full gap-4"
 				>
 					{/* Header */}
 					<div className="flex items-start justify-between">
@@ -71,14 +71,16 @@ export default function UserSchedulesCards({ schedules, onDelete }: Props) {
 					</div>
 
 					{/* Action */}
-					{s.status === "ACCEPTED" && (
-						<button
-							onClick={() => onDelete(s.id)}
-							className="text-sm text-red-500 hover:text-red-600 transition self-end"
-						>
-							Quitar turno
-						</button>
-					)}
+					<div className="mt-auto min-h-7 flex items-end justify-end">
+						{(s.status === "ACCEPTED" || s.status === "REJECTED") && (
+							<button
+								onClick={() => onDelete(s.id)}
+								className="text-sm text-red-500 hover:text-red-600 transition"
+							>
+								Quitar turno
+							</button>
+						)}
+					</div>
 				</div>
 			))}
 		</div>

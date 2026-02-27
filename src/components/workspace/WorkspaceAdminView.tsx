@@ -4,16 +4,11 @@ import WorkspaceDashboard from "./WorkspaceDashboard"
 
 import { useAuth } from "../../context/authContext"
 import { useEffect, useState } from "react"
-import {
-	getAllWorkspaceUsers,
-	getMySummary,
-	getTodaySession,
-} from "../../lib/lib"
+import { getAllWorkspaceUsers, getMySummary } from "../../lib/lib"
 import type { Summary } from "../../types/summary-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
-import { useActiveUsersStore } from "../../store/store"
+
 import DashboardLayout from "../../layouts/DashboardLayout"
-import AppLayout from "../../layouts/AppLayout"
 
 export default function WorkspaceAdminView() {
 	const { workspaceId } = useParams()

@@ -501,11 +501,14 @@ export async function updateScheduleStatus(
 	workspaceId: string,
 	status: "PENDING" | "ACCEPTED" | "REJECTED",
 ) {
-	const response = await fetch(`${API_URL}/me/${workspaceId}/${scheduleId}`, {
-		method: "PATCH",
-		headers: getAuthHeaders(),
-		body: JSON.stringify({ status }),
-	})
+	const response = await fetch(
+		`${API_URL}/work-schedules/me/${workspaceId}/${scheduleId}`,
+		{
+			method: "PATCH",
+			headers: getAuthHeaders(),
+			body: JSON.stringify({ status }),
+		},
+	)
 	if (!response.ok) {
 		const error = await response.json()
 		throw new Error(error.message || "Error trying to update schedule status")
@@ -531,7 +534,7 @@ export async function deleteSchedule(
 	return response.json()
 }
 
-export async function getMySchedules(workspaceId: string) {
+export async function getMyPendingSchedules(workspaceId: string) {
 	const response = await fetch(`${API_URL}/work-schedules/me/${workspaceId}`, {
 		method: "GET",
 		headers: getAuthHeaders(),
