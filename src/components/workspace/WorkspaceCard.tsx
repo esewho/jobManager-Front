@@ -15,6 +15,11 @@ export default function WorkspaceCard({ workspace, onEnter }: Props) {
 		if (user?.role === "ADMIN") {
 			navigate(`/workspace/${workspace.id}/admin`)
 			console.log(workspace.id, user.role)
+			console.log(workspace.imageUrl)
+			console.log(
+				"Full image path:",
+				`http://localhost:3000${workspace.imageUrl}`,
+			)
 		} else {
 			navigate(`/workspace/${workspace.id}`)
 		}
@@ -34,15 +39,16 @@ export default function WorkspaceCard({ workspace, onEnter }: Props) {
 		>
 			{/* Image */}
 			<div
-				className="w-full aspect-video bg-center bg-cover rounded-lg overflow-hidden"
+				className="w-full aspect-video bg-center bg-cover rounded-lg overflow-hidden relative"
 				style={{
 					backgroundImage: workspace.imageUrl
-						? `${BACKEND_URL}(${workspace.imageUrl})`
+						? `url("http://localhost:3000${workspace.imageUrl}")`
 						: undefined,
 				}}
 			>
+				{workspace.imageUrl && <div className="absolute inset-0 bg-black/20" />}
 				{!workspace.imageUrl && (
-					<div className="w-full h-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-400">
+					<div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
 						No image
 					</div>
 				)}
