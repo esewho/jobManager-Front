@@ -5,6 +5,8 @@ import ActionCards from "../ActionCards"
 import DashboardHeader from "../DashboardHeader"
 import TodaySessionCard from "../TodaySessionCard"
 import WorkProgressChart from "../WorkProgressChart"
+import CurrentTimeCard from "./CurrentTimeCard"
+import NextScheduleCard from "./NextScheduleCard"
 import PendingSchedulesPanel from "./PendingSchedulePanel"
 import UserChartAdmin from "./UserChartAdmin"
 
@@ -17,6 +19,7 @@ type Props = {
 	onSessionChange: () => void
 	pendingSchedules?: UserSchedule[]
 	onScheduleStatusChange: (scheduleId: string, status: string) => void
+	nextSchedule: UserSchedule | null
 }
 
 export default function WorkspaceDashboard({
@@ -28,13 +31,34 @@ export default function WorkspaceDashboard({
 	pendingSchedules,
 	onScheduleStatusChange,
 	onSessionChange,
+	nextSchedule,
 }: Props) {
 	return (
 		<div className="flex flex-col gap-8 px-6 pb-10 ">
 			<div className="space-y-6">
 				<DashboardHeader />
+				{/* Top section */}
+				<div className="grid grid-cols-1 lg:grid-cols-[1fr_1.8fr_1fr] rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+					{/* 1️⃣ Acciones */}
+					<div className="p-6 border-b lg:border-b-0 lg:border-r border-slate-200">
+						<ActionCards
+							userId={userId}
+							workspaceId={workspaceId}
+							hasOpenSession={summary.today.workedMinutes === 0}
+							onSessionChange={onSessionChange}
+						/>
+					</div>
 
-				<TodaySessionCard summary={summary} />
+					{/* 2️⃣ Centro más grande */}
+					<div className="p-8 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200 flex items-center justify-center">
+						<CurrentTimeCard summary={summary} />
+					</div>
+
+					{/* 3️⃣ Próximo turno */}
+					<div className="p-6 flex items-center justify-center">
+						{nextSchedule && <NextScheduleCard schedule={nextSchedule} />}
+					</div>
+				</div>
 
 				{pendingSchedules && pendingSchedules.length > 0 && (
 					<PendingSchedulesPanel
@@ -43,13 +67,6 @@ export default function WorkspaceDashboard({
 						onStatusUpdated={onScheduleStatusChange!}
 					/>
 				)}
-
-				<ActionCards
-					userId={userId}
-					workspaceId={workspaceId}
-					hasOpenSession={summary.today.workedMinutes === 0}
-					onSessionChange={onSessionChange}
-				/>
 
 				<header className="flex flex-col gap-2">
 					<h2 className="text-2xl font-bold">Tu Progreso</h2>

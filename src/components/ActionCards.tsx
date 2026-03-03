@@ -53,14 +53,16 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 	}
 
 	return (
-		<div className="bg-white rounded-xl shadow p-6 flex flex-col gap-4">
-			<h2 className="text-lg font-semibold">Acciones</h2>
+		<div className="flex flex-col gap-6 justify-between h-full">
+			<h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+				Acciones
+			</h2>
 
 			{!hasOpenSession ? (
 				<button
 					onClick={handleCheckIn}
 					disabled={loading}
-					className="bg-stone-900 text-white py-2 rounded disabled:opacity-50"
+					className="bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-medium transition disabled:opacity-50"
 				>
 					Check-in
 				</button>
@@ -68,7 +70,7 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 				<button
 					onClick={handleCheckOut}
 					disabled={loading}
-					className="bg-gray-300 text-stone-900 py-2 rounded disabled:opacity-50"
+					className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-medium transition disabled:opacity-50"
 				>
 					Check-out
 				</button>

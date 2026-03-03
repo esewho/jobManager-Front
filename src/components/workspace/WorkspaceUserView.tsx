@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import WorkspaceDashboard from "./WorkspaceDashboard"
 import {
+	getMyNextSchedule,
 	getMyPendingSchedules,
 	getMySessions,
 	getMySummary,
@@ -21,6 +22,7 @@ export default function WorkspaceUserView() {
 	const [summary, setSummary] = useState<Summary | null>(null)
 	const [session, setSession] = useState<WorkSessionType[] | null>(null)
 	const [pendingSchedules, setPendingSchedules] = useState<UserSchedule[]>([])
+	const [nextSchedule, setNextSchedule] = useState<UserSchedule | null>(null)
 
 	const refreshSessions = async () => {
 		const data = await getMySessions(workspaceId)
@@ -39,10 +41,12 @@ export default function WorkspaceUserView() {
 			const summaryData = await getMySummary(workspaceId)
 			const sessionData = await getMySessions(workspaceId)
 			const pendingData = await getMyPendingSchedules(workspaceId)
+			const nextData = await getMyNextSchedule(workspaceId)
 
 			setSummary(summaryData)
 			setSession(sessionData)
 			setPendingSchedules(pendingData)
+			setNextSchedule(nextData)
 		}
 
 		fetchData()
@@ -58,6 +62,7 @@ export default function WorkspaceUserView() {
 					refreshSessions()
 				}}
 				summary={summary}
+				nextSchedule={nextSchedule}
 				userId={user.id}
 				workspaceId={workspaceId}
 				showAdminPanel={false}

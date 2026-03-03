@@ -566,3 +566,21 @@ export async function updateSchedulesData(
 	}
 	return response.json()
 }
+
+export async function getMyNextSchedule(workspaceId: string) {
+	const response = await fetch(
+		`${API_URL}/work-schedules/me/${workspaceId}/next`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to get my next schedule")
+	}
+	const text = await response.text()
+	if (!text) return null
+
+	return JSON.parse(text)
+}
