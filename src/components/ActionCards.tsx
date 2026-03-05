@@ -54,10 +54,19 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 
 	return (
 		<div className="flex flex-col gap-6 justify-between h-full">
-			<h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+			<h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
 				Acciones
 			</h2>
 
+			<p className="text-sm text-slate-600">
+				Has hecho check-in a las{" "}
+				<span className="font-semibold text-slate-900">
+					{new Date(session?.checkIn).toLocaleTimeString([], {
+						hour: "2-digit",
+						minute: "2-digit",
+					})}
+				</span>
+			</p>
 			{!hasOpenSession ? (
 				<button
 					onClick={handleCheckIn}
