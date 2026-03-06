@@ -1,6 +1,7 @@
 export type TodaySession = {
 	checkIn: string | null
 	checkOut: string | null
+	isPaused: boolean
 	totalMinutes: number
 	extraMinutes: number
 	shift: "MIDDAY" | "NIGHT" | null

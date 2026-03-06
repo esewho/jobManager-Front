@@ -30,29 +30,24 @@ export default function UserChartView({ sessions }: Props) {
 							Check-out
 						</th>
 						<th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
-							Tiempo total
+							Pausas
 						</th>
 						<th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 w-[150px]">
-							Turno
+							Tiempo total
 						</th>
 					</tr>
 				</thead>
 
 				<tbody className="divide-y divide-slate-200">
 					{sessions?.map((s, idx) => {
+						const displayStatus =
+							s.status === "OPEN" ? (s.isPaused ? "PAUSED" : "OPEN") : "CLOSED"
 						const statusStyles =
-							s.status === "OPEN"
+							displayStatus === "OPEN"
 								? "bg-green-100 text-green-700"
-								: s.status === "CLOSED"
-									? "bg-slate-200 text-slate-700"
-									: "bg-slate-100 text-slate-500"
-
-						const shiftStyles =
-							s.shift === "MIDDAY"
-								? "bg-blue-100 text-blue-700"
-								: s.shift === "NIGHT"
-									? "bg-purple-100 text-purple-700"
-									: "bg-slate-100 text-slate-500"
+								: displayStatus === "PAUSED"
+									? "bg-yellow-100 text-yellow-700"
+									: "bg-slate-200 text-slate-700"
 
 						return (
 							<tr key={idx} className="hover:bg-slate-50 transition-colors">
@@ -61,7 +56,7 @@ export default function UserChartView({ sessions }: Props) {
 									<span
 										className={`inline-flex justify-center items-center min-w-[100px] rounded-full px-3 py-1 text-xs font-medium ${statusStyles}`}
 									>
-										{s.status ?? "—"}
+										{displayStatus}
 									</span>
 								</td>
 
@@ -84,19 +79,14 @@ export default function UserChartView({ sessions }: Props) {
 											})
 										: "—"}
 								</td>
+								{/* TURNO */}
+								<td className="px-6 py-4 text-center">
+									<span className="">{s.pauseCount ?? "—"}</span>
+								</td>
 
 								{/* TOTAL */}
 								<td className="px-6 py-4 font-medium text-slate-900 text-center">
 									{Math.floor(s.totalMinutes / 60)}h {s.totalMinutes % 60}m
-								</td>
-
-								{/* TURNO */}
-								<td className="px-6 py-4 text-center">
-									<span
-										className={`inline-flex justify-center items-center min-w-25 rounded-full px-3 py-1 text-xs font-medium ${shiftStyles}`}
-									>
-										{s.shift ?? "—"}
-									</span>
 								</td>
 							</tr>
 						)

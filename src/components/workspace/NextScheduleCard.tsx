@@ -19,7 +19,23 @@ function formatRelativeDate(dateString: string) {
 }
 
 export default function NextScheduleCard({ schedule }: Props) {
+	if (!schedule) {
+		return (
+			<div className="flex flex-col items-center justify-center text-center h-full">
+				<p className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-3">
+					Próximo turno
+				</p>
+
+				<p className="text-sm text-slate-500">Aún no tienes turnos asignados</p>
+
+				<p className="text-xs text-slate-400 mt-1">
+					A la espera de nuevos schedules
+				</p>
+			</div>
+		)
+	}
 	const relative = formatRelativeDate(schedule.date)
+
 	return (
 		<div className="flex flex-col items-center justify-center text-center h-full">
 			<p className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-3">

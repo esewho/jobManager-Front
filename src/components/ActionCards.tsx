@@ -1,7 +1,18 @@
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { checkIn, checkOut, getTodaySession } from "../lib/lib"
+import {
+	checkIn,
+	checkOut,
+	getTodaySession,
+	pauseWorkSession,
+} from "../lib/lib"
 import type { TodaySession } from "../types/todaySession-type"
+import {
+	ArrowCheckIn,
+	CheckOutIcon,
+	PauseIcon,
+	ResumeIcon,
+} from "./workspace/icons"
 
 type Props = {
 	userId: string
@@ -17,8 +28,6 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 	useEffect(() => {
 		getTodaySession(workspaceId).then(setSession)
 	}, [workspaceId])
-
-	const hasOpenSession = session?.status === "OPEN"
 
 	const handleCheckIn = async () => {
 		if (loading) return
@@ -36,6 +45,31 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 		}
 	}
 
+	const handlePause = async () => {
+		if (loading) return
+
+		try {
+			setLoading(true)
+
+			const wasPaused = session?.isPaused
+
+			await pauseWorkSession(workspaceId)
+			// setSession((prev) => ({ ...prev, isPaused: !prev?.isPaused }))
+			setSession((prev) => ({ ...prev, isPaused: !prev?.isPaused }))
+
+			onSessionChange()
+
+			if (wasPaused) {
+				toast.info("Trabajo reanudado")
+			} else {
+				toast.warn("Tiempo pausado")
+			}
+		} catch (error: any) {
+			toast.error(error.message)
+		} finally {
+			setLoading(false)
+		}
+	}
 	const handleCheckOut = async () => {
 		if (loading) return
 		try {
@@ -51,6 +85,8 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 			setLoading(false)
 		}
 	}
+	const isWorking = !!session?.checkIn && !session?.checkOut
+	const isPaused = Boolean(session?.isPaused)
 
 	return (
 		<div className="flex flex-col gap-6 justify-between h-full">
@@ -58,32 +94,65 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 				Acciones
 			</h2>
 
-			<p className="text-sm text-slate-600">
-				Has hecho check-in a las{" "}
-				<span className="font-semibold text-slate-900">
-					{new Date(session?.checkIn).toLocaleTimeString([], {
-						hour: "2-digit",
-						minute: "2-digit",
-					})}
-				</span>
-			</p>
-			{!hasOpenSession ? (
+			{session?.checkIn && (
+				<p className="text-sm text-slate-600">
+					Has hecho check-in a las{" "}
+					<span className="font-semibold text-slate-900">
+						{new Date(session.checkIn).toLocaleTimeString([], {
+							hour: "2-digit",
+							minute: "2-digit",
+						})}
+					</span>
+				</p>
+			)}
+
+			<div className="flex justify-center items-center gap-10">
 				<button
 					onClick={handleCheckIn}
-					disabled={loading}
-					className="bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-medium transition disabled:opacity-50"
+					disabled={isWorking || loading}
+					title="Comenzar"
+					className={`flex items-center justify-center w-14 h-14 rounded-xl transition
+        ${
+					isWorking
+						? "bg-slate-200 text-slate-400 cursor-not-allowed"
+						: "bg-green-600 hover:bg-green-700 text-white"
+				}
+      `}
 				>
-					Check-in
+					<ArrowCheckIn size={20} />
 				</button>
-			) : (
+
 				<button
-					onClick={handleCheckOut}
-					disabled={loading}
-					className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-medium transition disabled:opacity-50"
+					onClick={handlePause}
+					disabled={!isWorking || loading}
+					title={isPaused ? "Reanudar" : "Pausar"}
+					className={`flex items-center justify-center w-14 h-14 rounded-xl transition
+	${
+		!isWorking
+			? "bg-slate-200 text-slate-400 cursor-not-allowed"
+			: isPaused
+				? "bg-blue-500 hover:bg-blue-600 text-white"
+				: "bg-yellow-500 hover:bg-yellow-600 text-white"
+	}`}
 				>
-					Check-out
+					{isPaused ? <ResumeIcon size={22} /> : <PauseIcon size={22} />}
 				</button>
-			)}
+
+				<button
+					title="Finalizar"
+					onClick={handleCheckOut}
+					disabled={!isWorking || loading}
+					className={`flex items-center justify-center w-14 h-14 rounded-xl transition
+        ${
+					!isWorking
+						? "bg-slate-200 text-slate-400 cursor-not-allowed"
+						: "bg-red-500 hover:bg-red-600 text-white"
+				}
+      `}
+				>
+					<CheckOutIcon size={22} />
+				</button>
+			</div>
 		</div>
 	)
 }

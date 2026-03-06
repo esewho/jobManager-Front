@@ -14,6 +14,7 @@ import type { UpdateWorkspace } from "../types/updateWorkspace-type"
 import type { WorkspaceType } from "../types/workspace-type"
 import type { UsersToManage } from "../types/usersToManage-type"
 import type { UserSchedule } from "../types/userSchedule-type"
+import type { PausedSession } from "../types/pausedSession-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -583,4 +584,21 @@ export async function getMyNextSchedule(workspaceId: string) {
 	if (!text) return null
 
 	return JSON.parse(text)
+}
+
+export async function pauseWorkSession(
+	workspaceId?: string,
+): Promise<PausedSession> {
+	const response = await fetch(
+		`${API_URL}/work-sessions/pause/${workspaceId}`,
+		{
+			method: "PATCH",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Error al pausar la sesion")
+	}
+	return response.json()
 }

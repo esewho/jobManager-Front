@@ -56,7 +56,7 @@ export default function WorkspaceDashboard({
 
 					{/* 3️⃣ Próximo turno */}
 					<div className="p-6 flex items-center justify-center">
-						{nextSchedule && <NextScheduleCard schedule={nextSchedule} />}
+						{<NextScheduleCard schedule={nextSchedule} />}
 					</div>
 				</div>
 

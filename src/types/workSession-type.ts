@@ -7,4 +7,6 @@ export type WorkSessionType = {
 	date: string
 	status: "OPEN" | "CLOSED"
 	shift?: "MIDDAY" | "NIGHT"
+	isPaused: boolean
+	pauseCount: number
 }
