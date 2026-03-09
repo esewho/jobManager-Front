@@ -55,7 +55,9 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 
 			await pauseWorkSession(workspaceId)
 			// setSession((prev) => ({ ...prev, isPaused: !prev?.isPaused }))
-			setSession((prev) => ({ ...prev, isPaused: !prev?.isPaused }))
+			setSession((prev) =>
+				prev ? { ...prev, isPaused: !prev.isPaused } : prev,
+			)
 
 			onSessionChange()
 
