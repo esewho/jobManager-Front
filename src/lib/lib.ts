@@ -15,6 +15,7 @@ import type { UsersToManage } from "../types/usersToManage-type"
 import type { UserSchedule } from "../types/userSchedule-type"
 import type { PausedSession } from "../types/pausedSession-type"
 import type { WorkspaceBackType } from "../types/workspaceBack-type"
+import type { WorkspaceUserAdmin } from "../types/WorkspaceUserAdmin-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -308,7 +309,7 @@ export async function getAllTipPools(): Promise<TipPoolType[]> {
 
 export async function getAllWorkspaceUsers(
 	workspaceId?: string,
-): Promise<workspaceUserAdmin> {
+): Promise<WorkspaceUserAdmin> {
 	const response = await fetch(`${API_URL}/admin/${workspaceId}/users`, {
 		method: "GET",
 		headers: getAuthHeaders(),
@@ -365,7 +366,7 @@ export async function getWorkspaceById(
 }
 
 export async function deleteWorkspace(workspaceId: string): Promise<void> {
-	const response = await fetch(`${API_URL}/workspace/${workspaceId}`, {
+	const response = await fetch(`${API_URL}/workspace/delete/${workspaceId}`, {
 		method: "DELETE",
 		headers: getAuthHeaders(),
 	})

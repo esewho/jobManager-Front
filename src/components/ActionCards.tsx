@@ -58,6 +58,8 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 			setSession((prev) =>
 				prev ? { ...prev, isPaused: !prev.isPaused } : prev,
 			)
+			const updated = await getTodaySession(workspaceId)
+			setSession(updated)
 
 			onSessionChange()
 

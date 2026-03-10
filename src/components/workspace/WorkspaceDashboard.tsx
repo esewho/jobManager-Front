@@ -18,8 +18,8 @@ type Props = {
 	workspaceId: string | undefined
 	onSessionChange: () => void
 	pendingSchedules?: UserSchedule[]
-	onScheduleStatusChange: (scheduleId: string, status: string) => void
-	nextSchedule: UserSchedule | null
+	onScheduleStatusChange?: (scheduleId: string, status: string) => void
+	nextSchedule?: UserSchedule | null
 }
 
 export default function WorkspaceDashboard({

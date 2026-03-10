@@ -5,7 +5,7 @@ export type WorkSessionType = {
 	totalMinutes: number
 	extraMinutes: number
 	date: string
-	status: "OPEN" | "CLOSED"
+	status: "OPEN" | "CLOSED" | "PAUSED"
 	shift?: "MIDDAY" | "NIGHT"
 	isPaused: boolean
 	pauseCount: number

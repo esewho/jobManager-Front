@@ -5,5 +5,5 @@ export type TodaySession = {
 	totalMinutes: number
 	extraMinutes: number
 	shift: "MIDDAY" | "NIGHT" | null
-	status: "OPEN" | "CLOSED" | null
+	status: "OPEN" | "CLOSED" | "PAUSED" | null
 }

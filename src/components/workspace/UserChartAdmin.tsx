@@ -17,6 +17,11 @@ function getStatusWorkSession(status: string) {
 				label: "Finalizado",
 				color: "bg-slate-200 text-slate-700",
 			}
+		case "PAUSED":
+			return {
+				label: "Pausado",
+				color: "bg-yellow-100 text-yellow-700",
+			}
 
 		default:
 			return {
