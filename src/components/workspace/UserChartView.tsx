@@ -40,8 +40,11 @@ export default function UserChartView({ sessions }: Props) {
 
 				<tbody className="divide-y divide-slate-200">
 					{sessions?.map((s, idx) => {
-						const displayStatus =
-							s.status === "OPEN" ? (s.isPaused ? "PAUSED" : "OPEN") : "CLOSED"
+						const displayStatus = s.checkOut
+							? "CLOSED"
+							: s.isPaused
+								? "PAUSED"
+								: "OPEN"
 						const statusStyles =
 							displayStatus === "OPEN"
 								? "bg-green-100 text-green-700"
@@ -54,7 +57,7 @@ export default function UserChartView({ sessions }: Props) {
 								{/* ESTADO */}
 								<td className="px-6 py-4 text-center">
 									<span
-										className={`inline-flex justify-center items-center min-w-[100px] rounded-full px-3 py-1 text-xs font-medium ${statusStyles}`}
+										className={`inline-flex justify-center items-center min-w-25 rounded-full px-3 py-1 text-xs font-medium ${statusStyles}`}
 									>
 										{displayStatus}
 									</span>
