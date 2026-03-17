@@ -604,3 +604,37 @@ export async function updateWorkspace(
 	}
 	return response.json()
 }
+
+export async function getHistoryCalendar(
+	workspaceId: string,
+	month: number,
+	year: number,
+) {
+	const response = await fetch(
+		`${API_URL}/history/calendar?workspaceId=${workspaceId}&month=${month}&year=${year}`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to get calendar")
+	}
+	return response.json()
+}
+
+export async function getDayDetail(workspaceId: string, date: string) {
+	const response = await fetch(
+		`${API_URL}/history/workspace/${workspaceId}/${date}`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to get daily detail")
+	}
+	return response.json()
+}
