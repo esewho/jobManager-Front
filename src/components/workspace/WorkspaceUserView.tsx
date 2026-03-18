@@ -55,7 +55,7 @@ export default function WorkspaceUserView() {
 	if (!summary || !user) return null
 	return (
 		// <AppLayout>
-		<DashboardLayout>
+		<>
 			<WorkspaceDashboard
 				onSessionChange={() => {
 					refreshSummary()
@@ -72,7 +72,8 @@ export default function WorkspaceUserView() {
 				}}
 			/>
 			<UserChartView sessions={session} />
-		</DashboardLayout>
+		</>
+
 		// </AppLayout>
 	)
 }

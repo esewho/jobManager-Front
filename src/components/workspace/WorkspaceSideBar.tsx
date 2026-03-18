@@ -10,10 +10,12 @@ import {
 import { NavLink, useParams } from "react-router-dom"
 import { useAuth } from "../../context/authContext"
 
-export default function WorkspaceSidebar() {
-	const { user, logout } = useAuth()
+type Props = {
+	workspaceId?: string
+}
 
-	const { workspaceId } = useParams()
+export default function WorkspaceSidebar({ workspaceId }: Props) {
+	const { user, logout } = useAuth()
 
 	const linkClasses = ({ isActive }: { isActive: boolean }) =>
 		`flex items-center gap-3 px-3 py-2 rounded-lg transition
@@ -34,13 +36,14 @@ export default function WorkspaceSidebar() {
 
 			{/* MENU PRINCIPAL */}
 			<nav className="flex flex-col h-full gap-2 ">
-				<NavLink to={basePath} end className={linkClasses}>
+				<NavLink to={basePath} className={linkClasses}>
 					<Home size={18} />
 					Inicio
 				</NavLink>
 
 				<NavLink
 					to={`/workspace/${workspaceId}/history`}
+					onClick={() => console.log(workspaceId, "=>>>=>=>=>=>=>=>=")}
 					className={linkClasses}
 				>
 					<Clock size={18} />

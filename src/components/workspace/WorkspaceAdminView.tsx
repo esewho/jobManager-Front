@@ -8,8 +8,6 @@ import { getAllWorkspaceUsers, getMySummary } from "../../lib/lib"
 import type { Summary } from "../../types/summary-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
 
-import DashboardLayout from "../../layouts/DashboardLayout"
-
 export default function WorkspaceAdminView() {
 	const { workspaceId } = useParams()
 	const { user } = useAuth()
@@ -34,15 +32,13 @@ export default function WorkspaceAdminView() {
 	if (!summary || !user || !usersData) return null
 
 	return (
-		<DashboardLayout>
-			<WorkspaceDashboard
-				summary={summary}
-				users={usersData}
-				userId={user.id}
-				workspaceId={workspaceId}
-				onSessionChange={refreshUsers}
-				showAdminPanel
-			/>
-		</DashboardLayout>
+		<WorkspaceDashboard
+			summary={summary}
+			users={usersData}
+			userId={user.id}
+			workspaceId={workspaceId}
+			onSessionChange={refreshUsers}
+			showAdminPanel
+		/>
 	)
 }
