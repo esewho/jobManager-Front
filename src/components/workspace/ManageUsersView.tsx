@@ -53,50 +53,48 @@ export default function ManageUsersView() {
 	}
 
 	return (
-		<DashboardLayout>
-			<div className="space-y-6">
-				<header>
-					<h1 className="text-2xl font-bold">Gestionar empleados</h1>
-					<p className="text-slate-500 text-sm">
-						Administra los usuarios de este workspace
-					</p>
-				</header>
+		<div className="space-y-6">
+			<header>
+				<h1 className="text-2xl font-bold">Gestionar empleados</h1>
+				<p className="text-slate-500 text-sm">
+					Administra los usuarios de este workspace
+				</p>
+			</header>
 
-				<UserTableToManage
-					users={users}
-					onEditUser={setUserToEdit}
-					onAssignSchedule={setUserToAssignSchedule}
+			<UserTableToManage
+				users={users}
+				onEditUser={setUserToEdit}
+				onAssignSchedule={setUserToAssignSchedule}
+			/>
+
+			{userToEdit && (
+				<ManageUsersModal
+					userId={userToEdit.id}
+					username={userToEdit.username}
+					isActive={userToEdit.active}
+					onClose={() => setUserToEdit(null)}
+					onStatusChanged={refreshUsers}
 				/>
+			)}
 
-				{userToEdit && (
-					<ManageUsersModal
-						userId={userToEdit.id}
-						username={userToEdit.username}
-						isActive={userToEdit.active}
-						onClose={() => setUserToEdit(null)}
-						onStatusChanged={refreshUsers}
-					/>
-				)}
+			{userToAssignSchedule && (
+				<AssignSchedulePanel
+					user={userToAssignSchedule}
+					workspaceId={workspaceId}
+					onClose={() => setUserToAssignSchedule(null)}
+					onRefreshSchedules={refreshSchedules}
+				/>
+			)}
+			<header>
+				<h1 className="text-2xl font-bold">Solicitudes</h1>
+				<p className="text-slate-500 text-sm">
+					Comprueba el estado de las solicitudes enviadas
+				</p>
+			</header>
 
-				{userToAssignSchedule && (
-					<AssignSchedulePanel
-						user={userToAssignSchedule}
-						workspaceId={workspaceId}
-						onClose={() => setUserToAssignSchedule(null)}
-						onRefreshSchedules={refreshSchedules}
-					/>
-				)}
-				<header>
-					<h1 className="text-2xl font-bold">Solicitudes</h1>
-					<p className="text-slate-500 text-sm">
-						Comprueba el estado de las solicitudes enviadas
-					</p>
-				</header>
-
-				{schedule && (
-					<UserSchedulesCards onDelete={handleDelete} schedules={schedule} />
-				)}
-			</div>
-		</DashboardLayout>
+			{schedule && (
+				<UserSchedulesCards onDelete={handleDelete} schedules={schedule} />
+			)}
+		</div>
 	)
 }

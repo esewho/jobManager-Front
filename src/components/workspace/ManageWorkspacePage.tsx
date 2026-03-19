@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom"
 import { getWorkspaceById } from "../../lib/lib"
 import type { WorkspaceBackType } from "../../types/workspaceBack-type"
 import ManageWorkspace from "./ManageWorkspace"
-import DashboardLayout from "../../layouts/DashboardLayout"
 
 export default function ManageWorkspacePage() {
 	const { workspaceId } = useParams()
@@ -27,10 +26,8 @@ export default function ManageWorkspacePage() {
 	}
 
 	return (
-		<DashboardLayout>
-			<div className="max-h-screen bg-slate-50 flex justify-center items-start px-6 py-10">
-				<ManageWorkspace workspace={workspace} onUpdated={fetchWorkspace} />
-			</div>
-		</DashboardLayout>
+		<div className="max-h-screen bg-slate-50 flex justify-center items-start px-6 py-10">
+			<ManageWorkspace workspace={workspace} onUpdated={fetchWorkspace} />
+		</div>
 	)
 }

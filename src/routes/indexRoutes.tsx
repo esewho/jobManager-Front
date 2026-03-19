@@ -38,12 +38,9 @@ export default function IndexRoutes() {
 			{/* ROOT */}
 			<Route path="/" element={<WorkspaceSelector />} />
 
-			{/* 🔥 WORKSPACE (NESTED ROUTES) */}
 			<Route path="/workspace/:workspaceId" element={<DashboardLayout />}>
-				{/* USER DASHBOARD */}
 				<Route index element={<WorkspaceUserView />} />
 
-				{/* ADMIN */}
 				<Route
 					path="admin"
 					element={
@@ -53,16 +50,11 @@ export default function IndexRoutes() {
 					}
 				/>
 
-				{/* HISTORY */}
+				<Route path="manage-users" element={<ManageUsersView />} />
+				<Route path="manage-workspace" element={<ManageWorkspacePage />} />
+
 				<Route path="history" element={<HistoryCalendarPage />} />
 			</Route>
-
-			{/* OUTSIDE WORKSPACE */}
-			<Route path="/manage-users/:workspaceId" element={<ManageUsersView />} />
-			<Route
-				path="/manage-workspace/:workspaceId"
-				element={<ManageWorkspacePage />}
-			/>
 
 			{/* CREATE */}
 			<Route path="/workspace-create" element={<CreateWorkspaceForm />} />

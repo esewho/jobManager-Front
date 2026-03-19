@@ -36,14 +36,13 @@ export default function WorkspaceSidebar({ workspaceId }: Props) {
 
 			{/* MENU PRINCIPAL */}
 			<nav className="flex flex-col h-full gap-2 ">
-				<NavLink to={basePath} className={linkClasses}>
+				<NavLink to={basePath} end className={linkClasses}>
 					<Home size={18} />
 					Inicio
 				</NavLink>
 
 				<NavLink
 					to={`/workspace/${workspaceId}/history`}
-					onClick={() => console.log(workspaceId, "=>>>=>=>=>=>=>=>=")}
 					className={linkClasses}
 				>
 					<Clock size={18} />
@@ -57,14 +56,14 @@ export default function WorkspaceSidebar({ workspaceId }: Props) {
 						</div>
 
 						<NavLink
-							to={`/manage-users/${workspaceId}`}
+							to={`/workspace/${workspaceId}/manage-users`}
 							className={linkClasses}
 						>
 							<Users size={18} />
 							Gestionar empleados
 						</NavLink>
 						<NavLink
-							to={`/manage-workspace/${workspaceId}`}
+							to={`/workspace/${workspaceId}/manage-workspace`}
 							className={linkClasses}
 						>
 							<LucideBuilding size={18} />

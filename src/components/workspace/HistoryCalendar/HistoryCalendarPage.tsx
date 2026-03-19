@@ -6,6 +6,7 @@ import { getDayDetail, getHistoryCalendar } from "../../../lib/lib"
 import { toast } from "react-toastify"
 
 import CalendarHistory from "./CalendarHistory"
+import DayDetails from "./DayDetailModal"
 
 export default function HistoryCalendarPage() {
 	const { workspaceId } = useParams()
@@ -47,7 +48,6 @@ export default function HistoryCalendarPage() {
 			}
 			const data = await getHistoryCalendar(workspaceId, month, year)
 			setCalendar(data)
-			toast.success("Historial cargado")
 		} catch (error: any) {
 			console.error(error.message || "Failed to get calendar in client")
 			toast.error("Error al cargar historial")
@@ -113,6 +113,9 @@ export default function HistoryCalendarPage() {
 				onDayClick={handleDayClick}
 				loading={loading}
 			/>
+			{selectedDay && (
+				<DayDetails data={selectedDay} onClose={() => setSelectedDay(null)} />
+			)}
 		</div>
 	)
 }
