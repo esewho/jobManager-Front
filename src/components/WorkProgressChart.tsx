@@ -36,7 +36,7 @@ export default function WorkProgressChart({
 	return (
 		<button
 			onClick={onClick}
-			className="bg-white rounded-xl shadow p-6 border border-white hover:border hover:border-stone-950 transition ease-in-out duration-300 cursor-pointer"
+			className="bg-white rounded-xl shadow p-6 border w-full border-white hover:border hover:border-stone-950 transition ease-in-out duration-300 cursor-pointer"
 		>
 			<h2 className="text-lg font-semibold mb-4">{title}</h2>
 
