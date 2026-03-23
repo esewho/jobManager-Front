@@ -12,7 +12,7 @@ export default function DayDetails({ data, onClose }: Props) {
 	return (
 		<div
 			onClick={onClose}
-			className="fixed inset-0 bg-black/40 flex items-start justify-center overflow-y-hidden pt-10 pb-10 z-50"
+			className="fixed inset-0 bg-black/40 flex items-center justify-center overflow-y-hidden  z-50"
 		>
 			<div
 				onClick={(e) => e.stopPropagation()}
