@@ -40,7 +40,7 @@ export default function WorkProgressChart({
 		>
 			<h2 className="text-lg font-semibold mb-4">{title}</h2>
 
-			<div className="flex gap-6 items-center">
+			<div className="flex gap-20 items-center">
 				<PieChart width={200} height={200}>
 					<Pie
 						data={chartData}
@@ -56,7 +56,7 @@ export default function WorkProgressChart({
 					</Pie>
 				</PieChart>
 
-				<div className="flex flex-col gap-2 w-44">
+				<div className="flex flex-col gap-2 w-44 ">
 					<LegendItem
 						color="#2563eb"
 						label="Trabajado"
