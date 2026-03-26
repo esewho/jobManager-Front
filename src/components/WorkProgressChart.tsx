@@ -40,7 +40,7 @@ export default function WorkProgressChart({
 		>
 			<h2 className="text-lg font-semibold mb-4">{title}</h2>
 
-			<div className="flex gap-20 items-center">
+			<div className="flex gap-20 md:gap-5 items-center">
 				<PieChart width={200} height={200}>
 					<Pie
 						data={chartData}

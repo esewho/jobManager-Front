@@ -7,7 +7,6 @@ import { useEffect, useState } from "react"
 import { getAllWorkspaceUsers, getMySummary } from "../../lib/lib"
 import type { Summary } from "../../types/summary-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
-import type { ViewDetailUsersDayType } from "../../types/ViewDetailUsersDay-type"
 
 export default function WorkspaceAdminView() {
 	const { workspaceId } = useParams()
@@ -15,9 +14,6 @@ export default function WorkspaceAdminView() {
 
 	const [usersData, setUsersData] = useState<WorkspaceUserAdmin | null>(null)
 	const [summary, setSummary] = useState<Summary | null>(null)
-	const [selectedSession, setSelectedSession] = useState<
-		ViewDetailUsersDayType[number] | null
-	>(null)
 
 	const refreshUsers = async () => {
 		if (!workspaceId) return
@@ -27,8 +23,6 @@ export default function WorkspaceAdminView() {
 
 		const summaryData = await getMySummary(workspaceId)
 		setSummary(summaryData)
-
-		const sessionDetail = await get
 	}
 
 	useEffect(() => {

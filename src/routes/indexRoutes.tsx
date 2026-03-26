@@ -14,6 +14,8 @@ import HistoryCalendarPage from "../components/workspace/HistoryCalendar/History
 import { useAuth } from "../context/authContext"
 import type { JSX } from "react"
 import DashboardLayout from "../layouts/DashboardLayout"
+import AuthLandingPage from "../components/AuthLandingPage"
+import PrivateRoute from "./PrivateRoute"
 
 function AdminRoute({ children }: { children: JSX.Element }) {
 	const { user, isLoading } = useAuth()
@@ -31,14 +33,28 @@ export default function IndexRoutes() {
 	return (
 		<Routes>
 			{/* AUTH */}
-			<Route path="/auth/login" element={<LoginForm />} />
-			<Route path="/auth/register" element={<RegisterForm />} />
+			<Route path="/auth" element={<AuthLandingPage />} />
+
 			<Route path="/auth/register-admin" element={<RegisterAdminForm />} />
 
 			{/* ROOT */}
-			<Route path="/" element={<WorkspaceSelector />} />
+			<Route
+				path="/"
+				element={
+					<PrivateRoute>
+						<WorkspaceSelector />
+					</PrivateRoute>
+				}
+			/>
 
-			<Route path="/workspace/:workspaceId" element={<DashboardLayout />}>
+			<Route
+				path="/workspace/:workspaceId"
+				element={
+					<PrivateRoute>
+						<DashboardLayout />
+					</PrivateRoute>
+				}
+			>
 				<Route index element={<WorkspaceUserView />} />
 
 				<Route

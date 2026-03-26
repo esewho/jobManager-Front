@@ -638,3 +638,18 @@ export async function getDayDetail(workspaceId: string, date: string) {
 	}
 	return response.json()
 }
+
+export async function getCurrentSessionOfUser(workspaceId: string) {
+	const response = await fetch(
+		`${API_URL}/admin/current-session/${workspaceId}`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Error al traer la sesion actual")
+	}
+	return response.json()
+}
