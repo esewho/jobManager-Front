@@ -328,7 +328,7 @@ export async function createWorkspace(
 	formData.append("name", payload.name)
 
 	if (payload.image) {
-		formData.append("image", payload.image)
+		formData.append("file", payload.image)
 	}
 	const response = await fetch(`${API_URL}/workspace/create`, {
 		method: "POST",

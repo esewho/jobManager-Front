@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import type { WorkspaceBackType } from "../../types/workspaceBack-type"
 import { deleteWorkspace, updateWorkspace } from "../../lib/lib"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 
 type Props = {

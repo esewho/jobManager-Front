@@ -1,7 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 
-import LoginForm from "../components/LoginForm"
-import RegisterForm from "../components/RegisterForm"
 import RegisterAdminForm from "../components/RegisterAdminForm"
 import CreateWorkspaceForm from "../components/workspace/CreateWorkspaceForm"
 import WorkspaceAdminView from "../components/workspace/WorkspaceAdminView"

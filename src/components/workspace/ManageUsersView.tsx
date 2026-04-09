@@ -6,7 +6,6 @@ import {
 	getUsersToManage,
 } from "../../lib/lib"
 import type { UsersToManage } from "../../types/usersToManage-type"
-import DashboardLayout from "../../layouts/DashboardLayout"
 import UserTableToManage from "./UserTableToManage"
 import ManageUsersModal from "./ManageUsersModal"
 import AssignSchedulePanel from "./AssignSchedulePanel"
