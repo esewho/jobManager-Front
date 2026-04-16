@@ -44,16 +44,16 @@ export default function WorkspaceSelector() {
 								<h1 className="text-4xl font-black tracking-tight">
 									Bienvenido, {user.username.toUpperCase()}
 								</h1>
-								<p className="text-slate-500">
+								<p className="text-slate-500 ">
 									Selecciona una organización para gestionar tus operaciones.
 								</p>
 							</div>
 						)}
 					</div>
 					{user?.role === "EMPLOYEE" && (
-						<div className="flex min-w-72 flex-col gap-2">
+						<div className="flex min-w-72 flex-col gap-2 pb-4">
 							<h1 className="text-4xl font-black tracking-tight">
-								Bienvenido, {user.username.toUpperCase()}
+								Bienvenido, {user.username}
 							</h1>
 							<p className="text-slate-500">
 								Selecciona una organización para gestionar tus operaciones.

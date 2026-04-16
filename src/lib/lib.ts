@@ -653,3 +653,34 @@ export async function getCurrentSessionOfUser(workspaceId: string) {
 	}
 	return response.json()
 }
+
+export async function changeUserName(username: string) {
+	const response = await fetch(`${API_URL}/settings/change-username`, {
+		method: "PATCH",
+		headers: getAuthHeaders(),
+		body: JSON.stringify({ username }),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Error al cambiar nombre de usuario")
+	}
+	return response.json()
+}
+
+export async function changeUserPassword(
+	currentPassword: string,
+	newPassword: string,
+) {
+	const response = await fetch(`${API_URL}/settings/change-user-password`, {
+		method: "PATCH",
+		headers: getAuthHeaders(),
+		body: JSON.stringify({ currentPassword, newPassword }),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(
+			error.message || "Error al cambiar la contraseña de usuario",
+		)
+	}
+	return response.json()
+}
