@@ -14,6 +14,7 @@ import type { JSX } from "react"
 import DashboardLayout from "../layouts/DashboardLayout"
 import AuthLandingPage from "../components/AuthLandingPage"
 import PrivateRoute from "./PrivateRoute"
+import UserSettingsPage from "../components/workspace/Settings/UserSettingsPage"
 
 function AdminRoute({ children }: { children: JSX.Element }) {
 	const { user, isLoading } = useAuth()
@@ -68,6 +69,7 @@ export default function IndexRoutes() {
 				<Route path="manage-workspace" element={<ManageWorkspacePage />} />
 
 				<Route path="history" element={<HistoryCalendarPage />} />
+				<Route path="settings" element={<UserSettingsPage />} />
 			</Route>
 
 			{/* CREATE */}
