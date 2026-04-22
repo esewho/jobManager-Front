@@ -684,3 +684,21 @@ export async function changeUserPassword(
 	}
 	return response.json()
 }
+
+export async function updateAvatarImage(file: File) {
+	const formData = new FormData()
+	formData.append("file", file)
+
+	const res = await fetch(`${API_URL}/settings/update-avatar`, {
+		method: "PATCH",
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+		},
+		body: formData,
+	})
+	if (!res.ok) {
+		const error = await res.json()
+		throw new Error(error.message)
+	}
+	return res.json()
+}

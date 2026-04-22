@@ -1,5 +1,10 @@
-import { useState } from "react"
-import { changeUserName, changeUserPassword } from "../../../lib/lib"
+import { useEffect, useState } from "react"
+import {
+	changeUserName,
+	changeUserPassword,
+	getMe,
+	updateAvatarImage,
+} from "../../../lib/lib"
 import { toast } from "react-toastify"
 import UserSettingsForm from "./UserSettingsForm"
 
@@ -7,6 +12,19 @@ export default function UserSettingsPage() {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState("")
 	const [success, setSuccess] = useState("")
+	const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const user = await getMe()
+				setAvatarUrl(user.avatarUrl)
+			} catch (error) {
+				console.error(error)
+			}
+		}
+		fetchUser()
+	}, [])
 
 	const handleChangeUsername = async (username: string) => {
 		try {
@@ -19,6 +37,24 @@ export default function UserSettingsPage() {
 		} catch (error: any) {
 			setError(error.message)
 			toast.error("No se ha podido actualizar el nombre")
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const handleUpdateAvatar = async (file: File) => {
+		try {
+			setLoading(true)
+			setError("")
+
+			const res = await updateAvatarImage(file)
+
+			setAvatarUrl(res.avatarUrl)
+
+			toast.success("Avatar actualizado correctamente")
+		} catch (error: any) {
+			setError(error.message)
+			toast.error("No se ha podido actualizar el avatar")
 		} finally {
 			setLoading(false)
 		}
@@ -57,7 +93,9 @@ export default function UserSettingsPage() {
 				<UserSettingsForm
 					onChangeUsername={handleChangeUsername}
 					onChangePassword={handleChangePassword}
+					onChangeAvatar={handleUpdateAvatar}
 					loading={loading}
+					avatarUrl={avatarUrl}
 				/>
 				{error && (
 					<div className="mt-4 bg-red-900 text-white p-3 rounded-lg text-sm">
