@@ -37,32 +37,31 @@ export default function UserChartAdmin({ users }: Props) {
 
 	return (
 		<div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-			<table className="w-full border-collapse">
+			<table className="w-full table-fixed">
 				<thead className="bg-slate-50 border-b border-slate-200">
 					<tr>
-						<th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+						<th className="w-[30%] px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
 							Usuario
 						</th>
-						<th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+						<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
 							Rol
 						</th>
-						<th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+						<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
 							Estado
 						</th>
-						<th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+						<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
 							Check-in
 						</th>
-						<th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+						<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
 							Check-out
 						</th>
-
-						<th className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+						<th className="w-[10%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
 							Acciones
 						</th>
 					</tr>
 				</thead>
 
-				<tbody className="divide-y divide-slate-200 ">
+				<tbody className="divide-y divide-slate-200">
 					{users.flatMap((u) =>
 						u.user.session.map((s, idx) => {
 							const statusInfo = getStatusWorkSession(s.status)
@@ -70,60 +69,67 @@ export default function UserChartAdmin({ users }: Props) {
 							return (
 								<tr
 									key={`${u.user.id}-${idx}`}
-									className="hover:bg-slate-50 transition-colors"
+									className="hover:bg-slate-50 transition-colors h-[64px]"
 								>
-									<td className="px-6 py-4 text-center">
-										<div className="inline-flex items-center justify-center gap-3.5">
-											<div className="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 ">
+									{/* USER */}
+									<td className="px-6 py-4">
+										<div className="flex items-center gap-3 min-w-0">
+											<div className="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 shrink-0">
 												{u.user.avatarUrl ? (
 													<img
 														src={`${import.meta.env.VITE_API_URL}${u.user.avatarUrl}`}
 														className="w-full h-full object-cover"
 													/>
 												) : (
-													<div className="w-full h-full flex items-center justify-center text-xs text-slate-400">
-														?
+													<div className="flex items-center justify-center h-full text-xs text-slate-400">
+														{u.user.username.charAt(0).toUpperCase()}
 													</div>
 												)}
 											</div>
-											<span className="font-medium text-slate-900">
+
+											<span className="font-medium text-slate-900 truncate">
 												{u.user.username}
 											</span>
 										</div>
 									</td>
 
-									{u.role === "ADMIN" ? (
-										<td className="px-6 py-4 text-center">
-											<span className="text-xs  bg-purple-100 text-purple-700 px-2 py-1 rounded-2xl font-semibold inline-flex items-center gap-1.5">
-												<AdminIcon size={14} className="fill-purple-700" />
-												{u.role.toLowerCase()}
-											</span>
-										</td>
-									) : (
-										<td className="px-6 py-4 text-center">
-											<span className="inline-flex items-center gap-1.5 text-xs text-slate-700 font-semibold px-2 py-1 rounded-2xl bg-slate-100">
-												<UserIcon size={14} className="fill-slate-700" />
-												{u.role.toLowerCase()}
-											</span>
-										</td>
-									)}
-
+									{/* ROLE */}
 									<td className="px-6 py-4 text-center">
 										<span
-											className={`inline-flex justify-center items-center rounded-full px-3 py-1 text-xs font-medium ${statusInfo.color}`}
+											className={`inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-2xl text-xs font-semibold whitespace-nowrap ${
+												u.role === "ADMIN"
+													? "bg-purple-100 text-purple-700"
+													: "bg-slate-100 text-slate-700"
+											}`}
+										>
+											{u.role === "ADMIN" ? (
+												<AdminIcon size={14} />
+											) : (
+												<UserIcon size={14} />
+											)}
+											{u.role.toLowerCase()}
+										</span>
+									</td>
+
+									{/* STATUS */}
+									<td className="px-6 py-4 text-center">
+										<span
+											className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap ${statusInfo.color}`}
 										>
 											{statusInfo.label}
 										</span>
 									</td>
 
-									<td className="px-6 py-4 text-center text-sm text-slate-700">
+									{/* CHECK-IN */}
+									<td className="px-6 py-4 text-center text-sm text-slate-700 whitespace-nowrap">
 										{new Date(s.checkIn).toLocaleTimeString([], {
 											hour: "2-digit",
 											minute: "2-digit",
 										})}
 									</td>
 
-									<td className="px-6 py-4 text-center text-sm text-slate-700">
+									{/* CHECK-OUT */}
+									<td className="px-6 py-4 text-center text-sm text-slate-700 whitespace-nowrap">
 										{s.checkOut
 											? new Date(s.checkOut).toLocaleTimeString([], {
 													hour: "2-digit",
@@ -132,8 +138,9 @@ export default function UserChartAdmin({ users }: Props) {
 											: "—"}
 									</td>
 
+									{/* ACTION */}
 									<td className="px-6 py-4 text-center">
-										<button className="text-sm font-medium text-primary hover:underline">
+										<button className="text-sm font-medium text-blue-600 hover:underline whitespace-nowrap">
 											Ver detalle
 										</button>
 									</td>
