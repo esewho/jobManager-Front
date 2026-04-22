@@ -5,6 +5,7 @@ export type userChartType = {
 	user: {
 		id: string
 		username: string
+		avatarUrl: string
 		session: UserSession[]
 	}
 }

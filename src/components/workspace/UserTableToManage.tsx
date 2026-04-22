@@ -37,7 +37,7 @@ export default function UserTableToManage({
 						<tr key={u.id} className="hover:bg-slate-50 transition-colors">
 							<td className="px-6 py-4">
 								<div className="flex items-center gap-3">
-									<div className="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border">
+									<div className="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 ">
 										{u.avatarUrl ? (
 											<img
 												src={`${import.meta.env.VITE_API_URL}${u.avatarUrl}`}

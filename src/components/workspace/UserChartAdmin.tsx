@@ -1,4 +1,5 @@
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
+import { AdminIcon, UserIcon } from "./icons"
 
 type Props = {
 	users: WorkspaceUserAdmin
@@ -72,21 +73,40 @@ export default function UserChartAdmin({ users }: Props) {
 									className="hover:bg-slate-50 transition-colors"
 								>
 									<td className="px-6 py-4 text-center">
-										<div className="flex flex-col items-center">
+										<div className="inline-flex items-center justify-center gap-3.5">
+											<div className="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 ">
+												{u.user.avatarUrl ? (
+													<img
+														src={`${import.meta.env.VITE_API_URL}${u.user.avatarUrl}`}
+														className="w-full h-full object-cover"
+													/>
+												) : (
+													<div className="w-full h-full flex items-center justify-center text-xs text-slate-400">
+														?
+													</div>
+												)}
+											</div>
 											<span className="font-medium text-slate-900">
 												{u.user.username}
-											</span>
-											<span className="text-xs text-slate-500">
-												ID: {u.user.id.slice(0, 6)}…
 											</span>
 										</div>
 									</td>
 
-									<td className="px-6 py-4 text-center">
-										<span className="text-sm font-medium text-slate-700">
-											{u.role}
-										</span>
-									</td>
+									{u.role === "ADMIN" ? (
+										<td className="px-6 py-4 text-center">
+											<span className="text-xs  bg-purple-100 text-purple-700 px-2 py-1 rounded-2xl font-semibold inline-flex items-center gap-1.5">
+												<AdminIcon size={14} className="fill-purple-700" />
+												{u.role.toLowerCase()}
+											</span>
+										</td>
+									) : (
+										<td className="px-6 py-4 text-center">
+											<span className="inline-flex items-center gap-1.5 text-xs text-slate-700 font-semibold px-2 py-1 rounded-2xl bg-slate-100">
+												<UserIcon size={14} className="fill-slate-700" />
+												{u.role.toLowerCase()}
+											</span>
+										</td>
+									)}
 
 									<td className="px-6 py-4 text-center">
 										<span
