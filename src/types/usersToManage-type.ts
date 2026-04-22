@@ -3,4 +3,5 @@ export type UsersToManage = {
 	username: string
 	role: string
 	active: boolean
+	avatarUrl: string
 }

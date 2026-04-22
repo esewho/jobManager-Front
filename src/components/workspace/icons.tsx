@@ -324,3 +324,53 @@ export function ResumeIcon({ size, className }: IconProps) {
 		</svg>
 	)
 }
+
+export function AdminIcon({ size, className }: IconProps) {
+	return (
+		<svg width={size} height={size} className={className} viewBox="0 0 24 24">
+			<path
+				fill="#000000"
+				d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5Zm0 3.9a3 3 0 1 1-3 3a3 3 0 0 1 3-3m0 7.9c2 0 6 1.09 6 3.08a7.2 7.2 0 0 1-12 0c0-1.99 4-3.08 6-3.08"
+			/>
+		</svg>
+	)
+}
+
+export function UserIcon({ size, className }: IconProps) {
+	return (
+		<svg width={size} height={size} className={className} viewBox="0 0 24 24">
+			<path
+				fill="#000000"
+				d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2S7.5 4.019 7.5 6.5M20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1z"
+			/>
+		</svg>
+	)
+}
+
+export function EditIcon({ size, className }: IconProps) {
+	return (
+		<svg width={size} height={size} className={className} viewBox="0 0 24 24">
+			<g
+				fill="none"
+				stroke="#000000"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+			>
+				<path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
+				<path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
+			</g>
+		</svg>
+	)
+}
+
+export function ScheduleIcon({ size, className }: IconProps) {
+	return (
+		<svg className={className} width={size} height={size} viewBox="0 0 24 24">
+			<path
+				fill="#000000"
+				d="m15.3 16.7l1.4-1.4l-3.7-3.7V7h-2v5.4zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.325 0 5.663-2.337T20 12t-2.337-5.663T12 4T6.337 6.338T4 12t2.338 5.663T12 20"
+			/>
+		</svg>
+	)
+}
