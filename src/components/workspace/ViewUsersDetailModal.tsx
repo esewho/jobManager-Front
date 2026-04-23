@@ -1,4 +1,5 @@
 import type { CurrentSessionUserType } from "../../types/currentSessionUser-type"
+import { CloseIcon } from "./icons"
 
 type Props = {
 	session: CurrentSessionUserType
@@ -38,26 +39,39 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 				onClick={(e) => e.stopPropagation()}
 				className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-slate-200 p-8 space-y-8"
 			>
-				{/* HEADER */}
-				<header className="flex justify-between items-start">
-					<div>
-						<h2 className="text-xl font-semibold text-slate-900">
-							Sesión en curso
-						</h2>
-						<p className="text-sm text-slate-500">
-							Usuario: {session.user.username}
-						</p>
+				<header className="flex items-center justify-between">
+					<div className="flex items-center gap-4">
+						<div className="w-18 h-18 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 shrink-0">
+							{session.user.avatarUrl ? (
+								<img
+									src={`${import.meta.env.VITE_API_URL}${session.user.avatarUrl}`}
+									alt="avatar"
+									className="w-full h-full object-cover"
+								/>
+							) : (
+								<div className="flex items-center justify-center w-full h-full text-sm font-semibold text-slate-500">
+									{session.user.username.charAt(0).toUpperCase()}
+								</div>
+							)}
+						</div>
+
+						<div className="flex flex-col">
+							<h2 className="text-xl font-semibold text-slate-900">
+								Sesión en curso
+							</h2>
+
+							<p className="text-sm text-slate-500">{session.user.username}</p>
+						</div>
 					</div>
 
 					<button
 						onClick={onClose}
-						className="text-slate-400 hover:text-slate-600 text-sm"
+						className="text-slate-400 hover:text-slate-600 text-sm mb-[100px]"
 					>
 						Cerrar
 					</button>
 				</header>
 
-				{/* TIEMPOS PRINCIPALES */}
 				<section className="grid grid-cols-3 gap-6">
 					<div className="bg-slate-50 rounded-xl p-4 text-center">
 						<p className="text-xs text-slate-500">Check-in</p>
@@ -79,13 +93,11 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 					</div>
 				</section>
 
-				{/* PROGRESO */}
 				<section className="space-y-4">
 					<h3 className="text-sm font-semibold text-slate-700">
 						Productividad
 					</h3>
 
-					{/* BAR */}
 					<div className="w-full h-4 rounded-full overflow-hidden bg-slate-200 flex">
 						<div
 							className="bg-green-500"
@@ -103,7 +115,6 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 					</div>
 				</section>
 
-				{/* STATS */}
 				<section className="grid grid-cols-3 gap-4">
 					<div className="bg-green-50 text-green-700 rounded-xl p-4 text-center">
 						<p className="text-xs">Trabajado</p>
@@ -123,7 +134,6 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 					</div>
 				</section>
 
-				{/* LISTA DE PAUSAS */}
 				<section className="space-y-3">
 					<h3 className="text-sm font-semibold text-slate-700">
 						Historial de pausas

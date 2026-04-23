@@ -19,7 +19,7 @@ type Props = {
 	pendingSchedules?: UserSchedule[]
 	onScheduleStatusChange?: (scheduleId: string, status: string) => void
 	nextSchedule?: UserSchedule | null
-	onViewDetail: (session: any) => void
+	onViewDetail?: (session: any) => void
 }
 
 export default function WorkspaceDashboard({

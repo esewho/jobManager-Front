@@ -1,10 +1,9 @@
-import type { CurrentSessionUserType } from "../../types/currentSessionUser-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
 import { AdminIcon, UserIcon } from "./icons"
 
 type Props = {
 	users: WorkspaceUserAdmin
-	onViewDetail: (userId: string) => void
+	onViewDetail?: (userId: string) => void
 }
 
 function getStatusWorkSession(status: string) {

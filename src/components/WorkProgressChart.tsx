@@ -27,6 +27,11 @@ export default function WorkProgressChart({
 	const extraWorked = Math.max(data.workedMinutes - baseMinutes, 0)
 	const remaining = Math.max(baseMinutes - data.workedMinutes, 0)
 
+	const percentage =
+		baseMinutes > 0
+			? Math.min((data.workedMinutes / baseMinutes) * 100, 100)
+			: 0
+
 	const chartData = [
 		{ name: "Trabajado", value: baseWorked },
 		{ name: "Extra", value: extraWorked },
@@ -40,21 +45,31 @@ export default function WorkProgressChart({
 		>
 			<h2 className="text-lg font-semibold mb-4">{title}</h2>
 
-			<div className="flex gap-20 md:gap-5 items-center">
-				<PieChart width={200} height={200}>
-					<Pie
-						data={chartData}
-						dataKey="value"
-						innerRadius={70}
-						outerRadius={90}
-						isAnimationActive
-						animationDuration={800}
-					>
-						<Cell fill="#2563eb" />
-						<Cell fill="#f59e0b" />
-						<Cell fill="#e5e7eb" />
-					</Pie>
-				</PieChart>
+			<div className="flex gap-20  md:gap-5 items-center justify-around">
+				<div className="relative w-50 h-50">
+					<PieChart width={200} height={200}>
+						<Pie
+							data={chartData}
+							dataKey="value"
+							innerRadius={70}
+							outerRadius={90}
+							isAnimationActive
+							animationDuration={800}
+						>
+							<Cell fill="#2563eb" />
+							<Cell fill="#f59e0b" />
+							<Cell fill="#e5e7eb" />
+						</Pie>
+					</PieChart>
+
+					{/* TEXTO CENTRO */}
+					<div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+						<span className="text-xl font-semibold text-slate-900">
+							{Math.round(percentage)}%
+						</span>
+						<span className="text-xs text-slate-500">Progreso</span>
+					</div>
+				</div>
 
 				<div className="flex flex-col gap-2 w-44 ">
 					<LegendItem

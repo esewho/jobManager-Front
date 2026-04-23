@@ -14,6 +14,7 @@ export type CurrentSessionUserType = {
 	}
 	user: {
 		username: string
+		avatarUrl: string
 		id: string
 	}
 	workedMinutes: number
