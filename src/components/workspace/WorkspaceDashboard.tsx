@@ -3,7 +3,6 @@ import type { UserSchedule } from "../../types/userSchedule-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
 import ActionCards from "../ActionCards"
 import DashboardHeader from "../DashboardHeader"
-import TodaySessionCard from "../TodaySessionCard"
 import WorkProgressChart from "../WorkProgressChart"
 import CurrentTimeCard from "./CurrentTimeCard"
 import NextScheduleCard from "./NextScheduleCard"
@@ -20,6 +19,7 @@ type Props = {
 	pendingSchedules?: UserSchedule[]
 	onScheduleStatusChange?: (scheduleId: string, status: string) => void
 	nextSchedule?: UserSchedule | null
+	onViewDetail: (session: any) => void
 }
 
 export default function WorkspaceDashboard({
@@ -32,6 +32,7 @@ export default function WorkspaceDashboard({
 	onScheduleStatusChange,
 	onSessionChange,
 	nextSchedule,
+	onViewDetail,
 }: Props) {
 	return (
 		<div className="flex flex-col gap-8 px-6 pb-10 ">
@@ -106,7 +107,7 @@ export default function WorkspaceDashboard({
 							Usuarios de este Workspace
 						</h2>
 
-						<UserChartAdmin users={users} />
+						<UserChartAdmin users={users} onViewDetail={onViewDetail} />
 					</section>
 				</>
 			)}

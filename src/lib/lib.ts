@@ -16,6 +16,7 @@ import type { UserSchedule } from "../types/userSchedule-type"
 import type { PausedSession } from "../types/pausedSession-type"
 import type { WorkspaceBackType } from "../types/workspaceBack-type"
 import type { WorkspaceUserAdmin } from "../types/WorkspaceUserAdmin-type"
+import type { CurrentSessionUserType } from "../types/currentSessionUser-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -639,9 +640,12 @@ export async function getDayDetail(workspaceId: string, date: string) {
 	return response.json()
 }
 
-export async function getCurrentSessionOfUser(workspaceId: string) {
+export async function getCurrentSessionOfUser(
+	userId: string,
+	workspaceId: string,
+): Promise<CurrentSessionUserType> {
 	const response = await fetch(
-		`${API_URL}/admin/current-session/${workspaceId}`,
+		`${API_URL}/admin/current-session/${workspaceId}/${userId}`,
 		{
 			method: "GET",
 			headers: getAuthHeaders(),

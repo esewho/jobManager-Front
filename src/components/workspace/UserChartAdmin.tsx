@@ -1,8 +1,10 @@
+import type { CurrentSessionUserType } from "../../types/currentSessionUser-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
 import { AdminIcon, UserIcon } from "./icons"
 
 type Props = {
 	users: WorkspaceUserAdmin
+	onViewDetail: (userId: string) => void
 }
 
 function getStatusWorkSession(status: string) {
@@ -32,7 +34,7 @@ function getStatusWorkSession(status: string) {
 	}
 }
 
-export default function UserChartAdmin({ users }: Props) {
+export default function UserChartAdmin({ users, onViewDetail }: Props) {
 	// const users = useActiveUsersStore((state) => state.users)
 
 	return (
@@ -140,7 +142,10 @@ export default function UserChartAdmin({ users }: Props) {
 
 									{/* ACTION */}
 									<td className="px-6 py-4 text-center">
-										<button className="text-sm font-medium text-blue-600 hover:underline whitespace-nowrap">
+										<button
+											onClick={() => onViewDetail(u.user.id)}
+											className="text-sm font-medium text-blue-600 hover:underline whitespace-nowrap"
+										>
 											Ver detalle
 										</button>
 									</td>

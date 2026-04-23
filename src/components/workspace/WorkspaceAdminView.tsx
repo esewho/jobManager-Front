@@ -4,9 +4,14 @@ import WorkspaceDashboard from "./WorkspaceDashboard"
 
 import { useAuth } from "../../context/authContext"
 import { useEffect, useState } from "react"
-import { getAllWorkspaceUsers, getMySummary } from "../../lib/lib"
+import {
+	getAllWorkspaceUsers,
+	getCurrentSessionOfUser,
+	getMySummary,
+} from "../../lib/lib"
 import type { Summary } from "../../types/summary-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
+import SessionDetailModal from "./ViewUsersDetailModal"
 
 export default function WorkspaceAdminView() {
 	const { workspaceId } = useParams()
@@ -14,6 +19,12 @@ export default function WorkspaceAdminView() {
 
 	const [usersData, setUsersData] = useState<WorkspaceUserAdmin | null>(null)
 	const [summary, setSummary] = useState<Summary | null>(null)
+	const [selectedSession, setSelectedSession] = useState<any | null>(null)
+
+	const handleViewDetail = async (userId: string) => {
+		const data = await getCurrentSessionOfUser(userId, workspaceId!)
+		setSelectedSession(data)
+	}
 
 	const refreshUsers = async () => {
 		if (!workspaceId) return
@@ -32,13 +43,23 @@ export default function WorkspaceAdminView() {
 	if (!summary || !user || !usersData) return null
 
 	return (
-		<WorkspaceDashboard
-			summary={summary}
-			users={usersData}
-			userId={user.id}
-			workspaceId={workspaceId}
-			onSessionChange={refreshUsers}
-			showAdminPanel
-		/>
+		<>
+			<WorkspaceDashboard
+				onViewDetail={handleViewDetail}
+				summary={summary}
+				users={usersData}
+				userId={user.id}
+				workspaceId={workspaceId}
+				onSessionChange={refreshUsers}
+				showAdminPanel
+			/>
+
+			{selectedSession && (
+				<SessionDetailModal
+					session={selectedSession}
+					onClose={() => setSelectedSession(null)}
+				/>
+			)}
+		</>
 	)
 }
