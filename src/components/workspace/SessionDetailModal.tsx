@@ -1,5 +1,4 @@
 import type { CurrentSessionUserType } from "../../types/currentSessionUser-type"
-import { CloseIcon } from "./icons"
 
 type Props = {
 	session: CurrentSessionUserType
@@ -41,7 +40,7 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 			>
 				<header className="flex items-center justify-between">
 					<div className="flex items-center gap-4">
-						<div className="w-18 h-18 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 shrink-0">
+						<div className="w-16 h-16 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 shrink-0">
 							{session.user.avatarUrl ? (
 								<img
 									src={`${import.meta.env.VITE_API_URL}${session.user.avatarUrl}`}
@@ -57,7 +56,7 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 
 						<div className="flex flex-col">
 							<h2 className="text-xl font-semibold text-slate-900">
-								Sesión en curso
+								{session.checkOut ? "Sesión finalizada" : "Sesión en curso"}
 							</h2>
 
 							<p className="text-sm text-slate-500">{session.user.username}</p>
@@ -66,7 +65,7 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 
 					<button
 						onClick={onClose}
-						className="text-slate-400 hover:text-slate-600 text-sm mb-[100px]"
+						className="text-slate-400 hover:text-slate-600 text-sm mb-10"
 					>
 						Cerrar
 					</button>

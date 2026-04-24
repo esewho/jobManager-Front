@@ -11,7 +11,7 @@ import {
 } from "../../lib/lib"
 import type { Summary } from "../../types/summary-type"
 import type { WorkspaceUserAdmin } from "../../types/WorkspaceUserAdmin-type"
-import SessionDetailModal from "./ViewUsersDetailModal"
+import SessionDetailModal from "./SessionDetailModal"
 
 export default function WorkspaceAdminView() {
 	const { workspaceId } = useParams()
