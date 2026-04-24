@@ -9,7 +9,6 @@ import {
 import { useEffect, useState } from "react"
 import type { Summary } from "../../types/summary-type"
 import { useAuth } from "../../context/authContext"
-import DashboardLayout from "../../layouts/DashboardLayout"
 
 import UserChartView from "./UserChartView"
 import type { WorkSessionType } from "../../types/workSession-type"
