@@ -51,27 +51,86 @@ export default function DayDetails({ data, onClose }: Props) {
 							data.sessions.map((s) => (
 								<div
 									key={s.id}
-									className="border rounded-lg p-4 text-sm flex flex-col gap-1"
+									className="border rounded-xl p-4 text-sm flex flex-col gap-3 bg-slate-50"
 								>
-									<span>
-										<b>Check-in:</b> {new Date(s.checkIn).toLocaleTimeString()}
-									</span>
+									{/* INFO PRINCIPAL */}
+									<div className="flex justify-between flex-wrap gap-2">
+										<span>
+											<b>Check-in:</b>{" "}
+											{new Date(s.checkIn).toLocaleTimeString([], {
+												hour: "2-digit",
+												minute: "2-digit",
+											})}
+										</span>
 
-									<span>
-										<b>Check-out:</b>{" "}
-										{s.checkOut
-											? new Date(s.checkOut).toLocaleTimeString()
-											: "—"}
-									</span>
+										<span>
+											<b>Check-out:</b>{" "}
+											{s.checkOut
+												? new Date(s.checkOut).toLocaleTimeString([], {
+														hour: "2-digit",
+														minute: "2-digit",
+													})
+												: "—"}
+										</span>
 
-									<span>
-										<b>Total:</b> {Math.floor(s.totalMinutes / 60)}h{" "}
-										{s.totalMinutes % 60}m
-									</span>
+										<span>
+											<b>Total:</b> {Math.floor(s.totalMinutes / 60)}h{" "}
+											{Math.floor(s.totalMinutes % 60)}m
+										</span>
+									</div>
+
+									{/* PAUSAS */}
+									<div className="space-y-2">
+										<p className="text-xs font-semibold text-slate-500">
+											Pausas
+										</p>
+
+										{s.pauses.length === 0 ? (
+											<p className="text-xs text-slate-400">Sin pausas</p>
+										) : (
+											<div className="space-y-1">
+												{s.pauses.map((p) => {
+													const duration = p.endTime
+														? Math.floor(
+																(new Date(p.endTime).getTime() -
+																	new Date(p.startTime).getTime()) /
+																	1000 /
+																	60,
+															)
+														: null
+
+													return (
+														<div
+															key={p.id || p.startTime}
+															className="flex justify-between items-center bg-white px-3 py-2 rounded-lg border text-xs"
+														>
+															<span>
+																{new Date(p.startTime).toLocaleTimeString([], {
+																	hour: "2-digit",
+																	minute: "2-digit",
+																})}{" "}
+																→{" "}
+																{p.endTime
+																	? new Date(p.endTime).toLocaleTimeString([], {
+																			hour: "2-digit",
+																			minute: "2-digit",
+																		})
+																	: "En curso"}
+															</span>
+
+															<span className="text-slate-500">
+																{duration !== null ? `${duration} min` : "—"}
+															</span>
+														</div>
+													)
+												})}
+											</div>
+										)}
+									</div>
 								</div>
 							))
 						) : (
-							<div className=" py-30">
+							<div className="py-20">
 								<p className="text-xl text-center text-slate-500">
 									No hay sesiones para este día
 								</p>

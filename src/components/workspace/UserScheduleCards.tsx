@@ -32,7 +32,17 @@ export default function UserSchedulesCards({ schedules, onDelete }: Props) {
 					<div className="flex items-start justify-between">
 						<div className="flex items-center gap-3">
 							<div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center text-sm font-semibold text-slate-600">
-								{s.userWorkspace.user.username.charAt(0).toUpperCase()}
+								{s.userWorkspace.user.avatarUrl ? (
+									<img
+										src={`${import.meta.env.VITE_API_URL}${s.userWorkspace.user.avatarUrl}`}
+										alt={s.userWorkspace.user.username}
+										className="h-full w-full object-cover rounded-full"
+									/>
+								) : (
+									<div className="h-full w-full flex items-center justify-center text-sm text-slate-400">
+										{s.userWorkspace.user.username.charAt(0).toUpperCase()}
+									</div>
+								)}
 							</div>
 
 							<div>

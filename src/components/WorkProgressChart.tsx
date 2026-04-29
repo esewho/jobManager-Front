@@ -45,16 +45,14 @@ export default function WorkProgressChart({
 		>
 			<h2 className="text-lg font-semibold mb-4">{title}</h2>
 
-			<div className="flex gap-20  md:gap-5 items-center justify-around">
-				<div className="relative w-50 h-50">
-					<PieChart width={200} height={200}>
+			<div className="flex flex-col xl:flex-row items-center gap-6">
+				<div className="relative w-[180px] h-[180px] shrink-0">
+					<PieChart width={180} height={180}>
 						<Pie
 							data={chartData}
 							dataKey="value"
-							innerRadius={70}
-							outerRadius={90}
-							isAnimationActive
-							animationDuration={800}
+							innerRadius={60}
+							outerRadius={80}
 						>
 							<Cell fill="#2563eb" />
 							<Cell fill="#f59e0b" />
@@ -62,16 +60,15 @@ export default function WorkProgressChart({
 						</Pie>
 					</PieChart>
 
-					{/* TEXTO CENTRO */}
-					<div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-						<span className="text-xl font-semibold text-slate-900">
+					<div className="absolute inset-0 flex flex-col items-center justify-center">
+						<span className="text-lg font-semibold">
 							{Math.round(percentage)}%
 						</span>
 						<span className="text-xs text-slate-500">Progreso</span>
 					</div>
 				</div>
 
-				<div className="flex flex-col gap-2 w-44 ">
+				<div className="flex flex-col gap-2 w-full max-w-[180px] text-sm">
 					<LegendItem
 						color="#2563eb"
 						label="Trabajado"

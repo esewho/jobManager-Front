@@ -52,6 +52,7 @@ export default function UserTableToManage({
 
 									<span className="font-medium text-slate-900">
 										{u.username}
+										<p className="text-slate-700/80 text-xs ">{u.email}</p>
 									</span>
 								</div>
 							</td>

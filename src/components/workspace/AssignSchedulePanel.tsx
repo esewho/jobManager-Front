@@ -66,7 +66,6 @@ export default function AssignSchedulePanel({
 				</button>
 			</div>
 
-			{/* Form */}
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 				<div className="flex flex-col gap-1">
 					<label className="text-xs font-medium text-slate-500">Fecha</label>
@@ -101,7 +100,6 @@ export default function AssignSchedulePanel({
 				</div>
 			</div>
 
-			{/* Actions */}
 			<div className="mt-8 flex justify-end gap-3">
 				<button
 					onClick={onClose}

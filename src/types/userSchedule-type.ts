@@ -10,6 +10,7 @@ export type UserSchedule = {
 		user: {
 			id: string
 			username: string
+			avatarUrl: string
 		}
 	}
 }
