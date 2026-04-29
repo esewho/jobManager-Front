@@ -9,23 +9,31 @@ type Props = {
 
 export default function RegisterForm({ onSwitch }: Props) {
 	const [username, setUsername] = useState("")
+	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const { register } = useAuth()
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-		if (!username || !password) {
+		if (!username || !password || !email) {
 			toast.error("Fill all fields")
 			return
 		}
 
-		await register(username, password)
+		await register(username, email, password)
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-4">
+		<form onSubmit={handleSubmit} className="space-y-2">
 			<h2 className="text-xl font-bold text-slate-800">Crear cuenta</h2>
+
+			<input
+				value={email}
+				onChange={(e) => setEmail(e.target.value)}
+				placeholder="Email"
+				className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+			/>
 
 			<input
 				value={username}

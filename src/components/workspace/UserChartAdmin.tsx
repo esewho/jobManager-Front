@@ -90,6 +90,9 @@ export default function UserChartAdmin({ users, onViewDetail }: Props) {
 
 											<span className="font-medium text-slate-900 truncate">
 												{u.user.username}
+												<p className="text-slate-700/80 text-xs ">
+													{u.user.email}
+												</p>
 											</span>
 										</div>
 									</td>

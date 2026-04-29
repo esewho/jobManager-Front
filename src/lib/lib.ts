@@ -31,12 +31,13 @@ function getAuthHeaders() {
 
 export async function register(
 	username: string,
+	email: string,
 	password: string,
 ): Promise<{ accessToken: string }> {
 	const response = await fetch(`${API_URL}/auth/register`, {
 		method: "POST",
 		headers: getAuthHeaders(),
-		body: JSON.stringify({ username, password }),
+		body: JSON.stringify({ username, email, password }),
 	})
 
 	if (!response.ok) {
@@ -74,12 +75,13 @@ export async function login(
 
 export async function registerAdmin(
 	username: string,
+	email: string,
 	password: string,
 ): Promise<{ accessToken: string }> {
 	const response = await fetch(`${API_URL}/auth/register-admin`, {
 		method: "POST",
 		headers: getAuthHeaders(),
-		body: JSON.stringify({ username, password }),
+		body: JSON.stringify({ username, email, password }),
 	})
 
 	if (!response.ok) {

@@ -8,8 +8,12 @@ export interface AuthContextType {
 	user: UserType | null
 	login: (username: string, password: string) => Promise<void>
 	logout: () => void
-	register: (username: string, password: string) => Promise<void>
-	registerAdmin: (username: string, password: string) => Promise<void>
+	register: (username: string, email: string, password: string) => Promise<void>
+	registerAdmin: (
+		username: string,
+		email: string,
+		password: string,
+	) => Promise<void>
 	isAuthenticated: boolean
 	isLoading: boolean
 }
@@ -54,15 +58,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		navigate("/")
 	}
 
-	const registerAction = async (username: string, password: string) => {
-		const { accessToken } = await register(username, password)
+	const registerAction = async (
+		username: string,
+		email: string,
+		password: string,
+	) => {
+		const { accessToken } = await register(username, email, password)
 		localStorage.setItem("accessToken", accessToken)
 		await fetchUser()
 		navigate("/")
 	}
 
-	const registerAdminAction = async (username: string, password: string) => {
-		const { accessToken } = await registerAdmin(username, password)
+	const registerAdminAction = async (
+		username: string,
+		email: string,
+		password: string,
+	) => {
+		const { accessToken } = await registerAdmin(username, email, password)
 		localStorage.setItem("accessToken", accessToken)
 		await fetchUser()
 		navigate("/")
