@@ -53,7 +53,6 @@ export default function WorkspaceUserView() {
 
 	if (!summary || !user) return null
 	return (
-		// <AppLayout>
 		<>
 			<WorkspaceDashboard
 				onSessionChange={() => {

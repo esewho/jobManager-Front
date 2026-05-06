@@ -9,4 +9,10 @@ export type WorkSessionType = {
 	shift?: "MIDDAY" | "NIGHT"
 	isPaused: boolean
 	pauseCount: number
+	user: {
+		id: string
+		username: string
+		email: string
+		avatarUrl: string
+	}
 }

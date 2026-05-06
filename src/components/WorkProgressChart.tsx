@@ -41,12 +41,12 @@ export default function WorkProgressChart({
 	return (
 		<button
 			onClick={onClick}
-			className="bg-white rounded-xl shadow p-6 border w-full border-white hover:border hover:border-stone-950 transition ease-in-out duration-300 cursor-pointer"
+			className="bg-white rounded-xl shadow p-6 border  w-full border-white hover:border hover:border-stone-950 transition ease-in-out duration-300 cursor-pointer"
 		>
 			<h2 className="text-lg font-semibold mb-4">{title}</h2>
 
-			<div className="flex flex-col xl:flex-row items-center gap-6">
-				<div className="relative w-[180px] h-[180px] shrink-0">
+			<div className="flex flex-col xl:flex-row  items-center xl:gap-36 ">
+				<div className="relative w-45 h-45 shrink-0">
 					<PieChart width={180} height={180}>
 						<Pie
 							data={chartData}
@@ -60,7 +60,7 @@ export default function WorkProgressChart({
 						</Pie>
 					</PieChart>
 
-					<div className="absolute inset-0 flex flex-col items-center justify-center">
+					<div className="absolute inset-0 flex flex-col items-center  justify-center">
 						<span className="text-lg font-semibold">
 							{Math.round(percentage)}%
 						</span>

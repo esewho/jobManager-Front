@@ -35,7 +35,6 @@ export default function CreateWorkspaceForm() {
 					onSubmit={handleSubmit}
 					className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-xl space-y-6"
 				>
-					{/* Header */}
 					<div className="text-center">
 						<h2 className="text-2xl font-bold text-slate-900">
 							Create your Workspace
@@ -45,7 +44,6 @@ export default function CreateWorkspaceForm() {
 						</p>
 					</div>
 
-					{/* Workspace name */}
 					<div className="space-y-2">
 						<label className="text-sm font-medium text-slate-600">
 							Workspace name
@@ -61,7 +59,6 @@ export default function CreateWorkspaceForm() {
 						/>
 					</div>
 
-					{/* Image upload */}
 					<div className="space-y-2">
 						<label className="text-sm font-medium text-slate-600">
 							Workspace image

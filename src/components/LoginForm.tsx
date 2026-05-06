@@ -20,7 +20,11 @@ export default function LoginForm({ onSwitch }: Props) {
 			return
 		}
 
-		await login(username, password)
+		try {
+			await login(username, password)
+		} catch (error: any) {
+			toast.error(error.message || "Invalid credentials")
+		}
 	}
 
 	return (

@@ -82,10 +82,18 @@ export default function WorkspaceSidebar({ workspaceId }: Props) {
 					Volver
 				</NavLink>
 				{user && (
-					<NavLink className={linkClasses} onClick={logout} to="/auth/login">
-						<LucideLogOut size={18} />
-						Cerrar sesión
-					</NavLink>
+					<div className="mt-auto flex flex-col gap-2">
+						<NavLink className={linkClasses} onClick={logout} to="/auth/login">
+							<LucideLogOut size={18} />
+							Cerrar sesión
+						</NavLink>
+
+						<div className="pt-4 border-t border-slate-800">
+							<p className="text-xs text-slate-500 text-center">
+								JobManager &copy; 2026
+							</p>
+						</div>
+					</div>
 				)}
 			</nav>
 		</aside>
