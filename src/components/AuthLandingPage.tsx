@@ -5,13 +5,13 @@ export default function AuthLandingPage() {
 	const [mode, setMode] = useState<"login" | "register">("login")
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+		<div className="min-h-dvh flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden p-4">
 			{/* Glow background */}
 			<div className="absolute w-[500px] h-[500px] bg-blue-500/20 blur-[120px] rounded-full top-[-100px] left-[-100px]" />
 			<div className="absolute w-[400px] h-[400px] bg-purple-500/20 blur-[120px] rounded-full bottom-[-100px] right-[-100px]" />
 
 			<div className="relative z-10 w-full max-w-md">
-				<div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20">
+				<div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8 border border-white/20">
 					{/* Tabs */}
 					<div className="flex mb-6 bg-slate-100 rounded-xl p-1">
 						<button
@@ -37,7 +37,7 @@ export default function AuthLandingPage() {
 						</button>
 					</div>
 
-					<div className="relative h-[260px] overflow-hidden">
+					<div className="relative min-h-[260px] overflow-hidden">
 						<div
 							className={`absolute w-full transition-all duration-500 ${
 								mode === "login" ? "left-0" : "-left-full"

@@ -12,11 +12,11 @@ export default function DayDetails({ data, onClose }: Props) {
 	return (
 		<div
 			onClick={onClose}
-			className="fixed inset-0 bg-black/40 flex items-center justify-center overflow-y-hidden  z-50"
+			className="fixed inset-0 bg-black/40 flex items-center justify-center overflow-y-hidden z-50 p-4"
 		>
 			<div
 				onClick={(e) => e.stopPropagation()}
-				className="bg-white h-auto overflow-hidden rounded-3xl p-6 w-full max-h-[90vh] max-w-2xl shadow-lg"
+				className="bg-white h-auto overflow-hidden rounded-3xl p-4 md:p-6 w-full max-h-[90vh] max-w-2xl shadow-lg"
 			>
 				<div className="p-6 overflow-y-auto max-h-[85vh] ">
 					<div className="flex justify-between items-center mb-4">
@@ -101,7 +101,7 @@ export default function DayDetails({ data, onClose }: Props) {
 
 													return (
 														<div
-															key={p.id || p.startTime}
+															key={p.startTime}
 															className="flex justify-between items-center bg-white px-3 py-2 rounded-lg border text-xs"
 														>
 															<span>

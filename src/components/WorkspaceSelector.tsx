@@ -36,26 +36,26 @@ export default function WorkspaceSelector() {
 
 	return (
 		<AppLayout>
-			<main className="flex flex-1 justify-center py-8">
+			<main className="flex flex-1 justify-center py-6 md:py-8">
 				<div className="flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
-					<div className="flex flex-wrap justify-between items-end gap-3 mb-8">
+					<div className="flex flex-wrap justify-between items-end gap-3 mb-6 md:mb-8">
 						{user?.role === "ADMIN" && (
-							<div className="flex min-w-72 flex-col gap-2">
-								<h1 className="text-4xl font-black tracking-tight">
+							<div className="flex w-full md:min-w-72 flex-col gap-2">
+								<h1 className="text-2xl md:text-4xl font-black tracking-tight">
 									Bienvenido, {user.username.toUpperCase()}
 								</h1>
-								<p className="text-slate-500 ">
+								<p className="text-slate-500 text-sm md:text-base">
 									Selecciona una organización para gestionar tus operaciones.
 								</p>
 							</div>
 						)}
 					</div>
 					{user?.role === "EMPLOYEE" && (
-						<div className="flex min-w-72 flex-col gap-2 pb-4">
-							<h1 className="text-4xl font-black tracking-tight">
+						<div className="flex w-full md:min-w-72 flex-col gap-2 pb-4">
+							<h1 className="text-2xl md:text-4xl font-black tracking-tight">
 								Bienvenido, {user.username}
 							</h1>
-							<p className="text-slate-500">
+							<p className="text-slate-500 text-sm md:text-base">
 								Selecciona una organización para gestionar tus operaciones.
 							</p>
 						</div>
@@ -90,23 +90,23 @@ export default function WorkspaceSelector() {
 						)}
 					</div>
 
-					<div className=" w-full mt-20 bg-blue-200  rounded-2xl p-4 border border-blue-800">
-						<div className="flex flex-col md:flex-row md:items-center md:justify-between">
+					<div className="w-full mt-10 md:mt-20 bg-blue-200 rounded-2xl p-4 md:p-6 border border-blue-800">
+						<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 							<div className="flex items-start gap-4">
-								<div className="w-6 h-6">
+								<div className="w-6 h-6 shrink-0 mt-1">
 									<CircleQuestionMark />
 								</div>
 								<div className="flex flex-col gap-1">
-									<p className="text-slate-900 text-lg font-bold leading-tight">
+									<p className="text-slate-900 text-base md:text-lg font-bold leading-tight">
 										¿Necesitas ayuda configurando una nueva organización?
 									</p>
-									<p className="text-slate-800  text-base font-normal">
+									<p className="text-slate-800 text-sm md:text-base font-normal">
 										Nuestro equipo de soporte está disponible para ayudarte a
 										importar tus datos de empleados masivamente.
 									</p>
 								</div>
 							</div>
-							<button className="flex min-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-primary text-white text-sm bg-blue-600 hover:bg-blue-800 font-bold  transition-all shadow-lg shadow-primary/20">
+							<button className="flex w-full md:w-auto min-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-primary text-white text-sm bg-blue-600 hover:bg-blue-800 font-bold transition-all shadow-lg shadow-primary/20">
 								<span className="truncate">Contactar Soporte</span>
 							</button>
 						</div>

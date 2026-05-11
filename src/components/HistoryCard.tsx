@@ -40,16 +40,15 @@ export default function HistoryCard({ day }: Props) {
 		<>
 			<div className="bg-white rounded-xl p-4 shadow">
 				<div className="flex justify-between items-center mb-2">
-					<span className="font-semibold">
+					<span className="font-semibold text-sm md:text-base">
 						{formatWeekDay(day.weekDay)}, {day.date}
 					</span>
-					<span className="text-sm text-gray-500">{day.date}</span>
 				</div>
 
-				<div className="text-sm">
-					<p>Trabajado: {formatMinutes(day.workedMinutes)}</p>
-					<p>Extra: {formatMinutes(day.extraMinutes)}</p>
-					<p>Propinas: {day.tips} €</p>
+				<div className="flex flex-wrap gap-x-4 gap-y-1 text-sm mb-3">
+					<p>Trabajado: <span className="font-medium">{formatMinutes(day.workedMinutes)}</span></p>
+					<p>Extra: <span className="font-medium">{formatMinutes(day.extraMinutes)}</span></p>
+					<p>Propinas: <span className="font-medium">{day.tips} €</span></p>
 				</div>
 				<div className="space-y-2">
 					{day.sessions.length === 0 && (
@@ -60,25 +59,25 @@ export default function HistoryCard({ day }: Props) {
 					{day.sessions.map((session) => (
 						<div
 							key={session.sessionId}
-							className="border-t pt-2 mt-2 flex flex-col md:flex-row md:justify-between"
+							className="border-t pt-2 mt-2 flex flex-col md:flex-row md:justify-between gap-2"
 						>
-							<div>
-								<p className="text-sm ">
-									Check-in: {new Date(session.checkIn).toLocaleTimeString()}
+							<div className="text-sm space-y-1">
+								<p className="flex justify-between gap-4">
+									<span className="text-slate-500">Check-in:</span>
+									<span>{new Date(session.checkIn).toLocaleTimeString()}</span>
 								</p>
-								<p className="text-sm ">
-									Check-out:{" "}
-									{session.checkOut
-										? new Date(session.checkOut).toLocaleTimeString()
-										: "No registrado"}
+								<p className="flex justify-between gap-4">
+									<span className="text-slate-500">Check-out:</span>
+									<span>{session.checkOut ? new Date(session.checkOut).toLocaleTimeString() : "No registrado"}</span>
 								</p>
-								<p className="text-sm">
-									Turno: {session.shift ? session.shift : "No asignado"}
+								<p className="flex justify-between gap-4">
+									<span className="text-slate-500">Turno:</span>
+									<span>{session.shift ? session.shift : "No asignado"}</span>
 								</p>
 							</div>
 							{isAdmin && (
-								<div className="mt-2 md:mt-0">
-									<label className="mr-2">Turno:</label>
+								<div className="flex items-center gap-2">
+									<label className="text-sm text-slate-500">Turno:</label>
 									<select
 										value={session.shift ?? ""}
 										onChange={(e) =>
@@ -87,7 +86,7 @@ export default function HistoryCard({ day }: Props) {
 												e.target.value as ShiftType,
 											)
 										}
-										className="border rounded px-2 py-1"
+										className="border rounded px-2 py-1 text-sm"
 									>
 										<option value="">Sin asignar</option>
 										<option value="MIDDAY">Mañana</option>

@@ -35,13 +35,13 @@ export default function WorkspaceDashboard({
 	onViewDetail,
 }: Props) {
 	return (
-		<div className="flex flex-col gap-8 px-6 pb-10 ">
+		<div className="flex flex-col gap-6 md:gap-8 px-4 md:px-6 pb-10 ">
 			<div className="space-y-6">
 				<DashboardHeader />
 				{/* Top section */}
 				<div className="grid grid-cols-1 lg:grid-cols-[1fr_1.8fr_1fr] rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
 					{/* 1️⃣ Acciones */}
-					<div className="p-6 border-b lg:border-b-0 lg:border-r border-slate-200">
+					<div className="p-4 md:p-6 border-b lg:border-b-0 lg:border-r border-slate-200">
 						<ActionCards
 							userId={userId}
 							workspaceId={workspaceId}
@@ -51,12 +51,12 @@ export default function WorkspaceDashboard({
 					</div>
 
 					{/* 2️⃣ Centro más grande */}
-					<div className="p-8 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200 flex items-center justify-center">
+					<div className="p-6 md:p-8 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200 flex items-center justify-center">
 						<CurrentTimeCard summary={summary} />
 					</div>
 
 					{/* 3️⃣ Próximo turno */}
-					<div className="p-6 flex items-center justify-center">
+					<div className="p-4 md:p-6 flex items-center justify-center">
 						{<NextScheduleCard schedule={nextSchedule || null} />}
 					</div>
 				</div>

@@ -40,8 +40,8 @@ export default function ManageUsersModal({
 	}
 
 	return createPortal(
-		<div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
-			<div className=" bg-white p-6 rounded-xl w-100 shadow-xl">
+		<div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+			<div className=" bg-white p-6 rounded-xl w-full max-w-md shadow-xl">
 				<h2 className="text-lg font-bold mb-4">Gestionar usuario</h2>
 
 				<p className="mb-4">

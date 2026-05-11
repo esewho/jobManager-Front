@@ -46,7 +46,7 @@ export default function SettingsForm({
 					Imagen de perfil
 				</h2>
 
-				<div className="flex items-center gap-6">
+				<div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
 					<div className="w-20 h-20 rounded-full overflow-hidden bg-slate-100 border">
 						{preview ? (
 							<img src={preview} className="w-full h-full object-cover" />

@@ -80,12 +80,12 @@ export default function HistoryCalendarPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-slate-50 p-6">
+		<div className="min-h-screen bg-slate-50 p-4 md:p-6">
 			{/* Header */}
-			<div className="flex justify-between items-center mb-6">
-				<h1 className="text-2xl font-bold">Historial</h1>
+			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+				<h1 className="text-xl md:text-2xl font-bold">Historial</h1>
 
-				<div className="flex gap-2">
+				<div className="flex gap-2 items-center">
 					<button
 						onClick={handlePrevMonth}
 						className="px-3 py-1 bg-white border rounded"
@@ -93,7 +93,7 @@ export default function HistoryCalendarPage() {
 						←
 					</button>
 
-					<span className="px-4 py-1 font-medium">
+					<span className="px-4 py-1 font-medium text-sm md:text-base">
 						{month} / {year}
 					</span>
 

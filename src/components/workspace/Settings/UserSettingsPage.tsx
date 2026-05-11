@@ -79,7 +79,7 @@ export default function UserSettingsPage() {
 
 	return (
 		<div className="w-full flex justify-center">
-			<div className="w-full max-w-4xl bg-white rounded-2xl border border-slate-200 shadow-sm p-10 space-y-10">
+			<div className="w-full max-w-4xl bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-10 space-y-10">
 				<header className="space-y-2 border-b border-slate-200 pb-6">
 					<h1 className="text-2xl font-semibold text-slate-900">
 						Configuración de cuenta

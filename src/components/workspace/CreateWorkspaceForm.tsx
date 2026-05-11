@@ -30,10 +30,10 @@ export default function CreateWorkspaceForm() {
 
 	return (
 		<AppLayout>
-			<div className="flex justify-center">
+			<div className="flex justify-center px-4">
 				<form
 					onSubmit={handleSubmit}
-					className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-xl space-y-6"
+					className="w-full max-w-lg rounded-2xl bg-white p-6 md:p-8 shadow-xl space-y-6"
 				>
 					<div className="text-center">
 						<h2 className="text-2xl font-bold text-slate-900">

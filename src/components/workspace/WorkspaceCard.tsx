@@ -6,8 +6,6 @@ type Props = {
 	workspace: WorkspaceType
 	onEnter?: () => void
 }
-const BACKEND_URL = "http://localhost:3000"
-
 export default function WorkspaceCard({ workspace, onEnter }: Props) {
 	const navigate = useNavigate()
 	const { user } = useAuth()

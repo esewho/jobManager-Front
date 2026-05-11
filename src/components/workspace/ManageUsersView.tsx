@@ -54,7 +54,7 @@ export default function ManageUsersView() {
 	return (
 		<div className="space-y-6">
 			<header>
-				<h1 className="text-2xl font-bold">Gestionar empleados</h1>
+				<h1 className="text-xl md:text-2xl font-bold">Gestionar empleados</h1>
 				<p className="text-slate-500 text-sm">
 					Administra los usuarios de este workspace
 				</p>

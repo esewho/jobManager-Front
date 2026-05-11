@@ -66,7 +66,7 @@ export default function AssignSchedulePanel({
 				</button>
 			</div>
 
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+			<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 				<div className="flex flex-col gap-1">
 					<label className="text-xs font-medium text-slate-500">Fecha</label>
 					<input

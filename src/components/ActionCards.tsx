@@ -110,12 +110,12 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 				</p>
 			)}
 
-			<div className="flex justify-center items-center gap-10">
+			<div className="flex justify-center items-center gap-4 md:gap-10">
 				<button
 					onClick={handleCheckIn}
 					disabled={isWorking || loading}
 					title="Comenzar"
-					className={`flex items-center justify-center w-14 h-14 rounded-xl transition
+					className={`flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-xl transition
         ${
 					isWorking
 						? "bg-slate-200 text-slate-400 cursor-not-allowed"
@@ -123,14 +123,14 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 				}
       `}
 				>
-					<ArrowCheckIn size={20} />
+					<ArrowCheckIn size={18} />
 				</button>
 
 				<button
 					onClick={handlePause}
 					disabled={!isWorking || loading}
 					title={isPaused ? "Reanudar" : "Pausar"}
-					className={`flex items-center justify-center w-14 h-14 rounded-xl transition
+					className={`flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-xl transition
 	${
 		!isWorking
 			? "bg-slate-200 text-slate-400 cursor-not-allowed"
@@ -139,14 +139,14 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 				: "bg-yellow-500 hover:bg-yellow-600 text-white"
 	}`}
 				>
-					{isPaused ? <ResumeIcon size={22} /> : <PauseIcon size={22} />}
+					{isPaused ? <ResumeIcon size={20} /> : <PauseIcon size={20} />}
 				</button>
 
 				<button
 					title="Finalizar"
 					onClick={handleCheckOut}
 					disabled={!isWorking || loading}
-					className={`flex items-center justify-center w-14 h-14 rounded-xl transition
+					className={`flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-xl transition
         ${
 					!isWorking
 						? "bg-slate-200 text-slate-400 cursor-not-allowed"
@@ -154,7 +154,7 @@ export default function ActionCards({ workspaceId, onSessionChange }: Props) {
 				}
       `}
 				>
-					<CheckOutIcon size={22} />
+					<CheckOutIcon size={20} />
 				</button>
 			</div>
 		</div>

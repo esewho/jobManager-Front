@@ -4,7 +4,7 @@ export type CurrentSessionUserType = {
 	checkOut: string
 	totalMinutes: number
 	extraMinutes: number
-	status: "OPEN" | "CLOSED"
+	status: "OPEN" | "CLOSED" | "PAUSED"
 	pauses: {
 		id: string
 		startTime: string

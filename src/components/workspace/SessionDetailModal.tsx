@@ -56,7 +56,11 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 
 						<div className="flex flex-col">
 							<h2 className="text-xl font-semibold text-slate-900">
-								{session.checkOut ? "Sesión finalizada" : "Sesión en curso"}
+								{session.checkOut
+									? "Sesión finalizada"
+									: session.status === "PAUSED"
+										? "Sesión pausada"
+										: "Sesión en curso"}
 							</h2>
 
 							<p className="text-sm text-slate-500">{session.user.username}</p>
@@ -71,7 +75,7 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 					</button>
 				</header>
 
-				<section className="grid grid-cols-3 gap-6">
+				<section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 					<div className="bg-slate-50 rounded-xl p-4 text-center">
 						<p className="text-xs text-slate-500">Check-in</p>
 						<p className="text-lg font-semibold">
@@ -114,7 +118,7 @@ export default function SessionDetailModal({ session, onClose }: Props) {
 					</div>
 				</section>
 
-				<section className="grid grid-cols-3 gap-4">
+				<section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 					<div className="bg-green-50 text-green-700 rounded-xl p-4 text-center">
 						<p className="text-xs">Trabajado</p>
 						<p className="font-semibold text-lg">{formatMinutes(worked)}</p>

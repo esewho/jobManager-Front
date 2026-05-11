@@ -34,71 +34,153 @@ function getStatusWorkSession(status: string) {
 }
 
 export default function UserChartAdmin({ users, onViewDetail }: Props) {
-	// const users = useActiveUsersStore((state) => state.users)
-
 	return (
-		<div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-			<table className="w-full table-fixed">
-				<thead className="bg-slate-50 border-b border-slate-200">
-					<tr>
-						<th className="w-[30%] px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
-							Usuario
-						</th>
-						<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
-							Rol
-						</th>
-						<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
-							Estado
-						</th>
-						<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
-							Check-in
-						</th>
-						<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
-							Check-out
-						</th>
-						<th className="w-[10%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
-							Acciones
-						</th>
-					</tr>
-				</thead>
+		<>
+			{/* Desktop table */}
+			<div className="hidden md:block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+				<table className="w-full table-fixed">
+					<thead className="bg-slate-50 border-b border-slate-200">
+						<tr>
+							<th className="w-[30%] px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+								Usuario
+							</th>
+							<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+								Rol
+							</th>
+							<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+								Estado
+							</th>
+							<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+								Check-in
+							</th>
+							<th className="w-[15%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+								Check-out
+							</th>
+							<th className="w-[10%] px-6 py-4 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+								Acciones
+							</th>
+						</tr>
+					</thead>
 
-				<tbody className="divide-y divide-slate-200">
-					{users.flatMap((u) =>
-						u.user.session.map((s, idx) => {
-							const statusInfo = getStatusWorkSession(s.status)
+					<tbody className="divide-y divide-slate-200">
+						{users.flatMap((u) =>
+							u.user.session.map((s, idx) => {
+								const statusInfo = getStatusWorkSession(s.status)
 
-							return (
-								<tr
-									key={`${u.user.id}-${idx}`}
-									className="hover:bg-slate-50 transition-colors h-[64px]"
-								>
-									{/* USER */}
-									<td className="px-6 py-4">
-										<div className="flex items-center gap-3 min-w-0">
-											<div className="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 shrink-0">
-												{u.user.avatarUrl ? (
-													<img
-														src={`${import.meta.env.VITE_API_URL}${u.user.avatarUrl}`}
-														className="w-full h-full object-cover"
-													/>
-												) : (
-													<div className="flex items-center justify-center h-full text-xs text-slate-400">
-														{u.user.username.charAt(0).toUpperCase()}
-													</div>
-												)}
+								return (
+									<tr
+										key={`${u.user.id}-${idx}`}
+										className="hover:bg-slate-50 transition-colors h-[64px]"
+									>
+										<td className="px-6 py-4">
+											<div className="flex items-center gap-3 min-w-0">
+												<div className="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 shrink-0">
+													{u.user.avatarUrl ? (
+														<img
+															src={`${import.meta.env.VITE_API_URL}${u.user.avatarUrl}`}
+															alt="avatar"
+															className="w-full h-full object-cover"
+														/>
+													) : (
+														<div className="flex items-center justify-center h-full text-xs text-slate-400">
+															{u.user.username.charAt(0).toUpperCase()}
+														</div>
+													)}
+												</div>
+												<span className="font-medium text-slate-900 truncate">
+													{u.user.username}
+													<p className="text-slate-700/80 text-xs ">
+														{u.user.email}
+													</p>
+												</span>
 											</div>
-
-											<span className="font-medium text-slate-900 truncate">
-												{u.user.username}
-												<p className="text-slate-700/80 text-xs ">
-													{u.user.email}
-												</p>
+										</td>
+										<td className="px-6 py-4 text-center">
+											<span
+												className={`inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-2xl text-xs font-semibold whitespace-nowrap ${
+													u.role === "ADMIN"
+														? "bg-purple-100 text-purple-700"
+														: "bg-slate-100 text-slate-700"
+												}`}
+											>
+												{u.role === "ADMIN" ? (
+													<AdminIcon size={14} />
+												) : (
+													<UserIcon size={14} />
+												)}
+												{u.role.toLowerCase()}
 											</span>
-										</div>
-									</td>
+										</td>
+										<td className="px-6 py-4 text-center">
+											<span
+												className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap ${statusInfo.color}`}
+											>
+												{statusInfo.label}
+											</span>
+										</td>
+										<td className="px-6 py-4 text-center text-sm text-slate-700 whitespace-nowrap">
+											{new Date(s.checkIn).toLocaleTimeString([], {
+												hour: "2-digit",
+												minute: "2-digit",
+											})}
+										</td>
+										<td className="px-6 py-4 text-center text-sm text-slate-700 whitespace-nowrap">
+											{s.checkOut
+												? new Date(s.checkOut).toLocaleTimeString([], {
+														hour: "2-digit",
+														minute: "2-digit",
+													})
+												: "—"}
+										</td>
+										<td className="px-6 py-4 text-center">
+											<button
+												onClick={() => onViewDetail?.(u.user.id)}
+												className="text-sm font-medium text-blue-600 hover:underline whitespace-nowrap"
+											>
+												Ver detalle
+											</button>
+										</td>
+									</tr>
+								)
+							}),
+						)}
+					</tbody>
+				</table>
+			</div>
 
-									{/* ROLE */}
-									<td className="px-6 py-4 text-center">
+			{/* Mobile cards */}
+			<div className="md:hidden space-y-3">
+				{users.flatMap((u) =>
+					u.user.session.map((s, idx) => {
+						const statusInfo = getStatusWorkSession(s.status)
+						return (
+							<div
+								key={`${u.user.id}-${idx}`}
+								className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-3"
+							>
+								<div className="flex items-center justify-between">
+									<div className="flex items-center gap-3 min-w-0">
+										<div className="w-9 h-9 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400 shrink-0">
+											{u.user.avatarUrl ? (
+												<img
+													src={`${import.meta.env.VITE_API_URL}${u.user.avatarUrl}`}
+													alt="avatar"
+													className="w-full h-full object-cover"
+												/>
+											) : (
+												<div className="flex items-center justify-center h-full text-xs text-slate-400">
+													{u.user.username.charAt(0).toUpperCase()}
+												</div>
+											)}
+										</div>
+										<div className="min-w-0">
+											<p className="font-medium text-slate-900 truncate">
+												{u.user.username}
+											</p>
+											<p className="text-slate-500 text-xs truncate">{u.user.email}</p>
+										</div>
+									</div>
+									<div className="flex items-center gap-2 shrink-0">
 										<span
 											className={`inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-2xl text-xs font-semibold whitespace-nowrap ${
 												u.role === "ADMIN"
@@ -106,57 +188,37 @@ export default function UserChartAdmin({ users, onViewDetail }: Props) {
 													: "bg-slate-100 text-slate-700"
 											}`}
 										>
-											{u.role === "ADMIN" ? (
-												<AdminIcon size={14} />
-											) : (
-												<UserIcon size={14} />
-											)}
+											{u.role === "ADMIN" ? <AdminIcon size={14} /> : <UserIcon size={14} />}
 											{u.role.toLowerCase()}
 										</span>
-									</td>
-
-									{/* STATUS */}
-									<td className="px-6 py-4 text-center">
-										<span
-											className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap ${statusInfo.color}`}
-										>
-											{statusInfo.label}
-										</span>
-									</td>
-
-									{/* CHECK-IN */}
-									<td className="px-6 py-4 text-center text-sm text-slate-700 whitespace-nowrap">
-										{new Date(s.checkIn).toLocaleTimeString([], {
-											hour: "2-digit",
-											minute: "2-digit",
-										})}
-									</td>
-
-									{/* CHECK-OUT */}
-									<td className="px-6 py-4 text-center text-sm text-slate-700 whitespace-nowrap">
-										{s.checkOut
-											? new Date(s.checkOut).toLocaleTimeString([], {
-													hour: "2-digit",
-													minute: "2-digit",
-												})
-											: "—"}
-									</td>
-
-									{/* ACTION */}
-									<td className="px-6 py-4 text-center">
-										<button
-											onClick={() => onViewDetail(u.user.id)}
-											className="text-sm font-medium text-blue-600 hover:underline whitespace-nowrap"
-										>
-											Ver detalle
-										</button>
-									</td>
-								</tr>
-							)
-						}),
-					)}
-				</tbody>
-			</table>
-		</div>
+									</div>
+								</div>
+								<div className="flex items-center justify-between">
+									<span
+										className={`inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap ${statusInfo.color}`}
+									>
+										{statusInfo.label}
+									</span>
+									<span className="text-xs text-slate-500">
+										Check-in: {new Date(s.checkIn).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+									</span>
+								</div>
+								<div className="flex items-center justify-between">
+									<span className="text-xs text-slate-500">
+										Check-out: {s.checkOut ? new Date(s.checkOut).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "—"}
+									</span>
+									<button
+										onClick={() => onViewDetail?.(u.user.id)}
+										className="text-sm font-medium text-blue-600 hover:underline"
+									>
+										Ver detalle
+									</button>
+								</div>
+							</div>
+						)
+					}),
+				)}
+			</div>
+		</>
 	)
 }

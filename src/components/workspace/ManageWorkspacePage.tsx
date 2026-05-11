@@ -26,7 +26,7 @@ export default function ManageWorkspacePage() {
 	}
 
 	return (
-		<div className="max-h-screen bg-slate-50 flex justify-center items-start px-6 py-10">
+		<div className="min-h-screen bg-slate-50 flex justify-center items-start px-4 md:px-6 py-6 md:py-10">
 			<ManageWorkspace workspace={workspace} onUpdated={fetchWorkspace} />
 		</div>
 	)

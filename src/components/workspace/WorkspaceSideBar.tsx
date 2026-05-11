@@ -6,15 +6,17 @@ import {
 	LucideBuilding,
 	LucideLogOut,
 	ArrowLeft,
+	X,
 } from "lucide-react"
-import { NavLink, useParams } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import { useAuth } from "../../context/authContext"
 
 type Props = {
 	workspaceId?: string
+	onClose?: () => void
 }
 
-export default function WorkspaceSidebar({ workspaceId }: Props) {
+export default function WorkspaceSidebar({ workspaceId, onClose }: Props) {
 	const { user, logout } = useAuth()
 
 	const linkClasses = ({ isActive }: { isActive: boolean }) =>
@@ -27,7 +29,20 @@ export default function WorkspaceSidebar({ workspaceId }: Props) {
 			: `/workspace/${workspaceId}`
 
 	return (
-		<aside className="bg-slate-900 text-slate-200 flex flex-col p-6">
+		<aside className="bg-slate-900 text-slate-200 flex flex-col p-6 h-full">
+			{/* Mobile close button */}
+			<div className="flex items-center justify-between mb-6 lg:hidden">
+				<h2 className="text-xl font-bold tracking-tight">JobManager</h2>
+				{onClose && (
+					<button
+						onClick={onClose}
+						className="p-1 rounded-lg hover:bg-slate-800 transition text-slate-400"
+					>
+						<X size={24} />
+					</button>
+				)}
+			</div>
+
 			{/* LOGO / WORKSPACE */}
 			<div className="mb-10">
 				<h2 className="text-xl font-bold tracking-tight">Mi Workspace</h2>

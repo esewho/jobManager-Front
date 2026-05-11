@@ -93,8 +93,8 @@ export default function ManageWorkspace({ workspace, onUpdated }: Props) {
 					</p>
 				</header>
 
-				<section className="flex items-center gap-10">
-					<div className="w-36 h-24 rounded-xl overflow-hidden border bg-slate-100 shadow-sm">
+				<section className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
+					<div className="w-36 h-24 rounded-xl overflow-hidden border bg-slate-100 shadow-sm shrink-0">
 						{imageSrc ? (
 							<img
 								src={imageSrc}

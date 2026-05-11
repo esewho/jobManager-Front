@@ -62,9 +62,9 @@ export default function CalendarHistory({
 	}
 
 	return (
-		<div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+		<div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-6">
 			{/* Header días semana */}
-			<div className="grid grid-cols-7 mb-4 text-xs text-slate-500 uppercase tracking-wide">
+			<div className="grid grid-cols-7 mb-2 md:mb-4 text-xs text-slate-500 uppercase tracking-wide">
 				{["L", "M", "X", "J", "V", "S", "D"].map((d) => (
 					<div key={d} className="text-center">
 						{d}
@@ -73,24 +73,24 @@ export default function CalendarHistory({
 			</div>
 
 			{/* Grid */}
-			<div className="grid grid-cols-7 flex-1 gap-5 h-full">
+			<div className="grid grid-cols-7 flex-1 gap-1 md:gap-3 lg:gap-5 h-full">
 				{days.map((d, idx) => (
 					<div
 						key={idx}
-						className={`h-24 rounded-xl border flex flex-col justify-between p-2 transition cursor-pointer hover:border-slate-900
+						className={`h-16 md:h-24 rounded-lg md:rounded-xl border flex flex-col justify-between p-1 md:p-2 transition cursor-pointer hover:border-slate-900
 						${d ? getColor(d.workedMinutes) : "bg-transparent border-none"}`}
 						onClick={() => d && onDayClick(d.date)}
 					>
 						{d && (
 							<>
-								<span className="text-sm font-semibold">{d.day}</span>
+							<span className="text-xs md:text-sm font-semibold">{d.day}</span>
 
-								{/* horas */}
-								{d.workedMinutes > 0 && (
-									<span className="text-xs font-medium">
-										{Math.floor(d.workedMinutes / 60)}h {d.workedMinutes % 60}m
-									</span>
-								)}
+							{/* horas */}
+							{d.workedMinutes > 0 && (
+								<span className="hidden md:block text-xs font-medium">
+									{Math.floor(d.workedMinutes / 60)}h {d.workedMinutes % 60}m
+								</span>
+							)}
 							</>
 						)}
 					</div>
