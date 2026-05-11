@@ -56,7 +56,7 @@ export default function WorkProgressChart({
 							dataKey="value"
 							innerRadius={60}
 							outerRadius={80}
-							paddingAngle={2}
+							paddingAngle={0}
 							isAnimationActive
 							animationDuration={800}
 						>
