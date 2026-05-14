@@ -79,7 +79,7 @@ export default function WorkProgressChart({
 				</div>
 
 				{/* LEGEND */}
-				<div className="flex flex-col gap-3 w-full max-w-[220px] text-sm">
+				<div className="flex flex-col gap-3 w-full max-w-55 text-sm">
 					<LegendItem
 						color="#2563eb"
 						label="Trabajado"
