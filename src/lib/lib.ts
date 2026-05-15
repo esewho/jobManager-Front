@@ -17,6 +17,7 @@ import type { PausedSession } from "../types/pausedSession-type"
 import type { WorkspaceBackType } from "../types/workspaceBack-type"
 import type { WorkspaceUserAdmin } from "../types/WorkspaceUserAdmin-type"
 import type { CurrentSessionUserType } from "../types/currentSessionUser-type"
+import type { AcceptInvitationToken } from "../types/acceptInvitationToken-type"
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
@@ -26,6 +27,12 @@ function getAuthHeaders() {
 		"Content-Type": "application/json",
 
 		Authorization: `Bearer ${accessToken}`,
+	}
+}
+
+function getPublicHeaders() {
+	return {
+		"Content-Type": "application/json",
 	}
 }
 
@@ -707,4 +714,72 @@ export async function updateAvatarImage(file: File) {
 		throw new Error(error.message)
 	}
 	return res.json()
+}
+
+export async function createInvitation(email: string, workspaceId: string) {
+	const response = await fetch(`${API_URL}/invitation/${workspaceId}`, {
+		method: "POST",
+		headers: getAuthHeaders(),
+		body: JSON.stringify({ email }),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to create invitation")
+	}
+	return response.json()
+}
+
+export async function getInvitationByToken(token: string) {
+	const response = await fetch(`${API_URL}/invitation/${token}`, {
+		method: "GET",
+		headers: getPublicHeaders(),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to get invitation")
+	}
+	return response.json()
+}
+
+export async function acceptInvitation(
+	token: string,
+	data: AcceptInvitationToken,
+): Promise<AcceptInvitationToken> {
+	const response = await fetch(`${API_URL}/invitation/accept/${token}`, {
+		method: "POST",
+		headers: getPublicHeaders(),
+		body: JSON.stringify(data),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to accept invitation")
+	}
+	return response.json()
+}
+
+export async function deleteInvitation(id: string) {
+	const response = await fetch(`${API_URL}/invitation/${id}`, {
+		method: "DELETE",
+		headers: getAuthHeaders(),
+	})
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to delete invitation")
+	}
+	return response.json()
+}
+
+export async function listAllInvitations(workspaceId: string) {
+	const response = await fetch(
+		`${API_URL}/invitation/workspace/${workspaceId}`,
+		{
+			method: "GET",
+			headers: getAuthHeaders(),
+		},
+	)
+	if (!response.ok) {
+		const error = await response.json()
+		throw new Error(error.message || "Failed to list invitations")
+	}
+	return response.json()
 }
